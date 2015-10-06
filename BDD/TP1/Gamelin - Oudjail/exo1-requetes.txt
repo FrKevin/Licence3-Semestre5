@@ -1,0 +1,18 @@
+1)
+  1.1: project[fnom](fournisseurs);
+
+  1.2: select[fad='Paris'](fournisseurs);
+
+  1.3: project[fnom](select[fad='Paris'](fournisseurs));
+
+  1.4: project[anom](select[acoul='vert'](articles));
+
+  1.5: project[aid](select[prix<20](catalogue));
+
+  1.6: project[fid](select[prix<20](catalogue));
+
+  1.7: project[fid](select[prix > 10 AND prix < 20](catalogue));
+
+  1.8: project[fid](select[prix > 10 AND prix < 20](catalogue));
+
+  1.9: project[anom](select[acoul='rouge'](articles)) union project[anom](select[acoul='vert'](articles));

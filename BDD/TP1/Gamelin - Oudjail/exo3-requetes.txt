@@ -1,0 +1,32 @@
+3)
+	3.2: project[anom, prix, fnom](articles join catalogue join fournisseurs);
+
+	3.3: project[fid](select[acoul='rouge'](articles join catalogue));
+
+	3.4: project[fnom](select[prix<20](articles join catalogue join fournisseurs));
+	 
+	3.5:(project[fid](catalogue))
+			minus
+		(project[fid](select[prix<10000](catalogue)));
+	
+	3.6: project[fnom, fad](((project[fid](catalogue))
+			minus
+		(project[fid](select[prix<1000](catalogue)))) join fournisseurs);
+		
+	3.7: project[aid](select[acoul='vert'](articles)) times project[aid](select[acoul='rouge'](articles));
+	
+	3.8: project[aid](articles)
+			minus 
+		 project[aid](catalogue);
+	
+	3.9: project[anom]((project[aid](articles)
+			minus 
+		 project[aid](catalogue)) join articles);
+	
+	3.10: project[fid](select[acoul='rouge'](catalogue join articles)) intersect project[fid](select[acoul='vert'](catalogue join articles));
+	
+	3.11: project[fnom](select[acoul='noir'](articles join catalogue join fournisseurs));
+	
+	3.12: project[aid](select[aid = aidd AND fid <> fidd](catalogue times rename[aidd, fidd, prixd](catalogue)));
+	
+	3.13:  project[fid](fournisseurs) minus (project[fid]( (project[aid](catalogue) minus (project[aid](articles minus (select[acoul='noir' ](articles)) union (select[acoul='argente' ](articles))))) join Catalogue));
