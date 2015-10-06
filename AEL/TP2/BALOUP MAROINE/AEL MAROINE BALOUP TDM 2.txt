@@ -1,0 +1,7 @@
+1) egrep 'nez' --color=auto Cyrano.txt
+
+2) egrep '\([[:alpha:] ]*\)' --color=auto Cyrano.txt
+
+3) egrep '([ ]+[[:alpha:]àâéàêîùûÀÂÉÈÊÎÔÙÛ]{4}[ [:punct:]]+)+' --color Cyrano.txt
+
+4)

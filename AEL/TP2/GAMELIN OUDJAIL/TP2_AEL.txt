@@ -1,0 +1,19 @@
+Exo 1:
+
+1: egrep nez -n  Cyrano.txt --color=auto
+
+2: egrep "\(.*\)" -n Cyrano.txt --color=auto
+
+3: egrep "((([[:space:][:punct:]]+)|(^))[[:alpha:]]{4}([[:space:][:punct:]])+)" -n Cyrano.txt --color=auto
+
+4: L'explication vient du fait que le premier motif trouvé par l'expression réguliére est attrapé, l'effet que cela produit est que l'espace lui appartenant n'est plus disponible, le mot qui suit et qui correspond en théorie à la Regex ne l'est plus du fait qu'il n'y a plus la caractére espace du début.
+
+5: egrep "[[:alpha:]]* : " Cyrano.txt --color=auto -n -o
+
+Exo 2:
+
+1 : egrep --color=auto '"([^"<&]|&[a-zA-Z:_][a-zA-Z0-9:_.-]*;)*"' html/fil.html
+
+2 : egrep --color=auto "<'[a-zA-Z:_][a-zA-Z0-9:_.-]*'([[:space:]]'[a-zA-Z:_][a-zA-Z0-9:_.-]*'[[:space:]]*=[[:space:]]*'[a-zA-Z:_][a-zA-Z0-9:_.-]*')*[[:space:]]*>" html/fil.html
+
+3 : egrep --color=auto '\+33[[:space:]]*\(0\)[[:space:]]*3(\.[0-9]{2}){4}+' html/*.html
