@@ -1,0 +1,13 @@
+Binome: Veis Oudjail et Kevin Gamelin
+
+Commande possibles:
+make
+make test
+make autoclean
+
+./du_file phatname arguments
+arguments possibles:
+  -a affiche la taille des sous-dossier
+  -b affiche la taille réel
+  -B suivit de la taille d'un block (par defaut 1024) exemple -B 512, -B 1024: affiche le nombre de block utilisé
+  -L traitement pour les liens symboliques
