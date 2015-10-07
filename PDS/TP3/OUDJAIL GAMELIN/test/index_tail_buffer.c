@@ -9,6 +9,19 @@
 
 static int lline_no_void = 0;
 
+char get_char_bypoct(int df, int poctet) {
+  int rstatus;
+  int hcurrent;
+  char get_char[1];
+  hcurrent = lseek(df, 0, SEEK_CUR);
+  assert(hcurrent != -1);
+  assert(lseek(df, poctet, SEEK_SET) != -1);
+  rstatus = read(df, get_char, 1);
+  assert(check_read(rstatus, 1));
+  assert(lseek(df, hcurrent, SEEK_SET) != -1);
+  return get_char[0];
+}
+
 int check_read(int rstatus, int wait_noctet_read) {
   if(rstatus == -1) {
     perror("Erreur sur read");

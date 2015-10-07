@@ -28,25 +28,12 @@ int check_read(int rstatus, int wait_noctet_read) {
     return 0;
   }
   if (rstatus != wait_noctet_read) {
+    printf("%d\n", rstatus);
     perror("Erreur sur read, octets manquant en lecture");
     return 0;
   }
   return 1;
 }
-
-char get_char_bypoct(int df, int poctet) {
-  int rstatus;
-  int hcurrent;
-  char get_char[1];
-  hcurrent = lseek(df, 0, SEEK_CUR);
-  assert(hcurrent != -1);
-  assert(lseek(df, poctet, SEEK_SET) != -1);
-  rstatus = read(df, get_char, 1);
-  assert(check_read(rstatus, 1));
-  assert(lseek(df, hcurrent, SEEK_SET));
-  return get_char[0];
-}
-
 
 int is_file(const char *pathname){
   struct stat st;
@@ -103,8 +90,6 @@ void analyse_args(int argc, const char * argv[]){
   }
 }
 
-
-
 /*
  *  Ecrit sur la sortie
  */
@@ -147,8 +132,8 @@ int tail_before_pos(int df, unsigned int pos, int ntail){
     print_buffer(buffer, noctet_read);
   }
   else {
-    nbuffer = buffer + index_tail_buff;
-    print_buffer(nbuffer, noctet_read-index_tail_buff);
+    nbuffer = buffer + index_tail_buff+1;
+    print_buffer(nbuffer, noctet_read-index_tail_buff-1);
   }
   return 1;
 }
@@ -160,11 +145,14 @@ void tail(){
   assert(df != -1);
   /* On recupere le dernier octet du fichier */
   loctet_file = get_last_octet(df);
-  if(get_char_bypoct(df, loctet_file) == '\n') {
-    --loctet_file;
+  if(loctet_file == 0) {
+    return;
   }
+  --loctet_file;
   /* On, appelle la fonction tail_before_pos qui va imprimer les derniere ligne recurcivement */
   assert(tail_before_pos(df, loctet_file, ntail) != -1);
+  printf("\n");
+  fflush(stdout);
   /* On libère la mémoire */
   assert(close(df) != -1);
 }
@@ -172,7 +160,5 @@ void tail(){
 int main(int argc,const char* argv[]) {
   analyse_args(argc, argv);
   tail();
-  printf("\n");
-  fflush(stdout);
   return EXIT_SUCCESS;
 }
