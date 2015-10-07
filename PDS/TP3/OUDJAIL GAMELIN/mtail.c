@@ -20,7 +20,6 @@ static const char* pathname;
 static long ntail = 10;
 static int lline_no_void = 0;
 
-
 int is_file(const char *pathname){
   struct stat st;
   int status;
@@ -41,7 +40,6 @@ int get_lline_no_void(const char *buffer, int bufsize) {
 }
 
 int get_size_buffer(const char *buffer, int bufsize) {
-  //printf("lline_no_void : %i, buff[lline_no_void] : %c\n", lline_no_void, buffer[lline_no_void]);
   if(!lline_no_void) {
     lline_no_void = get_lline_no_void(buffer, bufsize);
     return lline_no_void;
@@ -150,7 +148,7 @@ int tail_before_pos(int df, unsigned int pos, int ntail){
   }
   else {
     nbuffer = buffer + index_tail_buff;
-    print_buffer(nbuffer, SIZE_OF_BUFFER-index_tail_buff);
+    print_buffer(nbuffer, noctet_read-index_tail_buff);
   }
   return 1;
 }
@@ -161,7 +159,7 @@ void tail(){
   df = open(pathname, O_RDONLY);
   assert(df != -1);
   /* On recupere le dernier octet du fichier */
-  loctet_file = get_last_octet(df) -1; /* Windows */
+  loctet_file = get_last_octet(df) -1; /* Windows ? */
   printf("loctet : %d\n", loctet_file);
   /* On, appelle la fonction tail_before_pos qui va imprimer les derniere ligne recurcivement */
   assert(tail_before_pos(df, loctet_file, ntail) != -1);
