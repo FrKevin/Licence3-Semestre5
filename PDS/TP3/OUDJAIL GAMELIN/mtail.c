@@ -85,7 +85,7 @@ void analyse_args(int argc, const char * argv[]){
   if(is_file(argv[1])){
     pathname = argv[1];
     if(argc > 2)
-      ntail = atoi(argv[3]); // ATOI
+      ntail = atoi(argv[3]); /* Apparemement deprecié pour strtoi */
   }
   else{
     perror("Ce n'est pas un fichier !");
