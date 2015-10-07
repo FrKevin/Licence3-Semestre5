@@ -25,11 +25,10 @@ all: mtail
 	${CC} ${CFLAGS} -c $<
 
 test:
-	bash du_fileTest.sh
+	bash mtailTest.sh
 
 clean:
 	rm mtail || true
-	rm -r test || true
 
 ## Liste des pseudo-cibles
 #  Ces cibles ne correspondent pas à des fichiers que l'on veut créer,
