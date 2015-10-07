@@ -10,6 +10,16 @@ void print_buffer(const char* buffer, int bufsize){
     assert (write(STDOUT_FILENO, buffer, bufsize) !=-1);
 }
 
+/* A voir */
+int is_line_all_space(const char *buffer, int a, int b) {
+  int is_line_all_space = 1;
+  int i;
+  for(i=a; i < b && is_line_all_space; ++i) {
+    is_line_all_space = buffer[i] == ' ';
+  }
+  return is_line_all_space;
+}
+
 int index_tail_buffer(const char *buffer, int bufsize,
                       int ntail, int *nlines) {
 

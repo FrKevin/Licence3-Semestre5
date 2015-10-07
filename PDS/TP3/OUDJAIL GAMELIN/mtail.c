@@ -18,6 +18,7 @@
 static const char* pathname;
 
 static long ntail = 10;
+static int lline_no_void = 0;
 
 
 int is_file(const char *pathname){
@@ -29,16 +30,37 @@ int is_file(const char *pathname){
   return S_ISREG(st.st_mode);
 }
 
+int get_lline_no_void(const char *buffer, int bufsize) {
+  int i;
+  for(i=bufsize-1; i >= 0; ++i) {
+    if(buffer[i] != '\n') {
+      return i;
+    }
+  }
+  return 0; /* Ou i ^^ */
+}
+
+int get_size_buffer(const char *buffer, int bufsize) {
+  //printf("lline_no_void : %i, buff[lline_no_void] : %c\n", lline_no_void, buffer[lline_no_void]);
+  if(!lline_no_void) {
+    lline_no_void = get_lline_no_void(buffer, bufsize);
+    return lline_no_void;
+  }
+  return bufsize;
+}
+
+
 int index_tail_buffer(const char *buffer, int bufsize,
                       int ntail, int *nlines) {
 
     int nlines_current = 0;
     int index_tail = 0;
     assert(buffer && ntail);
-    for(index_tail=bufsize-1; index_tail >= 0; --index_tail) {
+    for(index_tail=get_size_buffer(buffer, bufsize)-1; index_tail >= 0; --index_tail) {
       if(buffer[index_tail] == '\n') {
         nlines_current++;
       }
+
       if(nlines_current == ntail) {
         *nlines = nlines_current;
         return index_tail;
@@ -73,9 +95,13 @@ void analyse_args(int argc, const char * argv[]){
   }
 }
 
-int check_read(int rstatus) {
+int check_read(int rstatus, int wait_noctet_read) {
   if(rstatus == -1) {
     perror("Erreur sur read");
+    return 0;
+  }
+  if (rstatus != wait_noctet_read) {
+    perror("Erreur sur read, octets manquant en lecture");
     return 0;
   }
   return 1;
@@ -97,27 +123,24 @@ int tail_before_pos(int df, unsigned int pos, int ntail){
   int index_tail_buff;
   int pseek;
   int noctet_read;
+  int wait_noctet_read;
   char buffer[SIZE_OF_BUFFER];
   char *nbuffer;
   if(pos == 0) { /* Cas d'arret, fin de fichier */
     return 1;
   }
   if(pos < SIZE_OF_BUFFER) {
-    pseek = pos;
+    pseek = 0;
+    wait_noctet_read = pos;
   }
   else {
     pseek = pos - SIZE_OF_BUFFER;
+    wait_noctet_read = SIZE_OF_BUFFER;
   }
   lstatus = lseek(df, pseek, SEEK_SET);
   assert(lstatus != -1);
-  noctet_read = read(df, &buffer, SIZE_OF_BUFFER);
-  if(noctet_read != SIZE_OF_BUFFER) {
-    assert(check_read(noctet_read));
-    if(lstatus) {
-      fprintf(stderr, "%s\n", "Probleme de lecture, octets manquants");
-      return 0;
-    }
-  }
+  noctet_read = read(df, &buffer, wait_noctet_read);
+  assert(check_read(noctet_read, wait_noctet_read));
   index_tail_buff = index_tail_buffer(buffer, noctet_read, ntail, &nlines);
   if(index_tail_buff == -1) { /* Cas de recursion n < ntail, donc imprime tout le buffer */
     lstatus = lseek(df, -noctet_read, SEEK_CUR); /* Tete de lecture remise avant le read */
@@ -138,17 +161,18 @@ void tail(){
   df = open(pathname, O_RDONLY);
   assert(df != -1);
   /* On recupere le dernier octet du fichier */
-  loctet_file = get_last_octet(df);
+  loctet_file = get_last_octet(df) -1; /* Windows */
   printf("loctet : %d\n", loctet_file);
   /* On, appelle la fonction tail_before_pos qui va imprimer les derniere ligne recurcivement */
   assert(tail_before_pos(df, loctet_file, ntail) != -1);
   /* On libère la mémoire */
   assert(close(df) != -1);
-
 }
 
 int main(int argc,const char* argv[]) {
   analyse_args(argc, argv);
   tail();
+  printf("\n");
+  fflush(stdout);
   return EXIT_SUCCESS;
 }
