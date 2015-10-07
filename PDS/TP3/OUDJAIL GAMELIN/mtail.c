@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <string.h>
 
-/* /\ ATENTION => Ne jamais printf un buffer de read, car il ne met pas de caractère de fin s\0 */
+/* /\ ATTENTION => Ne jamais printf un buffer de read, car il ne met pas de caractère de fin \0 */
 
 /* Constante */
 
@@ -17,20 +17,10 @@
 
 const char* pathname;
 
-static long lines_tail = 10;
-static long lines_current = 0;
-static int nb_octet_file;
+static long ntail = 10;
 
-void splitBuffer(char *buff, int len) {
-  int i=0;
-  for(i=0; i < size; ++i) {
-    if(buff[i] == '\0') {
 
-    }
-  }
-}
-
-int isFile(const char * pathname){
+int is_file(const char *pathname){
   struct stat st;
   int status;
 
@@ -39,27 +29,40 @@ int isFile(const char * pathname){
   return S_ISREG(st.st_mode);
 }
 
-/*
- * Retourne le nombre \n présent dans le texte
- */
-int getNBAntiSlashN(const char *buffer, int bufsize){
-  int i;
-  int lines = 0;
-  for(i = 0; i < bufsize; ++i) {
-    if(buffer[i] == '\0'){
-      lines++;
+int index_tail_buffer(const char *buffer, int bufsize,
+                      int ntail, int *nlines) {
+
+    int nlines_current = 0;
+    int index_tail = 0;
+    assert(buffer && ntail);
+    for(index_tail=bufsize-1; index_tail >= 0; --index_tail) {
+      if(buffer[index_tail] == '\n') {
+        nlines_current++;
+      }
+
+      if(nlines_current == ntail) {
+        *nlines = nlines_current;
+        return index_tail;
+      }
     }
-  }
-  return lines;
+    *nlines = nlines_current;
+    return -1;
 }
 
 
-void checkArgs(int argc,const char * argv[]){
+long get_last_octet(int fd, int pos) {
+  int loctet = lseek(fd, 0, SEEK_END);
+  assert(loctet != -1);
+  assert(lseek(fd, 0, SEEK_SET) != -1);
+  return loctet;
+}
+
+void check_args(int argc, const char * argv[]){
   assert(argc > 1);
-  if(isFile(argv[1])){
+  if(is_file(argv[1])){
     pathname = argv[1];
     if(argc > 2)
-      lines_tail = atoi(argv[3], NULL, 10); // ATOI
+      ntail = atoi(argv[3]); // ATOI
   }
   else{
     perror("Ce n'est pas un fichier !");
@@ -67,58 +70,77 @@ void checkArgs(int argc,const char * argv[]){
   }
 }
 
+int check_read(int rstatus) {
+  if(rstatus == -1) {
+    perror("Erreur sur read");
+    return 0;
+  }
+  return 1;
+}
+
 /*
  *  Ecrit sur la sortie
  */
-void printText(const char* text, int nbChar){
-    assert (write(STDOUT_FILENO, text, nbChar) !=-1);
+void print_buffer(const char* buffer, int bufsize){
+    assert (write(STDOUT_FILENO, buffer, bufsize) !=-1);
 }
-
-
-
-
 
 /*
  * Déplace la tête de lecteur d'un différence de size
  */
-int tail_before_pos(int df, const int size){
+int tail_before_pos(int df, unsigned int pos, int ntail){
   int status;
-  int nbLine;
-  int nbOctetRead;
-  char buff[SIZE_OF_BUFFER]
-  status = lseek(df, -size, SEEK_CUR);
-  assert(status != -1));
-  nbOctetRead = read(df, &buff, SIZE_OF_BUFFER);
-  if(nbOctetRead != SIZE_OF_BUFFER) {
-
+  int nlines;
+  int index_tail_buff;
+  int pseek;
+  int noctet_read;
+  char buffer[SIZE_OF_BUFFER];
+  if(pos < SIZE_OF_BUFFER) {
+    pseek = pos;
   }
-  nbLine = getNBAntiSlashN(buff);
-  if(lines_current < lines_tail) {
-    tail_before_pos(df, size*2);
-    printText(buff);
+  else {
+    pseek = pos - SIZE_OF_BUFFER;
   }
-  if(lines_current > lines_tail) {
-    lines_tail - (lines_current - nbLine) /* Expression permettant de recuperer le nbr ligne restante
+  lstatus = lseek(df, pseek, SEEK_SET);
+  assert(lstatus != -1));
+  noctet_read = read(df, &buffer, SIZE_OF_BUFFER);
+  if(noctet_read != SIZE_OF_BUFFER) {
+    assert(check_read(noctet_read));
+    if(lstatus) {
+      fprintf(stderr, "%s\n", "Probleme de lecture, octets manquants");
+      exit(EXIT_FAILURE);
+    }
   }
-  printText(buff);
-
+  index_tail_buff = tail_before_pos(buffer, noctet_read, ntail, &nlines);
+  if(index_tail_buff == -1) { /* Cas de recursion n < ntail, donc imprime tout le buffer */
+    lstatus = lseek(df, -noctet_read, SEEK_CUR); /* Tete de lecture remise avant le read */
+    assert(lstatus != -1);
+    tail_before_pos(df, pos-noctet_read, ntail-nlines);
+    print_buffer(buffer, noctet_read);
+  }
+  else {
+    buffer = buffer + index_tail_buff;
+    print_buffer(buffer, SIZE_OF_BUFFER-index_tail_buff);
+  }
+  return 1;
 }
 
 void tail(){
-  int diffLine;
-  int status;
-  char buff[sizeOfBuff];
-  int df = open(pathname, O_RDONLY);
-  /* 1) On démare a la fin du fichier */
-  nbOctetsFile = lseek(df, 0, SEEK_END);
-  assert(nbOctetsFile != -1);
-  tail_before_pos(df, sizeOfBuff);
+  int df;
+  int nb_octet_file;
+  df = open(pathname, O_RDONLY);
+  assert(df != -1);
+  /* 1) On recupere le dernier octet du fichier */
+  noctet_file = get_last_octet(df);
+
+  assert(tail_before_pos(df, noctet_file, ntail) != -1);
   /* On libère la mémoire */
-  close(df);
+  assert(close(df) != -1);
+
 }
 
 int main(int argc,const char* argv[]) {
-  checkArgs(argc, argv);
+  check_args(argc, argv);
   tail();
   return EXIT_SUCCESS;
 }

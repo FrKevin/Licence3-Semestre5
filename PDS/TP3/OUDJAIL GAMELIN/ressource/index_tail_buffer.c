@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 
 int index_tail_buffer(const char *buffer, int bufsize,
@@ -16,6 +19,7 @@ int index_tail_buffer(const char *buffer, int bufsize,
       }
 
       if(nlines_current == ntail) {
+        *nlines = nlines_current;
         return index_tail;
       }
     }
@@ -28,7 +32,12 @@ int main(int argc, char const *argv[]) {
 
   char *buffer = "test\nprout\ntoto";
   int nlines;
-  int index_tail_buff = index_tail_buffer(buffer, strlen(buffer), 3, &nlines);
+  int index_tail_buff = index_tail_buffer(buffer, strlen(buffer), 2, &nlines);
   printf("%d : %d\n", index_tail_buff, nlines);
+  buffer = buffer + 4;
+  printf("%s\n", buffer);
+  int df = open(argv[1], O_RDONLY);
+  int tete_lecture = lseek(df, -5, SEEK_END);
+  printf("%d\n", tete_lecture);
   return 0;
 }
