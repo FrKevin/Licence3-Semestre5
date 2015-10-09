@@ -10,23 +10,30 @@
 /* /\ ATTENTION => Ne jamais printf un buffer de read, car il ne met pas de caractère de fin \0 */
 
 /* Constante */
-#define SIZE_OF_BUFFER 10
+
+#define SIZE_OF_BUFFER 1024
 /* Fin Constante */
 
 /* Variables globale */
+
 static const char* pathname;
+
 static long ntail = 10;
+
 /* Fin Variables globale */
 
 /* Prototype de fonction */
+
 int check_read(int rstatus, int wait_noctet_read);
 int is_file(const char *pathname);
 int index_tail_buffer(const char *buffer, int bufsize, int ntail, int *nlines);
 long get_last_octet(int fd);
+char get_char_bypoct(int fd, int poctet);
 void analyse_args(int argc, const char * argv[]);
 void print_buffer(const char* buffer, int bufsize);
 int tail_before_pos(int df, unsigned int pos, int ntail);
 void tail();
+
 /* Fin Prototype de fonction */
 
 
@@ -34,6 +41,7 @@ void tail();
   @param : Prend le status de la fonction read(son retour) , ainsi qu'un entier representant ce que le nombre d'octet que l'on voulait lire
   @return : Retourne vrai si read c'est bien passer, faux sinon avec une impression d'un message ainsi que du statut de la variable errno sur la sortie d'erreur
 */
+
 int check_read(int rstatus, int wait_noctet_read) {
   if(rstatus == -1) {
     perror("Erreur sur read");
@@ -48,10 +56,31 @@ int check_read(int rstatus, int wait_noctet_read) {
 }
 
 /*
+  Fonction permettant de recuperer un caractere à une position donné dans le fichier
+  @param : Prend un descripeur de fichier et une position de l'octet qu'on veut recuperer
+  @return : Renvoie le caractere
+*/
+
+char get_char_bypoct(int fd, int poctet) {
+  int rstatus;
+  int hcurrent;
+  char get_char[1];
+  hcurrent = lseek(fd, 0, SEEK_CUR);
+  assert(hcurrent != -1);
+  assert(lseek(fd, poctet, SEEK_SET) != -1);
+  rstatus = read(fd, get_char, 1);
+  assert(check_read(rstatus, 1));
+  assert(lseek(fd, hcurrent, SEEK_SET) != -1);
+  return get_char[0];
+}
+
+
+/*
   Fonction qui permet de savoir, si un fichier passé en parametre est valide ou non
   @param : Prend en parametre une chaine de caractere correspondant à l'addresse du fichier
   @return : Retourne un entier (bool), 1 - > vrai, 0 -> faux
 */
+
 int is_file(const char *pathname){
   struct stat st;
   int status;
@@ -68,11 +97,14 @@ int is_file(const char *pathname){
   @param : Elle prend  un buffer de char, un entier representant sa taille, un entier representant le nombre de ligne que l'on veut en partant à la fin et un entier correspondant au nombre reel de ligne compter
   @return : Retourne l'index representant une position dans le buffer, si égale -1 c'est tout le buffer qui doit etre pris sinon à partir de la position renvoyé
  */
-int index_tail_buffer(const char *buffer, int bufsize, int ntail, int *nlines) {
+
+int index_tail_buffer(const char *buffer, int bufsize,
+                      int ntail, int *nlines) {
+
     int nlines_current = 0;
     int index_tail = 0;
     assert(buffer && ntail);
-    for(index_tail=get_size_buffer(buffer, bufsize)-1; index_tail >= 0; --index_tail) {
+    for(index_tail=bufsize-1; index_tail >= 0; --index_tail) {
       if(buffer[index_tail] == '\n') {
         nlines_current++;
       }
@@ -91,6 +123,7 @@ int index_tail_buffer(const char *buffer, int bufsize, int ntail, int *nlines) {
   @param : Il prend en parametre un descripeur de fichier (obtenu par un open) representé par un entier.
   @return : Renvoie la taille du fichier en octet (ou la position du dernier octet)
 */
+
 long get_last_octet(int fd) {
   int loctet;
   int hcurrent;
@@ -107,12 +140,13 @@ long get_last_octet(int fd) {
   @param : Il prend un tableau de chaine de caractére correspondant au differente commande que l'utilisateur tape, et un entier correspondant à sa taille
   @return : Elle ne renvoie pas d'elements
 */
+
 void analyse_args(int argc, const char * argv[]){
   assert(argc > 1);
   if(is_file(argv[1])){
     pathname = argv[1];
     if(argc > 2)
-      ntail = atoi(argv[3]); /* Apparemement deprecié pour strtoi */
+      ntail = abs(atoi(argv[3])); /* Apparemement deprecié pour strtoi */
   }
   else{
     perror("Ce n'est pas un fichier !");
@@ -135,6 +169,7 @@ void print_buffer(const char* buffer, int bufsize){
            une position dans le fichier representé par un entier et un nombre de ligne à afficher en partant de la position vers le debut
   @return : Elle renvoie un statut, 1 correspond à une execution qui c
 */
+
 int tail_before_pos(int df, unsigned int pos, int ntail){
   int lstatus;
   int nlines;
@@ -176,6 +211,7 @@ int tail_before_pos(int df, unsigned int pos, int ntail){
 void tail(){
   int df;
   int loctet_file;
+  int last_eol = 0;
   df = open(pathname, O_RDONLY);
   assert(df != -1);
   /* On recupere le dernier octet du fichier */
@@ -183,11 +219,16 @@ void tail(){
   if(loctet_file == 0 || ntail == 0) {
     return;
   }
-  --loctet_file;
+  /* On verirfie si le dernier caractere du fichier est un retour à la ligne */
+  if(get_char_bypoct(df, loctet_file-1) == '\n') {
+    --loctet_file;
+    last_eol = 1;
+  }
   /* On, appelle la fonction tail_before_pos qui va imprimer les derniere ligne recurcivement */
   assert(tail_before_pos(df, loctet_file, ntail) != -1);
-  printf("\n");
-  fflush(stdout);
+
+  if(last_eol) { printf("\n"); }
+
   /* On libère la mémoire */
   assert(close(df) != -1);
 }
@@ -195,7 +236,5 @@ void tail(){
 int main(int argc,const char* argv[]) {
   analyse_args(argc, argv);
   tail();
-  printf("\n");
-  fflush(stdout);
   return EXIT_SUCCESS;
 }
