@@ -72,10 +72,11 @@ int index_tail_buffer(const char *buffer, int bufsize, int ntail, int *nlines) {
     int nlines_current = 0;
     int index_tail = 0;
     assert(buffer && ntail);
-    for(index_tail=bufsize-1; index_tail >= 0; --index_tail) {
+    for(index_tail=get_size_buffer(buffer, bufsize)-1; index_tail >= 0; --index_tail) {
       if(buffer[index_tail] == '\n') {
         nlines_current++;
       }
+
       if(nlines_current == ntail) {
         *nlines = nlines_current;
         return index_tail;
@@ -111,7 +112,7 @@ void analyse_args(int argc, const char * argv[]){
   if(is_file(argv[1])){
     pathname = argv[1];
     if(argc > 2)
-      ntail = abs(atoi(argv[3])); /* Apparemement deprecié pour strtoi */
+      ntail = atoi(argv[3]); /* Apparemement deprecié pour strtoi */
   }
   else{
     perror("Ce n'est pas un fichier !");
@@ -194,5 +195,7 @@ void tail(){
 int main(int argc,const char* argv[]) {
   analyse_args(argc, argv);
   tail();
+  printf("\n");
+  fflush(stdout);
   return EXIT_SUCCESS;
 }
