@@ -1,5 +1,13 @@
 ### Modèle pour vos Makefile
 
+
+TP=3
+
+NOM1=Gamelin
+
+NOM2=Oudjail
+
+
 ## Compilateur C et éditeur de liens
 CC      = gcc
 
@@ -36,4 +44,12 @@ clean:
 .PHONY: all clean
 
 mtail: mtail.c
-	 ${CC} ${CFLAGS} mtail.c -o mtail
+	${CC} ${CFLAGS} mtail.c -o mtail
+
+## Permet de creer une archive coforme pour le depot PDS
+
+archive: clean
+	rm -rf ../TP${TP}_${NOM1}_${NOM2}
+	mkdir ../TP${TP}_${NOM1}_${NOM2}
+	cp -r * ../TP${TP}_${NOM1}_${NOM2}
+	cd .. ; zip -r TP${TP}_${NOM1}_${NOM2}.zip TP${TP}_${NOM1}_${NOM2}/*
