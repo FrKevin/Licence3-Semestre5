@@ -1,11 +1,16 @@
 Binome: Veis Oudjail et Kevin Gamelin
 
 Commande possibles:
-make
-make test
-make clean
+  make
+  make mtail
+  make mtail_stupide
+  make test
+  make clean
+  make archive
 
-./mtail phatname arguments
-arguments possibles:
-  "" aucun argument affiche les 10 dernières lignes
-  -n suivi d'un nombre (>0, <0, =0) affiches les XX dernières lignes
+  ./mtail_stupide phatname arguments ou ./mtail_stupide arguments phatname
+  ./mtail phatname arguments ou ./mtail arguments phatname
+    * arguments possibles:
+      "" aucun argument affiche les 10 dernières lignes
+      -n suivi d'un nombre (>0, <0, =0) affiches les XX dernières lignes
+    * phatname le liens du fichier cible

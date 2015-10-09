@@ -24,7 +24,7 @@ LDFLAGS  = -g
 ## Première cible
 #  « make » sans argument construit sa première cible
 #  Indiquez en dépendance le ou les binaires à construire
-all: mtail
+all: mtail mtail_stupide
 
 
 ## Compilation séparée
@@ -45,6 +45,9 @@ clean:
 
 mtail: mtail.c
 	${CC} ${CFLAGS} mtail.c -o mtail
+
+mtail_stupide: mtail_stupide.c
+	${CC} ${CFLAGS} mtail_stupide.c -o mtail_stupide
 
 ## Permet de creer une archive coforme pour le depot PDS
 
