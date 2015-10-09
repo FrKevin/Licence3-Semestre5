@@ -115,7 +115,5 @@ void tail(){
 int main(int argc,const char* argv[]) {
   analyse_args(argc, argv);
   tail();
-  printf("\n");
-  fflush(stdout);
   return EXIT_SUCCESS;
 }
