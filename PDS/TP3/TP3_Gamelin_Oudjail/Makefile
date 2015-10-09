@@ -33,7 +33,7 @@ all: mtail mtail_stupide
 	${CC} ${CFLAGS} -c $<
 
 test:
-	bash mtailTest.sh
+	bash test.sh
 
 clean:
 	rm mtail || true

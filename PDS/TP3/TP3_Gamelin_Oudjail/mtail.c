@@ -36,14 +36,6 @@ void tail();
 
 /* Fin Prototype de fonction */
 
-int get_size_buffer(const char *buffer, int bufsize) {
-  if(!ntail) {
-    ntail = get_lline_no_void(buffer, bufsize);
-    return ntail;
-  }
-  return is_line_all_space;
-  return bufsize;
- }
 
 /* Fonction permettant de savoir si une lecture (voir fct read) c'est bien passer en verifiant plusieurs cas
   @param : Prend le status de la fonction read(son retour) , ainsi qu'un entier representant ce que le nombre d'octet que l'on voulait lire
