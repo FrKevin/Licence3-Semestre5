@@ -72,3 +72,21 @@
 	Group By t.fournisseurs
 	
 --Q8
+	\qecho "Les noms des fournisseurs offrant un meme article en differentes couleurs.
+				Indiquer de quel article il s’agit.";
+	SELECT DISTINCT fnom as fournisseurs, t1.anom as nomArticle
+	FROM (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t1 JOIN (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t2 NATURAL JOIN fournisseurs 
+	WHERE t1.anom = t2.anom and t1.fid = t2.fid and t1.acoul <> t2.acoul
+	
+--Q9
+	\qecho "Les noms des articles offerts par un seul fournisseur (toutes couleurs confondues).";
+	SELECT * 
+	FROM fournisseurs NATURAL JOIN catalogue NATURAL JOIN articles
+	GROUP BY anom 
+	HAVING count(fid) = 1
+	
+--Q10
+
+--Q11
+
+--Q12
