@@ -15,7 +15,7 @@
 	FROM articles NATURAL JOIN catalogue 
 	GROUP BY anom 
 	Having count(*) > 1 
-	ORDER BY prix DESC;
+	ORDER BY avg(prix) DESC;
 
 --Q3
 	\qecho "Les couleurs \"rares\", pour lesquelles il n’y a qu’un seul article.";
@@ -67,7 +67,7 @@
 	FROM (
 	SELECT fnom as fournisseurs, count(aid) as Nb_Articles
 	FROM fournisseurs NATURAL JOIN catalogue  NATURAL JOIN articles
-	Group By fid, anom
+	Group By fnom, anom
 	   ) as t
 	Group By t.fournisseurs;
 	
@@ -75,12 +75,12 @@
 	\qecho "Les noms des fournisseurs offrant un meme article en differentes couleurs.
 				Indiquer de quel article il s’agit.";
 	SELECT DISTINCT fnom as fournisseurs, t1.anom as nomArticle
-	FROM (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t1 JOIN (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t2 NATURAL JOIN fournisseurs 
+	FROM (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t1, (SELECT anom,fid, acoul FROM catalogue NATURAL JOIN articles ) as t2 NATURAL JOIN fournisseurs 
 	WHERE t1.anom = t2.anom and t1.fid = t2.fid and t1.acoul <> t2.acoul;
 	
 --Q9
 	\qecho "Les noms des articles offerts par un seul fournisseur (toutes couleurs confondues).";
-	SELECT * 
+	SELECT anom 
 	FROM fournisseurs NATURAL JOIN catalogue NATURAL JOIN articles
 	GROUP BY anom 
 	HAVING count(fid) = 1;
@@ -94,9 +94,9 @@
 	
 --Q11
 	\qecho "Vous d´esirez produire un tableau similaire pour les couleurs des articles.";
-	SELECT substring(acoul from 1 for 1) as lettre, count(*) as count
+	SELECT substring(cast(acoul as VARCHAR) from 1 for 1) as lettre, count(*) as count
 	FROM articles
-	GROUP BY substring(acoul from 1 for 1);
+	GROUP BY substring(cast(acoul as VARCHAR) from 1 for 1);
 	
 --Q12
 	\qecho "Testez, lisez la doc et expliquez les differences et les points communs entre cette premiere requete";
