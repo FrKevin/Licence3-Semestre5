@@ -18,21 +18,14 @@
 
 typedef enum { false, true } bool;
 
-
-
-
-
-
-
-
 /* déclaration des fonctions */
-long cat(char* pathname, int buffSize);
+long cat(char* pathname, int buffsize);
 
 
 /* Main */
 int main(int argc, char** argv) {
 	char* bufSizeEnv;
-	int buffSize;
+	int buffsize;
 	
 	if (argc == 0) {
 		fprintf(stderr, "Spécifiez le chemin d'accès du fichier.\n");
@@ -46,14 +39,14 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 	
-	buffSize = atoi(bufSizeEnv);
-	if (buffSize <= 0) {
+	buffsize = atoi(bufSizeEnv);
+	if (buffsize <= 0) {
 		fprintf(stderr, "La variable d'environnement MCAT_BUFSIZ n'est pas valide.\n");
 		return EXIT_FAILURE;
 	}
 	
 	
-	return cat(argv[0], buffSize);
+	return cat(argv[0], buffsize);
 }
 
 
@@ -61,11 +54,9 @@ int main(int argc, char** argv) {
 
 
 
-long cat(char* pathname, int buffSize) {
+long cat(char* pathname, int buffsize) {
 	int fd, nbCharRead;
-	char* buff;
-	
-	
+	char* buffer = malloc(sizeof(char)*buffsize);
 	
 	fd = open(pathname, O_RDONLY);
 	if (fd == -1) {
@@ -73,17 +64,13 @@ long cat(char* pathname, int buffSize) {
 		return EXIT_FAILURE;
 	}
 	
-	
-	
-	
 	/* lire tout le fichier */
-	while((nbCharRead = read(fd, buff, buffSize)) > 0) {
-		/*
-		 * Ici à compléter
-		 * */
+	while((nbCharRead = read(fd, buffer, buffsize)) > 0) {
+		if(write(STDOUT_FILENO, buffer, buffsize)<0) {
+			fprintf(stderr, "Erreur de lecture du buffer. Nb char lu : %i", nbCharRead);
+			exit(EXIT_SUCCESS);
+		}
 	}
-	
-	
 	
 	
 	if (nbCharRead == -1) {
