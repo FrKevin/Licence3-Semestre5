@@ -66,10 +66,8 @@ long cat(char* pathname, int buffsize) {
 	
 	/* lire tout le fichier */
 	while((nbCharRead = read(fd, buffer, buffsize)) > 0) {
-		if(write(STDOUT_FILENO, buffer, buffsize)<0) {
-			fprintf(stderr, "Erreur de lecture du buffer. Nb char lu : %i", nbCharRead);
-			exit(EXIT_SUCCESS);
-		}
+		assert(write(STDOUT_FILENO, buffer, nbCharRead)>0);
+		fflush(stdout);
 	}
 	
 	
