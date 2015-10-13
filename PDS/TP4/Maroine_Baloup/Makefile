@@ -43,10 +43,7 @@ clean:
 	rm *.o || true
 
 archive: realclean
-	rm -rf ../TP${TP}_${NOM1}_${NOM2}
-	mkdir ../TP${TP}_${NOM1}_${NOM2}
-	cp -r * ../TP${TP}_${NOM1}_${NOM2}
-	cd .. ; zip -r TP${TP}_${NOM1}_${NOM2}.zip TP${TP}_${NOM1}_${NOM2}/*
+	zip -r ../TP${TP}_${NOM1}_${NOM2}.zip *
 
 # Liste des pseudo-cibles utilisés dans ce fichier,
 # qui ne sont pas des noms de fichier à produire
