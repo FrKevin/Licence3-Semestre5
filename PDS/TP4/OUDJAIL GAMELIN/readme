@@ -1,0 +1,13 @@
+Binome: Veis Oudjail et Kevin Gamelin
+
+Commande possibles:
+  make
+  make mcat
+  make test (Attention prend beaucoup de temps)
+  ./test.sh (Attention prend beaucoup de temps)
+  make clean
+  make realclean
+  make archive
+  make show (affiche le graph)
+
+Le fichier mcat.png est le graph obtenu.
