@@ -1,0 +1,7 @@
+Binome: Veis Oudjail et Kevin Gamelin
+
+Commande possibles:
+  make
+  make cat
+  make test
+  ./cat 
