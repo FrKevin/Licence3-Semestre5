@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
 	}
 	
 	
-	return cat(argv[0], buffsize);
+	return cat(argv[1], buffsize);
 }
 
 
@@ -66,8 +66,10 @@ long cat(char* pathname, int buffsize) {
 	
 	/* lire tout le fichier */
 	while((nbCharRead = read(fd, buffer, buffsize)) > 0) {
-		assert(write(STDOUT_FILENO, buffer, nbCharRead)>0);
+		assert(write(STDOUT_FILENO, buffer, nbCharRead)>=0);
 	}
+	
+	free(buffer);
 	
 	
 	if (nbCharRead == -1) {

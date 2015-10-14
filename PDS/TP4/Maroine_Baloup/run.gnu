@@ -1,8 +1,11 @@
 set title "Temps et vitesse d'execution"
 set logscale x
-set xlabel "taille en lignes"
+set xlabel "taille du buffer en octet"
 set logscale y
-set ylabel "temps en s ou vitesse en octets/s"
+set ylabel "temps d'exécution"
 set style data linespoints
-plot "ex2.dat" using 1:2 title "temps", \
-     "ex2.dat" using 1:3 title "vitesse"
+set term png
+set output "mcat.png"
+plot "time.dat" using 1:2 title "real", \
+     "time.dat" using 1:3 title "user", \
+     "time.dat" using 1:4 title "sys"

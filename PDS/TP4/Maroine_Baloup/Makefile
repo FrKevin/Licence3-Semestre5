@@ -24,7 +24,7 @@ all: mcat
 
 # lister en argument de 'rm' les noms de fichiers binaires exécutables
 realclean: clean
-	rm mcat || true
+	rm mcat mcat.png time.dat || true
 
 # lister les arguments make correspondant aux exécutables à tester
 test: mcat
