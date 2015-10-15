@@ -31,7 +31,6 @@ char get_char_bypoct(int fd, int poctet);
 void analyse_args(int argc, char * argv[]);
 void print_buffer(const char* buffer, int bufsize);
 int tail_before_pos(int df, unsigned int pos, int ntail);
-int get_size_buffer(const char *buffer, int bufsize);
 void tail();
 
 /* Fin Prototype de fonction */
