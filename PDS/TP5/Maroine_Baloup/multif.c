@@ -1,5 +1,5 @@
 /*
- * Par Marc Baloup et Maxime Maroine 
+ * Par Maxime MAROINE et Marc BALOUP
  * 
  * Licence 3 Informatique - Université Lille 1
  * 
@@ -17,24 +17,41 @@
 #include <fcntl.h>
 
 typedef enum { false, true } bool;
+typedef int(*func_t)(int);
 
 /* déclaration des fonctions */
-int multif(func_t functions[], int args[]);
+int multif(func_t functions[], int args[], int n);
+int test(int val);
 
 
 /* Main */
 int main(int argc, char** argv) {
-	
-	
-	return cat(argv[1], buffsize);
+	int nb_values = argc-1;
+	int* values = malloc(sizeof(int)*nb_values);
+	func_t* functions = malloc(sizeof(func_t)*nb_values);
+	int i;
+
+	for(i = 1; i<nb_values+1; ++i) {
+		functions[i-1] = test;
+		values[i-1] = atoi(argv[i]);
+	}
+
+	multif(functions, values, nb_values);
+	return EXIT_SUCCESS;
 }
 
+/* Multif */
+int multif(func_t functions[], int args[], int n) {
+	int i;
+	for(i = 0; i<n; ++i) {
+		printf("Résultat pour test(%i) : %i\n", args[i], functions[i](args[i]));
+		fflush(stdout);
+	}
 
-
-
-
-
-int multif(func_t functions[], int args[]) {
-	
 	return EXIT_SUCCESS;
+}
+
+/* Test */
+int test(int val) {
+	return (val<=10?0:1);
 }
