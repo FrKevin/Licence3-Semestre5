@@ -32,7 +32,7 @@ void initVar(const char* argv[]){
   args = (int*)malloc(nargs*sizeof(int));
   for(i=0; i<nargs; i++){
     f[i] = test;
-    args[i] = atoi(argv[i+2]);
+    args[i] = atoi(argv[i+1]);
   }
 }
 
@@ -76,8 +76,8 @@ void assertMessage(int cond, char * message){
 */
 void analyseArgs(int argc, const char * argv[]){
   assertMessage(argc > 1, "no argument");
-  nargs = atoi(argv[1]);
-  assertMessage(nargs == (argc-2), "miss argumment");
+  nargs = argc-1;
+/*   assertMessage(nargs == (argc-2), "miss argumment"); */
 }
 
 /*
@@ -109,7 +109,7 @@ int multif(funct_t f[], int args[], int nargs){
 int main(int argc,const char* argv[]) {
   analyseArgs(argc, argv);
   initVar(argv);
-  multif(f, args, nargs);
+  printf("%i\n", multif(f, args, nargs));
   destroyVar();
   exit(EXIT_SUCCESS);
 }

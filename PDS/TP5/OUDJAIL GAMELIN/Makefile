@@ -23,7 +23,7 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: multif race
+all: multif race oprocess
 
 ## Make avec argument
 multif: multif.c
@@ -32,14 +32,17 @@ multif: multif.c
 race: race.c
 	${CC} ${CFLAGS} race.c -o race
 
+oprocess: oprocess.c
+	${CC} ${CFLAGS} oprocess.c -o oprecess
+
 test:
 	./test.sh
 
 clean:
-	rm  mcat race || true
+	rm  race multif oprecess || true
 
 realclean:
-	rm race race|| true
+	rm race multif oprocess || true
 
 ## Compilation séparée
 #  Le .o doit être recompilé dès que le .c ou le .h (s'il existe) change
@@ -49,5 +52,5 @@ realclean:
 
 ## Permet de creer une archive coforme pour le depot PDS
 archive: clean
-	rm -f multif race
+	rm -f multif race oprocess
 	zip -r TP${TP}_${NOM1}_${NOM2}.zip *
