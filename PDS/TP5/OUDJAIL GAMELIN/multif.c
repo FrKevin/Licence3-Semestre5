@@ -23,7 +23,8 @@ int multif(funct_t f[], int args[], int nargs);
 /* Fin Prototype de fonction */
 
 /*
- *
+ * Construit le tableau de fonction et de leur arguments
+ * @param : const char* argv[]: les arguments passer au programme
  */
 void initVar(const char* argv[]){
   int i = 0;
@@ -35,6 +36,9 @@ void initVar(const char* argv[]){
   }
 }
 
+/*
+ *  libère la méoire
+ */
 void destroyVar(){
   free(f);
   f = NULL;
@@ -42,6 +46,9 @@ void destroyVar(){
   args = NULL;
 }
 
+/*
+ * Simple fonction de test
+ */
 int test(int a){
   printf("appel a f(%d)\n", a);
   fflush(stdout);
@@ -49,7 +56,10 @@ int test(int a){
 }
 
 /*
- * Assert message
+ * Ecrit sur la sortie d'erreur
+ * @param : int cond: la condition d'assertion
+ * @param : char * message: le message a afficher
+ * @return
  */
 void assertMessage(int cond, char * message){
   if(!cond){
@@ -71,8 +81,10 @@ void analyseArgs(int argc, const char * argv[]){
 }
 
 /*
- *
- *
+ * Excécute une liste de fonction avec leur arguments
+ * @param : funct_t f[]: Liste des fonctions a excécuter
+ * @param : int args[]: les arguments pour chaque fonctions
+ * @param : int nargs; le nombre d'argument de fonction
  */
 int multif(funct_t f[], int args[], int nargs){
   int i=0;
@@ -93,7 +105,6 @@ int multif(funct_t f[], int args[], int nargs){
   }
   return conjonction;
 }
-
 
 int main(int argc,const char* argv[]) {
   analyseArgs(argc, argv);
