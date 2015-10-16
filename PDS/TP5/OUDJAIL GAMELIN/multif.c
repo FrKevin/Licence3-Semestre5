@@ -49,7 +49,7 @@ int test(int a){
 }
 
 /*
- *
+ * Assert message
  */
 void assertMessage(int cond, char * message){
   if(!cond){
