@@ -15,13 +15,29 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <wait.h>
 
 typedef enum { false, true } bool;
 typedef int(*func_t)(int);
 
+pid_t create_process(func_t func, int arg) {
+	pid_t pid;
+	
+	pid = fork();
+	if (pid == -1) {        /* Erreur */
+		perror("Erreur fork");
+		exit(EXIT_FAILURE);
+	} else if (pid == 0) {  /* Fils */
+		exit(func(arg));
+	} else {                /* Pere */
+		return pid;
+	}
+}
+
 /* déclaration des fonctions */
 int multif(func_t functions[], int args[], int n);
 int test(int val);
+int wait_for_all_child(int n);
 
 
 /* Main */
@@ -36,22 +52,38 @@ int main(int argc, char** argv) {
 		values[i-1] = atoi(argv[i]);
 	}
 
-	multif(functions, values, nb_values);
+	printf("Résultat final : %i\n", multif(functions, values, nb_values));
+	fflush(stdout);
+	free(values);
+	free(functions);
 	return EXIT_SUCCESS;
 }
 
 /* Multif */
 int multif(func_t functions[], int args[], int n) {
 	int i;
-	for(i = 0; i<n; ++i) {
-		printf("Résultat pour test(%i) : %i\n", args[i], functions[i](args[i]));
-		fflush(stdout);
-	}
 
-	return EXIT_SUCCESS;
+	for(i = 0; i<n; ++i) {
+		create_process(functions[i], args[i]);
+	}
+	
+	return wait_for_all_child(n);
 }
 
-/* Test */
+/* Comparer les valeurs */
 int test(int val) {
-	return (val<=10?0:1);
+	return (val > 10);
+}
+
+int wait_for_all_child(int n) {
+	int status;
+	int res = 1;
+	int i;
+
+	for(i = 0; i<n; ++i) {
+		wait(&status);
+		res &= WEXITSTATUS(status);
+	}
+
+	return res;
 }
