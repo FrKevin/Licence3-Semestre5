@@ -118,13 +118,5 @@
 					   
 -- Q1-10
 
-	SELECT a.anom
-	FROM articles a NATURAL JOIN catalogue c1
-	WHERE NOT EXISTS
-		(SELECT 1
-		 FROM catalogue c
-		 WHERE a.aid = c.aid
-		 GROUP BY c.aid
-		 HAVING count(DISTINCT c.fid) > 1
-		);
+
 	
