@@ -1,5 +1,13 @@
 ### Modèle pour vos Makefile
 
+
+TP=3
+
+NOM1=Gamelin
+
+NOM2=Oudjail
+
+
 ## Compilateur C et éditeur de liens
 CC      = gcc
 
@@ -16,7 +24,7 @@ LDFLAGS  = -g
 ## Première cible
 #  « make » sans argument construit sa première cible
 #  Indiquez en dépendance le ou les binaires à construire
-all: exemple
+all: mtail mtail_stupide
 
 
 ## Compilation séparée
@@ -24,16 +32,27 @@ all: exemple
 %.o: %.c %.h
 	${CC} ${CFLAGS} -c $<
 
-clean:
-	rm *.o || true
+test:
+	bash test.sh
 
-realclean: clean
-	rm exemple || true
+clean:
+	rm mtail || true
 
 ## Liste des pseudo-cibles
 #  Ces cibles ne correspondent pas à des fichiers que l'on veut créer,
 #  juste à des séquences que l'on veut pouvoir déclencher
-.PHONY: all clean realclean
+.PHONY: all clean
 
 mtail: mtail.c
-	 ${CC} ${CFLAGS} -o $@ $^
+	${CC} ${CFLAGS} mtail.c -o mtail
+
+mtail_stupide: mtail_stupide.c
+	${CC} ${CFLAGS} mtail_stupide.c -o mtail_stupide
+
+## Permet de creer une archive coforme pour le depot PDS
+
+archive: clean
+	rm -rf ../TP${TP}_${NOM1}_${NOM2}
+	mkdir ../TP${TP}_${NOM1}_${NOM2}
+	cp -r * ../TP${TP}_${NOM1}_${NOM2}
+	cd .. ; zip -r TP${TP}_${NOM1}_${NOM2}.zip TP${TP}_${NOM1}_${NOM2}/*
