@@ -2,10 +2,18 @@
 MAROINE Maxime, BALOUP Marc TP3
 */
 
+\qecho Création et insertion des données dans le schéma maroine_baloup_tp2
+\i creation.sql
+\i inserts.sql
 set search_path to maroine_baloup_tp2;
+\qecho OK ---
+\qecho
+\qecho Exercice 1
 
 \qecho ------------------Question 1------------------
 \qecho
+
+\qecho Version EXISTS
 SELECT acoul
 FROM Articles a1
 WHERE NOT EXISTS
@@ -15,14 +23,22 @@ FROM Articles a2
 WHERE a1.aid <> a2.aid AND a1.acoul = a2.acoul
 );
 
+
+\qecho Version Alternative avec GROUP BY
+SELECT acoul
+FROM Articles
+GROUP BY acoul
+HAVING count(*)<2;
+
 \qecho ------------------Question 2------------------
 \qecho
-\qecho =====IN=====
+
+\qecho Version IN
 SELECT anom
 FROM Articles
 WHERE acoul = 'rouge' AND anom NOT IN(SELECT anom FROM Articles WHERE acoul='vert');
 
-\qecho =====SOME=====
+\qecho Version SOME
 SELECT anom
 FROM Articles a1
 WHERE acoul = 'rouge' AND NOT EXISTS(
@@ -30,7 +46,7 @@ SELECT 1
 FROM Articles a2
 WHERE acoul='vert' AND a1.anom = a2.anom);
 
-\qecho =====ALL=====
+\qecho Version ALL
 SELECT anom
 FROM Articles
 WHERE acoul = 'rouge' AND anom <> ALL(
@@ -40,7 +56,8 @@ WHERE acoul='vert');
 
 \qecho ------------------Question 3------------------
 \qecho
-\qecho =====Version groupe=====
+
+\qecho Version GROUP BY
 SELECT fnom
 FROM Fournisseurs f NATURAL JOIN Catalogue c NATURAL JOIN Articles a
 WHERE acoul = 'rouge'
@@ -49,7 +66,7 @@ HAVING max(c.prix) >= ALL(SELECT max(c2.prix)
 FROM Catalogue c2
 WHERE f.fid = c2.fid);
 
-\qecho =====Version non groupée=====
+\qecho Version non GROUP BY
 SELECT fnom
 FROM Fournisseurs f NATURAL JOIN Catalogue c NATURAL JOIN Articles a
 WHERE c.prix = (SELECT max(c2.prix)
@@ -58,14 +75,14 @@ WHERE f.fid = c2.fid AND a.acoul = 'rouge');
 
 \qecho ------------------Question 4------------------
 \qecho
-\qecho GROUP BY
+
+\qecho Version GROUP BY
 SELECT anom
 FROM Articles NATURAL JOIN Catalogue
 GROUP BY anom
 HAVING count(*) > 1;
 
-\qecho EXISTS
-
+\qecho Version EXISTS
 SELECT DISTINCT anom
 FROM Articles a1 NATURAL JOIN Catalogue c1
 WHERE EXISTS(SELECT 1
@@ -74,6 +91,8 @@ WHERE a1.anom = a2.anom AND c1.fid <> c2.fid);
 
 \qecho ------------------Question 5------------------
 \qecho
+
+\qecho Version EXISTS
 SELECT fnom
 FROM Fournisseurs f
 WHERE NOT EXISTS(SELECT 1
@@ -82,8 +101,16 @@ WHERE NOT EXISTS(SELECT 1
 FROM Catalogue c
 WHERE a.aid = c.aid AND c.fid = f.fid));
 
+\qecho Version Alternative avec GROUP BY
+SELECT fnom
+FROM Fournisseurs f NATURAL JOIN Catalogue
+GROUP BY fid
+HAVING count(DISTINCT aid) = (SELECT count(*)
+FROM Articles);
+
 \qecho ------------------Question 6------------------
 \qecho
+
 \qecho Version ALL
 SELECT fnom
 FROM Fournisseurs f NATURAL JOIN Catalogue c
@@ -101,6 +128,7 @@ FROM Catalogue c2));
 \qecho ------------------Question 7-----------------
 \qecho
 
+\qecho Version EXISTS
 SELECT anom, min(prix) as min, max(prix) as max
 FROM Articles a NATURAL JOIN Catalogue c
 WHERE EXISTS(SELECT 1
@@ -108,17 +136,22 @@ FROM Catalogue c2
 WHERE a.aid = c2.aid AND c.fid <> c2.fid)
 GROUP BY anom;
 
+\qecho Version Alternative avec (INNER) JOIN
+SELECT anom, min(c.prix) as min, max(c.prix) as max
+FROM Articles a JOIN Catalogue c ON c.aid = a.aid JOIN Catalogue c2 ON c.fid <> c2.fid AND c2.aid = a.aid
+GROUP BY anom;
+
 \qecho ------------------Question 8-----------------
 \qecho
 
-\qecho EXISTS
+\qecho Version EXISTS
 SELECT DISTINCT fnom, anom
 FROM Fournisseurs f NATURAL JOIN Catalogue c NATURAL JOIN Articles a
 WHERE EXISTS(SELECT 1
 FROM Articles a2 NATURAL JOIN Catalogue c2
 WHERE c.fid = c2.fid AND a.anom = a2.anom AND a.acoul <> a2.acoul);
 
-\qecho SOME
+\qecho Version SOME
 SELECT DISTINCT fnom, anom
 FROM Fournisseurs f NATURAL JOIN Catalogue c NATURAL JOIN Articles a
 WHERE anom = SOME(SELECT a2.anom
@@ -127,12 +160,21 @@ WHERE a2.acoul <> a.acoul and c2.fid = f.fid);
 
 \qecho ------------------Question 9-----------------
 \qecho
+
+\qecho Version GROUP BY
 SELECT fnom, count(*) as Nb_Articles
 FROM Fournisseurs f NATURAL JOIN Catalogue c
 GROUP BY f.fid
 HAVING count(*) >= ALL(SELECT count(*)
 FROM Catalogue c2
 GROUP BY c2.fid);
+
+\qecho Version Alternative avec sous-table dans FROM
+SELECT fnom, nb_articles
+FROM Fournisseurs f 
+NATURAL JOIN 
+(SELECT fid, count(aid) as nb_articles FROM Catalogue GROUP BY fid) as c
+WHERE nb_articles >= ALL(SELECT count(aid) FROM Catalogue GROUP BY fid);
 
 \qecho ------------------Question 10-----------------
 \qecho
@@ -192,7 +234,7 @@ WHERE aid = SOME(SELECT c.aid
 FROM Catalogue c
 WHERE prix > 100);
 
-\qecho Version min
+\qecho Version MIN
 (SELECT DISTINCT a.*
 FROM Articles a NATURAL JOIN Catalogue c
 EXCEPT
