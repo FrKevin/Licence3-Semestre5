@@ -48,9 +48,13 @@ void todo(){
 void wait_child(){
   int i;
   int status;
+  pid_t pid;
   for (i = 0; i < nchild; i++) {
-    wait(&status);
-    printf("child n°%i terminated.\n", WEXITSTATUS(status));
+    pid = wait(&status);
+    printf("Child n°%d terminated.", pid); fflush(stdout);
+    if(WIFEXITED(status)) {
+      printf(" The exit status is %d\n", WEXITSTATUS(status));
+    }
   }
 }
 
