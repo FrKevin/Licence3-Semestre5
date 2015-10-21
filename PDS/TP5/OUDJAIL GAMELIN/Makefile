@@ -41,8 +41,6 @@ test:
 clean:
 	rm  race multif oprecess || true
 
-realclean:
-	rm race multif oprocess || true
 
 ## Compilation séparée
 #  Le .o doit être recompilé dès que le .c ou le .h (s'il existe) change

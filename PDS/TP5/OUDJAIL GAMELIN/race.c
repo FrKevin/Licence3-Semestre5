@@ -61,6 +61,7 @@ void init_child(){
     }
   }
 }
+
 /**
  * Que la course commence
  */
