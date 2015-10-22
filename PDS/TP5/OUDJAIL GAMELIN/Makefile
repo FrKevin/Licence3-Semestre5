@@ -23,7 +23,7 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: multif race oprocess
+all: multif race exo8
 
 ## Make avec argument
 multif: multif.c
@@ -32,14 +32,14 @@ multif: multif.c
 race: race.c
 	${CC} ${CFLAGS} race.c -o race
 
-oprocess: oprocess.c
-	${CC} ${CFLAGS} oprocess.c -o oprecess
+exo8: exo8.c
+	${CC} ${CFLAGS} exo8.c -o exo8
 
 test:
 	./test.sh
 
 clean:
-	rm  race multif oprecess || true
+	rm race multif exo8 || true
 
 
 ## Compilation séparée
@@ -50,5 +50,5 @@ clean:
 
 ## Permet de creer une archive coforme pour le depot PDS
 archive: clean
-	rm -f multif race oprocess
+	rm -f multif race exo8
 	zip -r TP${TP}_${NOM1}_${NOM2}.zip *

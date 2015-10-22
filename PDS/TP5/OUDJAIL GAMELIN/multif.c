@@ -16,17 +16,18 @@ static int nargs;
 
 /* Prototype de fonction */
 int test(int a);
-void initVar();
-void destroyVar();
-void assertMessage(int cond, char * message);
+void init_var();
+void destroy_var();
+void assert_message(int cond, char * message);
 int multif(funct_t f[], int args[], int nargs);
+void analyse_args(int argc, const char * argv[]);
 /* Fin Prototype de fonction */
 
 /*
  * Construit le tableau de fonction et de leur arguments
  * @param : const char* argv[]: les arguments passer au programme
  */
-void initVar(const char* argv[]){
+void init_var(const char* argv[]){
   int i = 0;
   f = (funct_t*)malloc(nargs*sizeof(funct_t));
   args = (int*)malloc(nargs*sizeof(int));
@@ -39,7 +40,7 @@ void initVar(const char* argv[]){
 /*
  *  libère la méoire
  */
-void destroyVar(){
+void destroy_var(){
   free(f);
   f = NULL;
   free(args);
@@ -61,7 +62,7 @@ int test(int a){
  * @param : char * message: le message a afficher
  * @return
  */
-void assertMessage(int cond, char * message){
+void assert_message(int cond, char * message){
   if(!cond){
     fprintf(stderr, "%s\n", message);
     perror(NULL);
@@ -74,10 +75,10 @@ void assertMessage(int cond, char * message){
   @param : Il prend un tableau de chaine de caractére correspondant au paramètres des fonctions
   @return : Elle ne renvoie pas d'elements
 */
-void analyseArgs(int argc, const char * argv[]){
-  assertMessage(argc > 1, "no argument");
+void analyse_args(int argc, const char * argv[]){
+  assert_message(argc > 1, "no argument");
   nargs = argc-1;
-/*   assertMessage(nargs == (argc-2), "miss argumment"); */
+/*   assert_message(nargs == (argc-2), "miss argumment"); */
 }
 
 /*
@@ -93,7 +94,7 @@ int multif(funct_t f[], int args[], int nargs){
   pid_t pid;
   for (i=0; i< nargs; i++){
     pid = fork();
-    assertMessage(pid !=-1, "Fork failure");
+    assert_message(pid !=-1, "Fork failure");
     /* Fils */
     if(pid == 0){
       exit(f[i](args[i]));
@@ -107,9 +108,9 @@ int multif(funct_t f[], int args[], int nargs){
 }
 
 int main(int argc,const char* argv[]) {
-  analyseArgs(argc, argv);
-  initVar(argv);
+  analyse_args(argc, argv);
+  init_var(argv);
   printf("%i\n", multif(f, args, nargs));
-  destroyVar();
+  destroy_var();
   exit(EXIT_SUCCESS);
 }
