@@ -18,7 +18,7 @@
 /* Opérations d'ajout pour les tableaux */
 static void tableauEntiersAjoute(tTableauEntiers *tab, int i) {
   if (tab->nb==MAX_SOMMETS) {
-    halt("Tableau d'entiers plein\n"); 
+    halt("Tableau d'entiers plein\n");
   }
   tab->tab[tab->nb] = i;
   tab->nb++;
@@ -26,7 +26,7 @@ static void tableauEntiersAjoute(tTableauEntiers *tab, int i) {
 
 static void tableauArcsAjoute(tTableauArcs *tab, tArc arc) {
   if (tab->nb==MAX_ARCS) {
-    halt("Tableau d'arcs plein\n"); 
+    halt("Tableau d'arcs plein\n");
   }
   tab->tab[tab->nb] = arc;
   tab->nb++;
@@ -35,11 +35,11 @@ static void tableauArcsAjoute(tTableauArcs *tab, tArc arc) {
 /* Remet à zéro un graphe, sans le désallouer */
 
 static void auxResetGraphe(tGraphe graphe) {
-  tNumeroSommet i,j;  
+  tNumeroSommet i,j;
   /* matrice d'adjacence mise à zéro */
   graphe->nbSommets = 0;
-  for(i=0;i<MAX_SOMMETS;i++) 
-    for(j=0;j<MAX_SOMMETS;j++) 
+  for(i=0;i<MAX_SOMMETS;i++)
+    for(j=0;j<MAX_SOMMETS;j++)
       graphe->matriceAdjacence[i][j]=0;
 
   /* table des successeurs, prédécesseurs et voisins mise à zéro */
@@ -58,7 +58,7 @@ tGraphe grapheAlloue() {
   tGraphe graphe;
 
   graphe = (tGraphe)malloc(sizeof(struct tGraphe));
-  if (graphe==NULL) 
+  if (graphe==NULL)
     halt("Erreur d'allocation mémoire dans grapheAlloue\n");
 
   auxResetGraphe(graphe);
@@ -77,7 +77,7 @@ void grapheChangeType(tGraphe graphe, int oriente) {
   graphe->estOriente = oriente;
 }
 
-void grapheAleatoire(tGraphe graphe, 
+void grapheAleatoire(tGraphe graphe,
 		     int nbSommets,
 		     int estOriente,
 		     double probaArc) {
@@ -85,7 +85,7 @@ void grapheAleatoire(tGraphe graphe,
   double prob;
   tNomSommet nom;
   tArc arc;
-  
+
   /* On vide le graphe */
   auxResetGraphe(graphe);
 
@@ -144,17 +144,17 @@ static int lireToken(FILE* fic, char token[LONG_MAX_TOKEN]) {
   int termine=0;
   int c;
   char ligne[LONG_MAX_LIGNE];
-  
+
   c = fgetc(fic);
   while ( !termine && (c != EOF)) {
-   
+
     // si c'est un blanc ou un car spécial
     if ( estBlanc(c) || estSpecial(c) ) {
       // si c'est un commentaire, on vide le reste de la ligne
-      if (c == '#') { 
-	fgets(ligne, LONG_MAX_LIGNE, fic); 
+      if (c == '#') {
+	fgets(ligne, LONG_MAX_LIGNE, fic);
 	c = ' '; //fgetc(fic);
-      } 
+      }
       else {
 	// si on avait commencé le token
 	if (tokenCommence) {
@@ -205,7 +205,7 @@ static void lireTokenGaranti(FILE* fic, char token[LONG_MAX_TOKEN]) {
 static void lireTokenAttendu(FILE* fic, char token[LONG_MAX_TOKEN], char *attendu) {
   lireTokenGaranti(fic, token);
   if (strcmp(token, attendu)) {
-    halt("Token [%s] attendu, mais token [%s] trouv'e `a la place",
+    halt("Token [%s] attendu, mais token [%s] trouvé à la place",
 	 attendu, token);
   }
 }
@@ -216,7 +216,7 @@ static double tokenToDouble(char *token) {
 
   res = strtod(token, &p);
   if (*p != '\0') {
-    halt("La valeur de l'arc doit ^etre un double : %s trouv'e",
+    halt("La valeur de l'arc doit ^etre un double : %s trouvé",
 	 token);
   }
   return res;
@@ -238,7 +238,7 @@ int grapheChargeFichier(tGraphe graphe, char *fichier) {
   if (fic==NULL) {
     halt("Le fichier %s n'a pas pu etre ouvert\n", fichier);
   }
-  
+
   /* vérification du type de fichier */
   lireTokenAttendu(fic, token, "type");
   lireTokenAttendu(fic, token, "=");
@@ -277,7 +277,7 @@ int grapheChargeFichier(tGraphe graphe, char *fichier) {
   /* les arcs */
   lireTokenAttendu(fic, token, "arcs");
   lireTokenAttendu(fic, token, "=");
-  
+
   lireTokenGaranti(fic, token);
   while (strcmp(token,";")) {
     /* token est le sommet de départ */
@@ -288,7 +288,7 @@ int grapheChargeFichier(tGraphe graphe, char *fichier) {
 #ifdef DEBUG
     printf("Arc :  %s - %f -> %s\n", orig, valeurArc, dest);
 #endif
-    
+
     grapheAjouteArcNoms(graphe, orig, dest, valeurArc);
     lireTokenGaranti(fic, token);
   }
@@ -303,7 +303,7 @@ void grapheAjouteSommet(tGraphe graphe, tNomSommet sommet) {
       halt("Nombre de sommet maximum (=%d) atteint", MAX_SOMMETS);
     };
     if (grapheChercheSommetParNom(graphe, sommet)>=0)
-      halt("Sommet d'ej`a existant %s", sommet);
+      halt("Sommet déjà existant %s", sommet);
 
     strcpy(graphe->nomSommets[graphe->nbSommets], sommet);
     graphe->nbSommets ++ ;
@@ -314,7 +314,7 @@ void grapheAjouteSommet(tGraphe graphe, tNomSommet sommet) {
 void grapheAjouteArc(tGraphe graphe, tArc arc) {
   tNumeroSommet orig, dest;
   tNomSommet nom_orig, nom_dest;
-  
+
   orig = arc.orig;
   dest = arc.dest;
 
@@ -339,14 +339,14 @@ void grapheAjouteArc(tGraphe graphe, tArc arc) {
     tableauEntiersAjoute(& (graphe->tableSuccesseurs[orig]), dest);
     /* ajout dans les prédécesseurs */
     tableauEntiersAjoute(& (graphe->tablePredecesseurs[dest]), orig);
-  } 
+  }
 
   /* Même si l'arbre est orienté, on remplit la table des voisins.
      Toutefois, si l'arc est orienté, on vérifie que l'arc
      inverse n'existe pas déjà, car dans ce cas les voisins sont
      déjà placés. */
-  
-  if ( ! ( grapheEstOriente(graphe) && 
+
+  if ( ! ( grapheEstOriente(graphe) &&
 	   grapheExisteArcEntre(graphe,dest,orig) ) ) {
       tableauEntiersAjoute(& (graphe->tableVoisins[orig]), dest);
       /* si l'arc va du sommet vers lui même, on n'ajoute pas de voisin */
@@ -361,15 +361,15 @@ static void grapheAjouteArcNoms(tGraphe graphe, tNomSommet orig,
 				  tNomSommet dest, tValeurArc val) {
   tNumeroSommet i_orig, i_dest;
   tArc arc;
-  
+
   i_orig = grapheChercheSommetParNom(graphe, orig);
-  
-  if ((i_orig==-1)) 
+
+  if ((i_orig==-1))
     halt("Sommet inexistant : %s\n", orig);
 
   i_dest = grapheChercheSommetParNom(graphe, dest);
-  
-  if ((i_dest==-1)) 
+
+  if ((i_dest==-1))
     halt("Sommet inexistant : %s\n", dest);
 
   arc.orig = i_orig;
@@ -388,13 +388,13 @@ void grapheAffiche(tGraphe graphe) {
   tArc arc;
   /* Affiche la liste des sommets et leur nom */
   printf("Type de l'arbre : ");
-  if (grapheEstOriente(graphe))  printf("orient'e"); 
-  else printf("non orient'e");
+  if (grapheEstOriente(graphe))  printf("orienté");
+  else printf("non orienté");
   printf("\n\n");
 
   printf("Nombre de sommets : %d\n\n", grapheNbSommets(graphe));
 
-  printf("Liste des sommets avec leurs num'eros:\n");
+  printf("Liste des sommets avec leurs numéros:\n");
   for(i=0; i < grapheNbSommets(graphe);i++) {
     grapheRecupNomSommet(graphe, i, nom);
     printf("- %d : %s\n", i, nom);
@@ -408,7 +408,7 @@ void grapheAffiche(tGraphe graphe) {
     printf("%7d", i);
   }
   printf("\n");
-  
+
   for(i=0; i < grapheNbSommets(graphe);i++) {
     printf("%3d ", i);
     for(j=0; j < grapheNbSommets(graphe);j++) {
@@ -432,7 +432,7 @@ void grapheAffiche(tGraphe graphe) {
       for(j=0; j<grapheNbSuccesseursSommet(graphe, i); j++) {
 	successeur = grapheSuccesseurSommetNumero(graphe, i, j);
 	grapheRecupNomSommet(graphe, successeur, nom);
-	printf("%s=%.2f ", nom, 
+	printf("%s=%.2f ", nom,
 	       grapheRecupValeurArc(graphe, i, successeur));
       }
       printf("\n");
@@ -445,7 +445,7 @@ void grapheAffiche(tGraphe graphe) {
       for(j=0; j<grapheNbPredecesseursSommet(graphe, i); j++) {
 	predecesseur = graphePredecesseurSommetNumero(graphe, i, j);
 	grapheRecupNomSommet(graphe, predecesseur, nom);
-	printf("%s=%.2f ", nom, 
+	printf("%s=%.2f ", nom,
 	       grapheRecupValeurArc(graphe, predecesseur, i));
       }
       printf("\n");
@@ -460,14 +460,14 @@ void grapheAffiche(tGraphe graphe) {
       for(j=0; j<grapheNbVoisinsSommet(graphe, i); j++) {
 	successeur = grapheVoisinSommetNumero(graphe, i, j);
 	grapheRecupNomSommet(graphe, successeur, nom);
-	printf("%s=%.2f ", nom, 
+	printf("%s=%.2f ", nom,
 	       grapheRecupValeurArc(graphe, i, successeur));
       }
       printf("\n");
     }
   }
   printf("\n");
-  
+
 /* Affiche la liste des arcs */
   printf("Liste des arcs :\n");
   for(i=0; i < grapheNbArcs(graphe); i++) {
@@ -482,13 +482,13 @@ void grapheAffiche(tGraphe graphe) {
     printf("%s ",nom);
     printf("  = %.2f\n", arc.val);
   }
-  
+
 }
 
 /* Consultation */
 
 /* Vérifie que le numéro de sommet est correct */
-void auxVerifieNumeroSommet(tGraphe graphe, 
+void auxVerifieNumeroSommet(tGraphe graphe,
 		       tNumeroSommet numero) {
   if ( (numero<0) || (numero>=graphe->nbSommets) ) {
     halt("Numero de sommet incorrect %d\n", numero);
@@ -503,7 +503,7 @@ int grapheNbSommets(tGraphe graphe){
   return graphe->nbSommets;
 }
 
-void grapheRecupNomSommet(tGraphe graphe, tNumeroSommet numero, 
+void grapheRecupNomSommet(tGraphe graphe, tNumeroSommet numero,
 			  tNomSommet nomSommet){
   auxVerifieNumeroSommet(graphe, numero);
   strcpy(nomSommet, graphe->nomSommets[numero]);
@@ -516,27 +516,27 @@ tNumeroSommet grapheChercheSommetParNom(tGraphe graphe, tNomSommet nomSommet){
       return i;
   }
   return -1;
-} 
+}
 
 
 int grapheNbSuccesseursSommet(tGraphe graphe, tNumeroSommet sommet){
   auxVerifieNumeroSommet(graphe, sommet);
-  if (!grapheEstOriente(graphe)) 
+  if (!grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes orientés");
   return graphe->tableSuccesseurs[sommet].nb;
 }
 
-tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe, 
-					   tNumeroSommet sommet, 
+tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe,
+					   tNumeroSommet sommet,
 					   int numero){
   int nbSuccesseurs;
   auxVerifieNumeroSommet(graphe, sommet);
-  if (!grapheEstOriente(graphe)) 
+  if (!grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes orientés");
 
-  nbSuccesseurs = graphe->tableSuccesseurs[sommet].nb;  
+  nbSuccesseurs = graphe->tableSuccesseurs[sommet].nb;
   if ( (numero<0) || (numero>=nbSuccesseurs) ) {
-    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d", 
+    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d",
 	 numero, sommet);
   }
   return graphe->tableSuccesseurs[sommet].tab[numero];
@@ -544,22 +544,22 @@ tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe,
 
 int grapheNbPredecesseursSommet(tGraphe graphe, tNumeroSommet sommet) {
   auxVerifieNumeroSommet(graphe, sommet);
-  if (!grapheEstOriente(graphe)) 
+  if (!grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes orientés");
   return graphe->tablePredecesseurs[sommet].nb;
 }
 
-tNumeroSommet graphePredecesseurSommetNumero(tGraphe graphe, 
-					     tNumeroSommet sommet, 
+tNumeroSommet graphePredecesseurSommetNumero(tGraphe graphe,
+					     tNumeroSommet sommet,
 					     int numero) {
   int nbPredecesseurs;
   auxVerifieNumeroSommet(graphe, sommet);
-  if (!grapheEstOriente(graphe)) 
+  if (!grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes orientés");
 
-  nbPredecesseurs = graphe->tablePredecesseurs[sommet].nb;  
+  nbPredecesseurs = graphe->tablePredecesseurs[sommet].nb;
   if ( (numero<0) || (numero>=nbPredecesseurs) ) {
-    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d", 
+    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d",
 	 numero, sommet);
   }
   return graphe->tablePredecesseurs[sommet].tab[numero];
@@ -567,22 +567,22 @@ tNumeroSommet graphePredecesseurSommetNumero(tGraphe graphe,
 
 int grapheNbVoisinsSommet(tGraphe graphe, tNumeroSommet sommet) {
   auxVerifieNumeroSommet(graphe, sommet);
-  /*if (grapheEstOriente(graphe)) 
+  /*if (grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes non orientés");*/
   return graphe->tableVoisins[sommet].nb;
 }
 
-tNumeroSommet grapheVoisinSommetNumero(tGraphe graphe, 
-				       tNumeroSommet sommet, 
+tNumeroSommet grapheVoisinSommetNumero(tGraphe graphe,
+				       tNumeroSommet sommet,
 				       int numero) {
   int nbVoisins;
   auxVerifieNumeroSommet(graphe, sommet);
-  /*if (grapheEstOriente(graphe)) 
+  /*if (grapheEstOriente(graphe))
     halt("Fonction réservée aux graphes non orientés");*/
 
-  nbVoisins = graphe->tableVoisins[sommet].nb;  
+  nbVoisins = graphe->tableVoisins[sommet].nb;
   if ( (numero<0) || (numero>=nbVoisins) ) {
-    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d", 
+    halt("Numero de successeur incorrect (%d) pour le sommet numéro %d",
 	 numero, sommet);
   }
   return graphe->tableVoisins[sommet].tab[numero];
@@ -635,14 +635,14 @@ tFileSommets fileSommetsAlloue() {
   tFileSommets file;
 
   file = (tFileSommets)malloc( sizeof(struct tFileSommets) );
-  if (file==NULL) 
+  if (file==NULL)
     halt("Erreur d'allocation mémoire dans fileSommetsAlloue\n");
   file -> debut = 0;
   file -> fin = 0;
   return file;
 }
 
-static tNumeroSommet auxFileNumeroSuivant(tFileSommets file, 
+static tNumeroSommet auxFileNumeroSuivant(tFileSommets file,
 					  tNumeroSommet numero) {
   return ( (numero+1) % (MAX_SOMMETS+1) );
 }
@@ -683,7 +683,7 @@ tPileSommets pileSommetsAlloue() {
   tPileSommets pile;
 
   pile = (tPileSommets)malloc( sizeof(struct tPileSommets) );
-  if (pile==NULL) 
+  if (pile==NULL)
     halt("Erreur d'allocation mémoire dans fileSommetsAlloue\n");
   return pile;
 }
@@ -726,7 +726,7 @@ tNumeroSommet pileSommetsDepile(tPileSommets pile) {
     halt("Ne peut dépiler d'une pile vide");
   res = pile->tab[pile->tete-1];
   (pile->tete)--;
-  
+
   return res;
 }
 
