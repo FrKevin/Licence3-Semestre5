@@ -19,7 +19,7 @@ echo "Morbi ac augue ultricies, dignissim arcu nec, consequat." >> test/texte
 
 # création d'un gros fichier de 30 Mio environ
 touch test/bigdata
-dd if=/dev/urandom of=test/bigdata bs=131072 count=500
+dd if=/dev/zero of=test/bigdata bs=131072 count=4000
 
 
 echo "ok"
