@@ -55,7 +55,7 @@ archive: realclean
 
 
 # ----- les exécutables à produire -----
-do: do.o
+do: do.o makeargv.o
 	${CC} ${LDFLAGS} -o $@ $^
 
 # --------------------------------------

@@ -16,12 +16,14 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include "makeargv.h"
 
 typedef enum { false, true } bool;
 
 
 pid_t createProcess(char* command) {
 	pid_t pid;
+	char **cmdargv;
 	
 	pid = fork();
 	if (pid == -1) {        /* erreur */
@@ -29,9 +31,11 @@ pid_t createProcess(char* command) {
 		exit(EXIT_FAILURE);
 	} else if (pid == 0) {  /* fils */
 		
-		/* makeargv ... */
+		makeargv(command, " ", &cmdargv);
 		
-		/* EXECVP ... */
+		execvp(cmdargv[0], cmdargv);
+		
+		perror("erreur execvp");
 		
 		exit(EXIT_FAILURE);
 	} else {                /* pere */
@@ -185,7 +189,7 @@ int do_() {
 		
 		if (opt_kill == true) {
 			for (i = 0; i < opt_path_c; i++) {
-				kill(processes[i], 9);
+				kill(processes[i], 9); /* SIGKILL */
 			}
 		}
 		else {
