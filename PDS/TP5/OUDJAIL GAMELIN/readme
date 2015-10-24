@@ -1,0 +1,11 @@
+Binome: Veis Oudjail et Kevin Gamelin
+
+Commande possibles:
+  make
+  make multif
+  make oprocess
+  make race
+  make clean
+  make test
+  make archive
+  ./test

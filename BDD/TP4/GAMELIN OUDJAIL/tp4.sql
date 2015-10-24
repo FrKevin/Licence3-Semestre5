@@ -62,18 +62,24 @@
 
 -- Q1-4
 	\qecho ": Articles offerts par au moins 2 fournisseurs diff�erents (EXISTS,group)."
-	SELECT a.*
-	FROM articles a
+	\qecho "Version EXISTS :";
+	SELECT a1.*
+	FROM articles a1 NATURAL JOIN catalogue c1
 	WHERE EXISTS
-		(SELECT 1
-		 FROM catalogue c
-		 WHERE c.aid = a.aid
-		 GROUP BY c.aid
-		 HAVING count(c.aid) >= 2
+		(
+			SELECT 1
+			FROM articles a2 NATURAL JOIN catalogue c2
+			WHERE a2.aid = a1.aid and c1.fid <> c2.fid
 		);
-
+		
+	\qecho "Version group by :";
+	SELECT a.*
+	FROM catalogue c NATURAL JOIN articles a
+	GROUP BY a.aid
+	HAVING count(fid) > 1;
+		
 -- Q1-5
-	-- Tout les articles, avec toute les couleurs associ�
+	-- Tout les articles, avec toute les couleurs associé
 	\qecho "Q1-5 : Vendeur offrant tous les articles (EXISTS)."
 	SELECT f.*
 	FROM fournisseurs f
@@ -82,7 +88,7 @@
 		 FROM articles a
 		 WHERE NOT EXISTS
 			(SELECT 1
-			 FROM catalogue c jo
+			 FROM catalogue c
 			 WHERE c.fid = f.fid and c.aid = a.aid
 			)
 		);
@@ -96,6 +102,13 @@
 		 FROM catalogue c1
 		 WHERE c1.fid = f.fid and c1.prix >= ALL(SELECT c2.prix FROM catalogue c2)
 		 );
+		 
+	\qecho "Version S/A :";
+	SELECT f.fnom
+	FROM fournisseurs f NATURAL JOIN catalogue c
+	WHERE c.prix >= ALL(SELECT c2.prix
+						FROM catalogue c2
+						);
 
 -- Q1-7
 	\qecho "Q1-7 : Les noms des articles fournissables, avec prix maximal et minimal, uniquement pour les articles avec plus d�un fournisseur"
@@ -107,6 +120,14 @@
 		 WHERE c2.fid <> c1.fid and a1.aid = c2.aid
 		)
 	GROUP BY a1.anom;
+	
+	\qecho "Version alternative :";
+	SELECT a.anom, t.prix_min, t.prix_max
+	FROM articles a NATURAL JOIN (SELECT c.aid, min(c.prix) as "prix_min", max(c.prix) as "prix_max"
+								  FROM catalogue c
+								  GROUP BY c.aid
+								  HAVING count(DISTINCT c.fid) > 1
+								  ) as t;
 
 --Q1-8
 	\qecho "Q1-8 : Le nom du fournisseur offrant le meme article en plus d�une couleur, et le nom de cet article (EXISTS, S/A)."
@@ -117,6 +138,14 @@
 		 FROM articles a2 NATURAL JOIN catalogue c2 NATURAL JOIN fournisseurs f2
 		 WHERE f1.fid = f2.fid and a1.anom = a2.anom and a1.acoul <> a2.acoul
 		);
+		
+	\qecho "Version S/A"
+	SELECT DISTINCT f1.fnom, a1.anom
+	FROM articles a1 NATURAL JOIN catalogue c1 NATURAL JOIN fournisseurs f1
+	WHERE a1.acoul <> SOME(SELECT a2.acoul
+						  FROM articles a2 NATURAL JOIN catalogue c2 NATURAL JOIN fournisseurs f2
+						  WHERE f1.fid = f2.fid and a1.anom = a2.anom
+						  );
 
 -- Q1-9
 	\qecho "Q1-9 : Le nombre d�articles offerts par le fournisseur avec le plus grand choix, et l�identifiant de ce fournisseur."
@@ -127,6 +156,16 @@
 										FROM catalogue c2
 										GROUP BY c2.fid
 									    );
+										
+	\qecho "Version alternative"
+	SELECT f.fnom, max(t.nb_article)
+	FROM fournisseurs f NATURAL JOIN ( SELECT c.fid, count(DISTINCT c.aid) as "nb_article"
+									  FROM catalogue c
+									  GROUP BY c.fid
+									 ) as t;
+	GROUP 
+	
+
 
 -- Q1-10
 	\qecho "Q1-10 : Les noms des articles offerts par un seul fournisseur, toutes couleurs confondues (EXISTS, group by)."
@@ -205,4 +244,6 @@
 			);
 
 --Q1-13
-	
+	SELECT 
+	FROM 
+	WHERE NOT EXISTS 

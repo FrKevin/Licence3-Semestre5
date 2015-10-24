@@ -26,14 +26,7 @@ LDFLAGS  = -g
 all: multif race oprocess
 
 ## Make avec argument
-multif: multif.c
-	${CC} ${CFLAGS} multif.c -o multif
 
-race: race.c
-	${CC} ${CFLAGS} race.c -o race
-
-oprocess: oprocess.c
-	${CC} ${CFLAGS} oprocess.c -o oprecess
 
 test:
 	./test.sh

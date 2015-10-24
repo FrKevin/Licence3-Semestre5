@@ -27,7 +27,7 @@ void assert_message(int cond, char * message){
   @param : Il prend un tableau de chaine de caractére correspondant au paramètres des fonctions
   @return : Elle ne renvoie pas d'elements
 */
-void analyseArgs(int argc, const char * argv[]){
+void analyse_args(int argc, const char * argv[]){
   assert_message(argc > 1, "no argument");
   nchild = atoi(argv[1]);
 }
@@ -36,7 +36,7 @@ void analyseArgs(int argc, const char * argv[]){
  * fonction a faire par le fils
  */
 void todo(){
-  while(1 == 1){
+  while(1){
     printf("%d\n", getpid());
     sleep(5);
   }
@@ -48,12 +48,20 @@ void todo(){
 void wait_child(){
   int i;
   int status;
+  pid_t pid;
   for (i = 0; i < nchild; i++) {
-    wait(&status);
-    printf("child n°%i terminated.\n", WEXITSTATUS(status));
+    pid = wait(&status);
+    printf("Child n°%d terminated.", pid); fflush(stdout);
+    if(WIFEXITED(status)) {
+      printf(" The exit status is %d\n", WEXITSTATUS(status));
+    }
   }
 }
 
+
+void action_father() {
+  assert_message(system('ps') != -1, "system failure");
+}
 /*
  *  Construit tous les fils
  */
@@ -72,11 +80,12 @@ void init_child(){
 
 void oprocess(){
   init_child();
+  action_father();
   wait_child();
 }
 
 int main(int argc,const char* argv[]) {
-  analyseArgs(argc, argv);
+  analyse_args(argc, argv);
   oprocess();
   exit(EXIT_SUCCESS);
 }
