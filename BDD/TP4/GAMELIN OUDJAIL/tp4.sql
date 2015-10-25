@@ -244,6 +244,15 @@
 			);
 
 --Q1-13
-	SELECT 
-	FROM 
-	WHERE NOT EXISTS 
+\qecho "Articles (aid) disponibles uniquement chez des fournisseurs aux Etats-Unis."
+SELECT aid
+FROM Articles a
+WHERE EXISTS(
+	SELECT 1
+	FROM Catalogue c NATURAL JOIN Fournisseurs f
+       	WHERE c.aid = a.aid AND f.fad like '%USA'
+       	) AND NOT EXISTS(
+       		SELECT 1
+  		FROM Catalogue c2 NATURAL JOIN Fournisseurs f2
+		WHERE c2.aid = a.aid AND f2.fad not like '%USA'
+	);
