@@ -158,12 +158,17 @@
 									    );
 										
 	\qecho "Version alternative"
-	SELECT f.fnom, max(t.nb_article)
-	FROM fournisseurs f NATURAL JOIN ( SELECT c.fid, count(DISTINCT c.aid) as "nb_article"
-									  FROM catalogue c
-									  GROUP BY c.fid
-									 ) as t;
-	GROUP 
+	SELECT fid, nb_articles
+	FROM Fournisseurs f 
+	NATURAL JOIN 
+	(
+		SELECT fid, count(aid) as nb_articles 
+		FROM Catalogue GROUP BY fid
+	) as c
+	WHERE nb_articles >= ALL(
+		SELECT count(aid) 
+		FROM Catalogue GROUP BY fid
+	);
 	
 
 
