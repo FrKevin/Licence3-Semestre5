@@ -1,5 +1,5 @@
 -- Q1-1
-	\qecho "Q1-1 : Les couleurs rares, c�est a dire pour lesquelles il n�y existe que un seul article de cette couleur (EXISTS).";
+	\qecho "Q1-1 : Les couleurs rares, c'est a dire pour lesquelles il n'y existe que un seul article de cette couleur (EXISTS).";
 	SELECT a1.*
 	FROM articles a1
 	WHERE NOT EXISTS (SELECT 1
@@ -8,7 +8,7 @@
 					  );
 
 -- Q1-2
-	\qecho "Q1-2 : Articles rouges, qui n�existent pas en vert (EXISTS, A/S,IN).";
+	\qecho "Q1-2 : Articles rouges, qui n'existent pas en vert (EXISTS, A/S,IN).";
 	\qecho "Version EXISTS :";
 	SELECT a1.*
 	FROM articles a1
@@ -39,7 +39,7 @@
 
 
 -- Q1-3
-	\qecho ": Ecrivez une requete qui donne le nom des fournisseurs dont l�article le plus cher est rouge.";
+	\qecho ": Ecrivez une requete qui donne le nom des fournisseurs dont l'article le plus cher est rouge.";
 	\qecho ": Version group by"
 	SELECT f.fnom
 	FROM catalogue c1 NATURAL JOIN articles a NATURAL JOIN fournisseurs f
@@ -61,7 +61,7 @@
 
 
 -- Q1-4
-	\qecho ": Articles offerts par au moins 2 fournisseurs diff�erents (EXISTS,group)."
+	\qecho ": Articles offerts par au moins 2 fournisseurs différents (EXISTS,group)."
 	\qecho "Version EXISTS :";
 	SELECT a1.*
 	FROM articles a1 NATURAL JOIN catalogue c1
@@ -94,7 +94,7 @@
 		);
 
 -- Q1-6
-	\qecho "Q1-6 : Le nom du fournisseur de l�article le plus cher (EXISTS, S/A)."
+	\qecho "Q1-6 : Le nom du fournisseur de l'article le plus cher (EXISTS, S/A)."
 	SELECT f.fnom
 	FROM fournisseurs f
 	WHERE EXISTS
@@ -111,7 +111,7 @@
 						);
 
 -- Q1-7
-	\qecho "Q1-7 : Les noms des articles fournissables, avec prix maximal et minimal, uniquement pour les articles avec plus d�un fournisseur"
+	\qecho "Q1-7 : Les noms des articles fournissables, avec prix maximal et minimal, uniquement pour les articles avec plus d'un fournisseur"
 	SELECT a1.anom, min(c1.prix) as "prix_min", max(c1.prix) as "prix_max"
 	FROM articles a1 NATURAL JOIN  catalogue c1
 	WHERE EXISTS
@@ -130,7 +130,7 @@
 								  ) as t;
 
 --Q1-8
-	\qecho "Q1-8 : Le nom du fournisseur offrant le meme article en plus d�une couleur, et le nom de cet article (EXISTS, S/A)."
+	\qecho "Q1-8 : Le nom du fournisseur offrant le meme article en plus d'une couleur, et le nom de cet article (EXISTS, S/A)."
 	SELECT DISTINCT f1.fnom, a1.anom
 	FROM articles a1 NATURAL JOIN catalogue c1 NATURAL JOIN fournisseurs f1
 	WHERE EXISTS
@@ -148,7 +148,7 @@
 						  );
 
 -- Q1-9
-	\qecho "Q1-9 : Le nombre d�articles offerts par le fournisseur avec le plus grand choix, et l�identifiant de ce fournisseur."
+	\qecho "Q1-9 : Le nombre d'articles offerts par le fournisseur avec le plus grand choix, et l'identifiant de ce fournisseur."
 	SELECT c.fid, count(DISTINCT c.aid)
 	FROM catalogue c
 	GROUP BY c.fid
@@ -158,12 +158,17 @@
 									    );
 										
 	\qecho "Version alternative"
-	SELECT f.fnom, max(t.nb_article)
-	FROM fournisseurs f NATURAL JOIN ( SELECT c.fid, count(DISTINCT c.aid) as "nb_article"
-									  FROM catalogue c
-									  GROUP BY c.fid
-									 ) as t;
-	GROUP 
+	SELECT fid, nb_articles
+	FROM Fournisseurs f 
+	NATURAL JOIN 
+	(
+		SELECT fid, count(aid) as nb_articles 
+		FROM Catalogue GROUP BY fid
+	) as c
+	WHERE nb_articles >= ALL(
+		SELECT count(aid) 
+		FROM Catalogue GROUP BY fid
+	);
 	
 
 
@@ -244,6 +249,15 @@
 			);
 
 --Q1-13
-	SELECT 
-	FROM 
-	WHERE NOT EXISTS 
+\qecho "Articles (aid) disponibles uniquement chez des fournisseurs aux Etats-Unis."
+SELECT aid
+FROM Articles a
+WHERE EXISTS(
+	SELECT 1
+	FROM Catalogue c NATURAL JOIN Fournisseurs f
+       	WHERE c.aid = a.aid AND f.fad like '%USA'
+       	) AND NOT EXISTS(
+       		SELECT 1
+  		FROM Catalogue c2 NATURAL JOIN Fournisseurs f2
+		WHERE c2.aid = a.aid AND f2.fad not like '%USA'
+	);
