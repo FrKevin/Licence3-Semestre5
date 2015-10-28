@@ -12,8 +12,9 @@
 /*  */
 
 /* Variable global*/
-int conjonction = AND;
-int begin_cmd;
+int conjonction = AND; /* L'operateur de la conjonction */
+int begin_cmd; /* L'index de la premère commande */
+int ncmd; /* Le nombre de commandes */
 /* */
 
 /*
@@ -70,15 +71,21 @@ void pars_status(int status){
 
 /*
  * Attends tous les fils crée et fait la conjonction des valeurs retourné
+ * @return le resultat de la conjonction des fils
  */
-void wait_child(){
+int wait_child(){
   int status;
-  for(i=0; i<nargs; i++){
+  int result = NULL;
+  for(i=0; i<ncmd; i++){
     wait(&status);
     if(WIFEXITED(status)){
-      conjonction = conjonction & WEXITSTATUS(status);
+      if(conjonction == AND)
+        result = (result == NULL)?1:result & WEXITSTATUS(status);
+      else
+        result = (result == NULL)?0:result | WEXITSTATUS(status);
     }
   }
+  return result;
 }
 
 /*
@@ -86,11 +93,13 @@ void wait_child(){
  * @param int argc le nombre d'arguments
  */
 void my_do(int argc, const char * argv[]){
-  int ncmd = argc - begin_cmd;
+  ncmd = argc - begin_cmd;
   pid_t* t_pid = malloc(ncmd);
   int i;
   int t_pid_index = 0;
   int status;
+  int result;
+
   for(i = begin_cmd; i < argc; i++){
     status = fork();
     assert_message(status != -1, "fork failure !");
@@ -100,6 +109,8 @@ void my_do(int argc, const char * argv[]){
     }
     t_pid_index++;
   }
+  result = wait_child();
+  printf("Conjonction %i\n", result);
   free(t_pid);
 }
 
