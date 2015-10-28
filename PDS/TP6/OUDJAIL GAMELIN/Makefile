@@ -23,10 +23,11 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: multif race oprocess
+all: do
 
 ## Make avec argument
-
+do: do.c
+	${CC} ${CFLAGS} do.c -o do
 
 test:
 	./test.sh
