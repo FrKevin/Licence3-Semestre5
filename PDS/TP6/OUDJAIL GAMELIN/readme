@@ -1,3 +1,10 @@
 Binome: Veis Oudjail et Kevin Gamelin
 
 Commandes possibles:
+  make
+  make do
+  make test
+  make clean
+  make archive
+  ./test.sh
+  ./do 
