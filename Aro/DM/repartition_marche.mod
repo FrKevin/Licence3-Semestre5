@@ -2,10 +2,10 @@
 option solver minos;
 
 /* Ensembles -------------------------------------------------------------------------------------------------------------------- */	
-SET DIVISIONS;
-SET REGIONS;
-SET DETAILLANTS;
-SET CATEGORIES;
+set DIVISIONS := {A, B};
+set REGIONS;
+set DETAILLANTS;
+set CATEGORIES;
 
 /* Paramètres ------------------------------------------------------------------------------------------------------------------- */
 /* Paramètres représentant les rapports ainsi que la tolérance qui doivent être appliqué au modèle */
@@ -29,24 +29,26 @@ param rapport_borne_max_tolerance_min := rapport_borne_max - tolerance;
 param rapport_borne_max_tolerance_max : = rapport_borne_max + tolerance;
 
 /* Paramètres calculés, nombre total de points de ventes */
-param nb_total_point_vente := sum {d in DETAILLANTS}  nb_pts_vente [d];
+param nb_total_pts_vente := sum {d in DETAILLANTS}  nb_pts_vente [d];
+
+/* Paramètres calculés, nombre total des spiritieux */
+param nb_total_spiritieux := sum {d in DETAILLANTS} nb_spiritueux [d];
+
 
 /* Variables -------------------------------------------------------------------------------------------------------------------- */
-/* Variables indicés par les divisions */
+/* Variables binaire, experimantal */
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de points de vente */
+var npvb {dv in DIVISIONS, dt in DETAILLANTS} binary;
 
-/* 
-  Le nombre de detaillant par categories (voir 4)  
-  exemple: nb_detaillant [D1][A] = 10
-*/
-var nb_detaillant {DIVISION, CATEGORIE} integer >=0; 
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le marché des spiritueux */
+var msb {dv in DIVISIONS, dt in DETAILLANTS} binary;
 
-/* Le nombre de points de vente par division (voir 1) */
-var nb_pts_vente{DIVISIONS} integer >=0; 
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le marché d'huiles par regions */
+var mhb {dv in DIVISIONS, dt in DETAILLANTS, rg in REGIONS} binary;
 
-/* Le nombre de spiritueux par division (voir 2) */
-var nb _spiritueux{DIVISIONS} integer >= 0;
-
-/* Le nombre de spiritueux par division (voir 3) */
-var nb_huile{DIVISIONS} integer >= 0;
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de detaillants par categories */
+var ndb {dv in DIVISIONS, dt in DETAILLANTS, ct in CATEGORIES} binary;
 
 /* Contraintes */
+
+subject to rapport_nb_pts_vente {dv in DIVISIONS, dt in DETAILLANTS} 
