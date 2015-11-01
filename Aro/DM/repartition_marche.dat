@@ -1,9 +1,16 @@
 /* Data d'origine, à modifier */
 data;
 
+set DIVISIONS := D1 D2;
 set DETAILLANTS := M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 M11 M12 M13 M14 M15 M16 M17 M18 M19 M20 M21 M22 M23;
 set REGIONS := R1 R2 R3;
 set CATEGORIES := A B;
+
+param tolerance := 5;
+
+param rapport_marche :=
+D1 40
+D2 60;
 
 param : region    huile nb_pts_vente spiritueux categorie :=
  M1       R1        9        11          34         A

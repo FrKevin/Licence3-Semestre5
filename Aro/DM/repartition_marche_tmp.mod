@@ -14,3 +14,15 @@ var nb _spiritueux{DIVISIONS} integer >= 0;
 
 /* Le nombre de spiritueux par division (voir 3) */
 var nb_huile{DIVISIONS} integer >= 0;
+
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de points de vente */
+var npvb {dv in DIVISIONS, dt in DETAILLANTS} binary;
+
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le marché des spiritueux */
+var msb {dv in DIVISIONS, dt in DETAILLANTS} binary;
+
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le marché d'huiles par regions */
+var mhb {dv in DIVISIONS, dt in DETAILLANTS, rg in REGIONS} binary;
+
+/* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de detaillants par categories */
+var ndb {dv in DIVISIONS, dt in DETAILLANTS, ct in CATEGORIES} binary;
