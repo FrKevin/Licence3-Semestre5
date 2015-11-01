@@ -1,0 +1,31 @@
+data;
+
+set DETAILLANTS := M1 M2 M3 M4 M5 M6 M7 M8 M9 M10 M11 M12 M13 M14 M15 
+		   M16 M17 M18 M19 M20 M21 M22 M23;
+set REGIONS := R1 R2 R3;
+set CATEGORIES := A B;
+
+param : region    huile nb_pts_vente spiritueux categorie :=
+ M1       R1        9        11          34         A
+ M2       R1       13        47         411         A
+ M3       R1       14        44          82         A
+ M4       R1       17        25         157         B
+ M5       R1       18        10           5         A
+ M6       R1       19        26         183         A
+ M7       R1       23        26          14         B
+ M8       R1       21        54         215         B
+ M9       R2        9        18         102         B
+ M10      R2       11        51          21         A
+ M11      R2       17        20          54         B
+ M12      R2       18       105           0         B
+ M13      R2       18         7           6         B
+ M14      R2       17        16          96         B
+ M15      R2       22        34         118         A
+ M16      R2       24       100         112         B
+ M17      R2       36        50         535         B
+ M18      R2       43        21           8         B
+ M19      R3        6        11          53         B
+ M20      R3       15        19          28         A
+ M21      R3       15        14          69         B
+ M22      R3       25        10          65         B
+ M23      R3       39        11          27         B;
