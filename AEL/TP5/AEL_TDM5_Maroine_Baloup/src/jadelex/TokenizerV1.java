@@ -22,6 +22,7 @@ public class TokenizerV1 implements Tokenizer {
   public static final int COMMENTAIRE_SIMPLE = 4;
   public static final int STEP_ARG = 6;
   public static final int JUMP_ARG = 8;
+  public static final int REPEAT = 10;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -30,19 +31,20 @@ public class TokenizerV1 implements Tokenizer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3,  3,  4, 4
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5, 5
   };
 
   /** 
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\2\1\41\1\42\1\42\1\2\22\0\1\2\11\0\1\40"+
-    "\4\0\1\37\12\1\7\0\1\14\1\13\1\0\1\25\1\4\3\0"+
-    "\1\15\2\0\1\3\1\0\1\23\1\24\1\35\1\0\1\6\1\16"+
-    "\1\33\1\31\1\5\12\0\1\20\1\17\1\0\1\30\1\10\3\0"+
-    "\1\21\2\0\1\7\1\0\1\26\1\27\1\36\1\0\1\12\1\22"+
-    "\1\34\1\32\1\11\16\0\1\42\u1fa2\0\1\42\1\42\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\11\0\1\2\1\43\1\44\1\44\1\2\22\0\1\2\11\0\1\42"+
+    "\4\0\1\41\12\1\7\0\1\14\1\13\1\0\1\25\1\4\1\37"+
+    "\2\0\1\15\2\0\1\3\1\0\1\23\1\24\1\35\1\0\1\6"+
+    "\1\16\1\33\1\31\1\5\12\0\1\20\1\17\1\0\1\30\1\10"+
+    "\1\40\2\0\1\21\2\0\1\7\1\0\1\26\1\27\1\36\1\0"+
+    "\1\12\1\22\1\34\1\32\1\11\16\0\1\44\u1fa2\0\1\44\1\44"+
+    "\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -55,13 +57,14 @@ public class TokenizerV1 implements Tokenizer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\5\0\1\1\1\2\21\1\1\2\1\0\1\2\1\3"+
-    "\1\4\1\5\20\0\1\6\1\7\1\2\1\0\1\10"+
-    "\3\0\1\11\6\0\1\12\6\0\1\13\2\0\1\14"+
-    "\1\0\1\15\1\0\1\16\2\0\1\17";
+    "\6\0\1\1\1\2\1\3\21\1\1\3\1\0\1\3"+
+    "\1\4\1\5\1\6\2\1\20\0\1\7\1\10\1\3"+
+    "\3\0\1\11\3\0\1\12\6\0\1\13\10\0\1\14"+
+    "\2\0\1\15\1\16\1\0\1\17\1\0\1\20\2\0"+
+    "\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[79];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -86,19 +89,20 @@ public class TokenizerV1 implements Tokenizer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\43\0\106\0\151\0\214\0\257\0\322\0\365"+
-    "\0\u0118\0\u013b\0\u015e\0\u0181\0\u01a4\0\u01c7\0\u01ea\0\u020d"+
-    "\0\u0230\0\u0253\0\u0276\0\u0299\0\u02bc\0\u02df\0\u0302\0\u0325"+
-    "\0\u0348\0\u036b\0\u038e\0\257\0\u03b1\0\u03d4\0\u03f7\0\u041a"+
-    "\0\u043d\0\u0460\0\u0483\0\u04a6\0\u04c9\0\u04ec\0\u050f\0\u0532"+
-    "\0\u0555\0\u0578\0\u059b\0\u05be\0\u05e1\0\u0604\0\257\0\257"+
-    "\0\257\0\u0627\0\257\0\u064a\0\u066d\0\u0690\0\257\0\u06b3"+
-    "\0\u06d6\0\u06f9\0\u071c\0\u073f\0\u0762\0\257\0\u0785\0\u07a8"+
-    "\0\u07cb\0\u07ee\0\u0811\0\u0834\0\257\0\u0857\0\u087a\0\257"+
-    "\0\u089d\0\257\0\u08c0\0\257\0\u08e3\0\u0906\0\257";
+    "\0\0\0\45\0\112\0\157\0\224\0\271\0\336\0\u0103"+
+    "\0\u0128\0\u014d\0\u0172\0\u0197\0\u01bc\0\u01e1\0\u0206\0\u022b"+
+    "\0\u0250\0\u0275\0\u029a\0\u02bf\0\u02e4\0\u0309\0\u032e\0\u0353"+
+    "\0\u0378\0\u039d\0\u03c2\0\u03e7\0\u040c\0\336\0\u0431\0\u0456"+
+    "\0\u047b\0\u04a0\0\u04c5\0\u04ea\0\u050f\0\u0534\0\u0559\0\u057e"+
+    "\0\u05a3\0\u05c8\0\u05ed\0\u0612\0\u0637\0\u065c\0\u0681\0\u06a6"+
+    "\0\u06cb\0\u06f0\0\336\0\336\0\336\0\u0715\0\u073a\0\u075f"+
+    "\0\336\0\u0784\0\u07a9\0\u07ce\0\336\0\u07f3\0\u0818\0\u083d"+
+    "\0\u0862\0\u0887\0\u08ac\0\336\0\u08d1\0\u08f6\0\u091b\0\u0940"+
+    "\0\u0965\0\u098a\0\u09af\0\u09d4\0\336\0\u09f9\0\u0a1e\0\336"+
+    "\0\336\0\u0a43\0\336\0\u0a68\0\336\0\u0a8d\0\u0ab2\0\336";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[79];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -121,31 +125,34 @@ public class TokenizerV1 implements Tokenizer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\2\6\1\7\1\10\1\11\2\6\1\12\1\13\2\6"+
-    "\1\14\1\15\1\6\1\16\1\17\1\20\1\6\1\21"+
-    "\1\22\1\23\1\6\1\24\1\25\5\6\1\26\1\27"+
-    "\1\30\1\6\1\7\1\0\40\31\1\32\2\31\41\33"+
-    "\1\34\1\33\1\6\1\35\1\7\36\6\1\7\1\0"+
-    "\1\6\1\36\1\7\36\6\1\7\46\0\1\7\36\0"+
-    "\1\7\5\0\1\37\54\0\1\40\34\0\1\41\54\0"+
-    "\1\42\34\0\1\43\31\0\1\44\70\0\1\45\31\0"+
-    "\1\46\31\0\1\47\65\0\1\50\34\0\1\51\47\0"+
-    "\1\52\40\0\1\53\45\0\1\54\24\0\1\55\46\0"+
-    "\1\56\61\0\1\57\1\60\2\0\40\31\1\0\2\31"+
-    "\37\61\1\34\3\61\41\33\1\0\1\33\1\0\1\35"+
-    "\42\0\1\36\46\0\1\62\70\0\1\63\20\0\1\64"+
-    "\65\0\1\63\23\0\1\65\30\0\1\66\64\0\1\67"+
-    "\36\0\1\70\30\0\1\71\63\0\1\67\20\0\1\72"+
-    "\40\0\1\73\50\0\1\74\40\0\1\75\50\0\1\76"+
-    "\46\0\1\76\24\0\1\77\46\0\1\100\50\0\1\101"+
-    "\30\0\1\102\60\0\1\103\30\0\1\104\57\0\1\105"+
-    "\33\0\1\106\54\0\1\105\34\0\1\107\26\0\1\110"+
-    "\46\0\1\110\46\0\1\111\32\0\1\112\56\0\1\113"+
-    "\32\0\1\112\63\0\1\114\43\0\1\114\12\0\1\115"+
-    "\46\0\1\116\40\0\1\117\46\0\1\117\30\0";
+    "\1\7\1\10\1\11\1\12\1\13\2\7\1\14\1\15"+
+    "\2\7\1\16\1\17\1\7\1\20\1\21\1\22\1\7"+
+    "\1\23\1\24\1\25\1\7\1\26\1\27\5\7\1\30"+
+    "\1\31\2\7\1\32\1\7\1\11\1\0\42\33\1\34"+
+    "\2\33\43\35\1\36\1\35\1\7\1\37\1\11\40\7"+
+    "\1\11\1\0\1\7\1\40\1\11\40\7\1\11\1\0"+
+    "\2\7\1\11\34\7\1\41\1\42\2\7\1\11\47\0"+
+    "\1\10\45\0\1\11\40\0\1\11\5\0\1\43\56\0"+
+    "\1\44\36\0\1\45\56\0\1\46\36\0\1\47\33\0"+
+    "\1\50\72\0\1\51\33\0\1\52\33\0\1\53\67\0"+
+    "\1\54\36\0\1\55\51\0\1\56\42\0\1\57\47\0"+
+    "\1\60\26\0\1\61\50\0\1\62\65\0\1\63\1\64"+
+    "\2\0\42\33\1\0\2\33\41\65\1\36\3\65\43\35"+
+    "\1\0\1\35\1\0\1\37\44\0\1\40\67\0\1\66"+
+    "\47\0\1\67\22\0\1\70\72\0\1\71\22\0\1\72"+
+    "\67\0\1\71\25\0\1\73\32\0\1\74\66\0\1\75"+
+    "\40\0\1\76\32\0\1\77\65\0\1\75\22\0\1\100"+
+    "\42\0\1\101\52\0\1\102\42\0\1\103\52\0\1\104"+
+    "\50\0\1\104\37\0\1\105\50\0\1\106\27\0\1\107"+
+    "\50\0\1\110\52\0\1\111\32\0\1\112\62\0\1\113"+
+    "\32\0\1\114\61\0\1\115\35\0\1\116\56\0\1\115"+
+    "\36\0\1\117\40\0\1\120\50\0\1\120\30\0\1\121"+
+    "\50\0\1\121\50\0\1\122\34\0\1\123\60\0\1\124"+
+    "\34\0\1\123\65\0\1\125\45\0\1\125\14\0\1\126"+
+    "\50\0\1\127\42\0\1\130\50\0\1\130\32\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[2345];
+    int [] result = new int[2775];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -183,13 +190,13 @@ public class TokenizerV1 implements Tokenizer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\5\0\1\11\23\1\1\0\1\1\1\11\2\1\20\0"+
-    "\3\11\1\0\1\11\3\0\1\11\6\0\1\11\6\0"+
-    "\1\11\2\0\1\11\1\0\1\11\1\0\1\11\2\0"+
+    "\6\0\1\11\24\1\1\0\1\1\1\11\4\1\20\0"+
+    "\3\11\3\0\1\11\3\0\1\11\6\0\1\11\10\0"+
+    "\1\11\2\0\2\11\1\0\1\11\1\0\1\11\2\0"+
     "\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[79];
+    int [] result = new int[88];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -288,7 +295,7 @@ public class TokenizerV1 implements Tokenizer {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 150) {
+    while (i < 154) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -641,21 +648,26 @@ public class TokenizerV1 implements Tokenizer {
           case 1: 
             { return new Unknown(yytext());
             }
-          case 16: break;
+          case 18: break;
           case 2: 
+            { previousInt = Integer.parseInt(yytext());
+			yybegin(REPEAT);
+            }
+          case 19: break;
+          case 3: 
             { 
             }
-          case 17: break;
-          case 3: 
+          case 20: break;
+          case 4: 
             { yybegin(YYINITIAL);
             }
-          case 18: break;
-          case 4: 
+          case 21: break;
+          case 5: 
             { yybegin(YYINITIAL);
 			return new StepLength(Integer.parseInt(yytext().trim()));
             }
-          case 19: break;
-          case 5: 
+          case 22: break;
+          case 6: 
             { if (previousInt == -1) {
 				previousInt = Integer.parseInt(yytext());
 			}
@@ -664,48 +676,53 @@ public class TokenizerV1 implements Tokenizer {
 				return new Jump(previousInt, Integer.parseInt(yytext()));
 			}
             }
-          case 20: break;
-          case 6: 
+          case 23: break;
+          case 7: 
             { yybegin(COMMENTAIRE_SIMPLE);
             }
-          case 21: break;
-          case 7: 
+          case 24: break;
+          case 8: 
             { yybegin(COMMENTAIRE_MULTILIGNE);
             }
-          case 22: break;
-          case 8: 
+          case 25: break;
+          case 9: 
             { return new Move(jade.Direction.EAST);
             }
-          case 23: break;
-          case 9: 
+          case 26: break;
+          case 10: 
             { return new Move(jade.Direction.SOUTH);
             }
-          case 24: break;
-          case 10: 
+          case 27: break;
+          case 11: 
             { yybegin(STEP_ARG);
             }
-          case 25: break;
-          case 11: 
+          case 28: break;
+          case 12: 
             { return new Move(jade.Direction.NORTH);
             }
-          case 26: break;
-          case 12: 
+          case 29: break;
+          case 13: 
+            { yybegin(YYINITIAL);
+			return new Repeat(previousInt);
+            }
+          case 30: break;
+          case 14: 
             { return new PenMode(false);
             }
-          case 27: break;
-          case 13: 
+          case 31: break;
+          case 15: 
             { yybegin(JUMP_ARG);
 			previousInt = -1;
             }
-          case 28: break;
-          case 14: 
+          case 32: break;
+          case 16: 
             { return new Move(jade.Direction.WEST);
             }
-          case 29: break;
-          case 15: 
+          case 33: break;
+          case 17: 
             { return new PenMode(true);
             }
-          case 30: break;
+          case 34: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

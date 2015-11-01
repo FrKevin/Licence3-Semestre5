@@ -1,4 +1,6 @@
 package jade;
+import java.io.IOException;
+
 import jadelex.*;
 
 public class ParserLevel1 implements JadeParser {
@@ -23,37 +25,60 @@ public class ParserLevel1 implements JadeParser {
      * Déclenche l'action correspondant à un instruction simple
      */
     private void simpleAction(Yytoken t) {
+    	switch(t.getType()) {
+    	case MOVE:
+    		moveAction((Move)t);
+    		break;
+    	case PEN_MODE:
+    		penModeAction((PenMode)t);
+    		break;
+    	case STEP_LENGTH:
+    		stepLengthAction((StepLength)t);
+    		break;
+    	case JUMP:
+    		jumpAction((Jump)t);
+    		break;
+    	}
     }
     
     /*
      * déclenche le déplacement indiqué par le token
      */
     private void moveAction(Move token){
+    	machine.move(token.getDirection());
     }
     
     /*
      * déclenche le changement de mode indiqué par le token
      */
     private void penModeAction(PenMode token){
+    	machine.setPenMode(token.getMode());
     }
     
     /*
      * déclenche le saut indiqué par le token
      */
     private void jumpAction(Jump token){
+    	machine.jump(token.getX(), token.getY());
     }
     
     /*
      * déclenche le changement de longueur de pas indiqué par le token
      */
     private void stepLengthAction(StepLength token){
+    	machine.setStepLength(token.getLength());
     }
     
     /*
      * Indique si le token correspond à une instruction simple
     */
     private boolean isSimple(Yytoken t){
-    	return false; // TODO
+    	return (
+    			t.getType() == TokenType.JUMP
+    			|| t.getType() == TokenType.MOVE
+    			|| t.getType() == TokenType.PEN_MODE
+    			|| t.getType() == TokenType.STEP_LENGTH
+    			); // TODO
     }
   
     /*--------------------------------------
@@ -68,14 +93,15 @@ public class ParserLevel1 implements JadeParser {
     /*
      * progession de lecture. Modifie currentToken
      */
-    private void nextToken() throws java.io.IOException{
+    private void nextToken() throws IOException{
         currentToken = tokenizer.yylex();
     }
     
     /*
      * Appelée en cas d'erreur de syntaxe
      */
-    private void error() throws JadeException {  
+    private void error(String message) throws JadeException {
+    	throw new JadeException();
     }
 
     
@@ -88,7 +114,21 @@ public class ParserLevel1 implements JadeParser {
      *
      * 
      */
-    private void parseSequence() throws java.io.IOException, JadeException {
+    private void parseSequence() throws IOException, JadeException {
+    	nextToken();
+    	
+    	while(currentToken != null) {
+    		if (isSimple(currentToken)) {
+    			simpleAction(currentToken);
+    			nextToken();
+    		}
+    		else {
+    			parseRepeat();
+    			// pas de nextToken() puisqu'à la sortie de parseRepeat, on est déjà sur le token suivant
+    		}
+    	}
+    	
+    	
     }
 
     /*
@@ -99,7 +139,24 @@ public class ParserLevel1 implements JadeParser {
      * En fin de méthode, currentToken est le premier token QUI SUIT l'instruction à répéter
      *
      */
-    private void parseRepeat() throws java.io.IOException, JadeException {
+    private void parseRepeat() throws IOException, JadeException {
+    	if (currentToken.getType() != TokenType.REPEAT)
+    		throw new JadeException("REPEAT token expected but the current token is "+currentToken);
+    	int nbRepeat = ((Repeat)currentToken).getOccurences();
+    	nextToken();
+    	if (currentToken == null)
+    		error("Unexpected end of sequence after REPEAT token.");
+    	
+    	if (isSimple(currentToken)) {
+    		for (int i=0; i<nbRepeat; i++) {
+    			simpleAction(currentToken);
+    		}
+    		nextToken();
+    	}
+    	else {
+    		error("Unexpected "+currentToken.getType()+" token after REPEAT token. Simple action token expected.");
+    	}
+    	
     }
     
     /**
@@ -107,7 +164,11 @@ public class ParserLevel1 implements JadeParser {
      *
      */
     public void run() throws JadeException{
-      // initialise puis lance l'analyse d'une séquence
+    	try {
+			parseSequence();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
  
 }

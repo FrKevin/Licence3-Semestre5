@@ -1,0 +1,29 @@
+
+// positionnement et réglage de base
+pas 10
+aller 100 100
+
+
+/*
+	test commentaire multiligne
+*/
+
+nord
+est
+2 fois sud
+2 fois ouest
+3 fois nord
+3 fois est
+4 fois sud
+4 fois ouest
+
+pas 2
+
+nord
+est
+2 fois sud
+2 fois ouest
+3 fois nord
+3 fois est
+4 fois sud
+4 fois ouest
