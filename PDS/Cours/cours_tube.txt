@@ -1,0 +1,25 @@
+#TUBES        IPC (communictaions interprocesus)
+<<fichier>> : read, write   => ecrivain ---> |-----| ---> lecteur
+
+Tampon mémoire dans le noyau, de taille fixe
+
+1 ecrivain (ou plus), 1 lecteur (ou plus)  (des procesus différents)
+
+File d'octets
+
+pipe() : tube anonyme
+
+Entrées/Sorties
+I/O Input/Output
+fds[0] : lecture
+fds[1] : ecriture
+
+#Questions
+-- S'il n'y a plus d'écrivain, que se passe t-il si je lis ?
+  -> FIN DU FICHIER - close partout
+
+-- S'il n'y a plus de lecteurs, que se passe t-il ?
+  -> Système envoie SIGPIPE au procesus
+-- Sinon
+  -> si plus de places et etat, blocage (/\ tableau illisble)
+  -> si pas de données pour l'instant, on bloque

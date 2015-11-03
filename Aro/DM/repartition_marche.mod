@@ -1,3 +1,4 @@
+
 /* Solveur à utiliser */
 option solver minos;
 
@@ -39,11 +40,7 @@ var affectation {dt in DETAILLANTS, dv in DIVISIONS} binary;
 subject to 
 affectation_unique_detaillant {dt in DETAILLANTS} :
 	sum {dv in DIVISIONS} affectation [dt, dv] <= 1;
-	
-subject to 
-affectation_unique_division {dv in DIVISIONS} :
-	sum {dt in DETAILLANTS} affectation [dt, dv] <= 1;
-	
+		
 /* Contraintes sur les differents rapports (sans les tolerances pour l'instant) */
 /* Commentaire ... */
 subject to 
