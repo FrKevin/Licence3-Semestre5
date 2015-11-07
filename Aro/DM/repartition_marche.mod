@@ -1,6 +1,6 @@
 
-/* Solveur à utiliser */
-option solver minos;
+/* Solveur à utiliser : GUROBI, (permet de resoudre des models lineaires contenant des nombres entiers */
+option solver gurobi;
 
 /* Ensembles -------------------------------------------------------------------------------------------------------------------- */	
 set DIVISIONS;
@@ -31,20 +31,45 @@ param nb_global_pts_vente := sum {dt in DETAILLANTS}  nb_pts_vente [dt];
 /* Paramètres calculés, nombre global des spiritieux */
 param nb_global_spiritieux := sum {dt in DETAILLANTS} nb_spiritueux [dt];
 
+/* Paramètres calculés, nombre d'huile global par regions */
+param nb_global_huile_region {rg in REGIONS} := sum {dt in DETAILLANTS} if region [dt] = rg then nb_huile [dt] else 0;
+
+/* Paramètres calculés, nombre d'huile global par regions */
+param nb_global_detaillant_categorie {ct in CATEGORIE} := sum {dt in DETAILLANTS} if categorie [dt] = ct then 1 else 0;
+
 /* Variables -------------------------------------------------------------------------------------------------------------------- */
 /* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de points de vente */
 var affectation {dt in DETAILLANTS, dv in DIVISIONS} binary;
+
+/* Objectif --------------------------------------------------------------------------------------------------------------------- */
+/* Objectif fixe */
+maximize 
+objectif_statique :
+	100;
 
 /* Contraintes ------------------------------------------------------------------------------------------------------------------ */
 /* Contraintes d'unicité */
 subject to 
 affectation_unique_detaillant {dt in DETAILLANTS} :
-	sum {dv in DIVISIONS} affectation [dt, dv] <= 1;
+	sum {dv in DIVISIONS} affectation [dt, dv] = 1; /* ou <= ambiguité du sujet */
 		
 /* Contraintes sur les differents rapports (sans les tolerances pour l'instant) */
 /* Commentaire ... */
 subject to 
-rapport_nb_pts_vente {dv in DIVISIONS}:
-	sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt] <= rapport_marche[dv] * nb_global_pts_vente / 100;
+rapport_nb_pts_vente_global {dv in DIVISIONS}:
+	sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt] <= rapport_marche [dv] * nb_global_pts_vente / 100;
 	
-/* A suivre ... */
+/* ... */
+subject to
+rapport_marche_spiritieux_global {dv in DIVISIONS}:
+	sum {dt in DETAILLANTS} affectation [dt, dv] * nb_spiritueux [dt] <= rapport_marche [dv] * nb_global_spiritieux / 100;
+
+/* ... */
+subject to
+rapport_marche_huile_region {dv in DIVISIONS}: 
+	sum {dt in DETAILLANTS} affectation [dt, dv] * nb_huile [dt] <= rapport_marche [dv] * nb_global_huile_region [region [dt]] / 100;
+
+/* ... */	
+subject to 
+rapport_nb_detaillant_categorie {dv in DIVISIONS}: 
+	sum {dt in DETAILLANTS} affectation [dt, dv] <= rapport_marche [dv] * nb_global_detaillant [categorie [dt]] / 100;
