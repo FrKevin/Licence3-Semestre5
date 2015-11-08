@@ -27,7 +27,7 @@ all: do
 
 ## Make avec argument
 do: do.c
-	${CC} ${CFLAGS} do.c -o do
+	${CC} ${CFLAGS} do.c lib/makeargv.c -o do
 
 test:
 	./test.sh

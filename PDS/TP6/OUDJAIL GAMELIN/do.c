@@ -7,8 +7,8 @@
 #include "lib/makeargv.h"
 
 /* Constantes */
-#define AND 0
-#define OR 1
+#define AND 1
+#define OR 0
 /*  */
 
 /* Variable global*/
@@ -61,7 +61,7 @@ void analyse_args(int argc, const char * argv[]){
 void work_child(const char * argv){
   char **cmdargv;
   makeargv(argv, " ", &cmdargv);
-  execvp(cmdargv[0], cmdazrgv);
+  execvp(cmdargv[0], cmdargv);
   exit(EXIT_FAILURE);
 }
 
@@ -75,14 +75,29 @@ void pars_status(int status){
  */
 int wait_child(){
   int status;
-  int result = NULL;
+  int i;
+  int result;
+
+  if(conjonction == AND){
+    result = EXIT_SUCCESS;
+  }
+  else{
+    result = EXIT_FAILURE;
+  }
+
   for(i=0; i<ncmd; i++){
     wait(&status);
     if(WIFEXITED(status)){
-      if(conjonction == AND)
-        result = (result == NULL)?1:result & WEXITSTATUS(status);
-      else
-        result = (result == NULL)?0:result | WEXITSTATUS(status);
+      if(conjonction == AND){
+        if(WEXITSTATUS(status) == EXIT_FAILURE){
+          result = EXIT_FAILURE;
+        }
+      }
+      else{
+        if(WEXITSTATUS(status) == EXIT_SUCCESS){
+          result = EXIT_SUCCESS;
+        }
+      }
     }
   }
   return result;
@@ -92,13 +107,15 @@ int wait_child(){
  * exécute commande do
  * @param int argc le nombre d'arguments
  */
-void my_do(int argc, const char * argv[]){
-  ncmd = argc - begin_cmd;
-  pid_t* t_pid = malloc(ncmd);
+int my_do(int argc, const char * argv[]){
+  pid_t* t_pid;
   int i;
   int t_pid_index = 0;
   int status;
   int result;
+
+  ncmd = argc - begin_cmd;
+  t_pid = malloc(ncmd);
 
   for(i = begin_cmd; i < argc; i++){
     status = fork();
@@ -110,12 +127,13 @@ void my_do(int argc, const char * argv[]){
     t_pid_index++;
   }
   result = wait_child();
-  printf("Conjonction %i\n", result);
+  /* printf("Conjonction %i\n", result); */
   free(t_pid);
+  return result;
 }
 
 int main(int argc,const char* argv[]) {
     analyse_args(argc, argv);
-    my_do(argc, argv);
-    exit(EXIT_SUCCESS);
+    exit(my_do(argc, argv));
+    /* exit(EXIT_SUCCESS);*/
 }
