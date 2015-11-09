@@ -5,14 +5,13 @@ reset;
 option solver gurobi;
 
 /* Ensembles -------------------------------------------------------------------------------------------------------------------- */	
-set DIVISIONS;
 set REGIONS;
 set DETAILLANTS;
 set CATEGORIES;
 
 /* Paramètres ------------------------------------------------------------------------------------------------------------------- */
 /* Paramètres représentant les rapports ainsi que la tolérance qui doivent être appliqué au modèle */
-param rapport_marche {DIVISIONS} >= 0,  <= 100;
+param rapport_marcheD1 >= 0,  <= 100;
 param tolerance >= 0,  <= 100;
 
 /* Paramétres indicé par les detaillants ayant comme ensemble de donné, regions (type de donnée region)  */
@@ -29,70 +28,63 @@ param nb_global_pts_vente := sum {dt in DETAILLANTS}  nb_pts_vente [dt];
 /* Paramètres calculés, nombre global des spiritieux */
 param nb_global_spiritieux := sum {dt in DETAILLANTS} nb_spiritueux [dt];
 
-/* Paramètres calculés, nombre d'huile global par regions */
+/* Paramètres calculés, nombre d'huile global par regions 
 param nb_global_huile_region {rg in REGIONS} := sum {dt in DETAILLANTS} if region [dt] = rg then nb_huile [dt] else 0;
 
-/* Paramètres calculés, nombre d'huile global par regions */
+/* Paramètres calculés, nombre d'huile global par regions 
 param nb_global_detaillant_categorie {ct in CATEGORIES} := sum {dt in DETAILLANTS} if categorie [dt] = ct then 1 else 0;
 
 /* Paramètres calculés par rapport au borne donné par l’utilisateur et par la tolerance */ 
-param rpm_tol_min {dv in DIVISIONS} := (rapport_marche [dv] - tolerance) / 100;
-param rpm_tol_max {dv in DIVISIONS} := (rapport_marche [dv] + tolerance) / 100;
+param rpmD1_tol_min := rapport_marcheD1 - tolerance;
+param rpmD1_tol_max := rapport_marcheD1 + tolerance;
 
 /* Variables -------------------------------------------------------------------------------------------------------------------- */
 /* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de points de vente */
-var affectation {dt in DETAILLANTS, dv in DIVISIONS} binary;
-
-/* ... *
-var ecart_tolerance >= 0, <= 1;
+var affectationD1 {dt in DETAILLANTS} binary;
 
 /* Objectif --------------------------------------------------------------------------------------------------------------------- */
 /* Objectif fixe */
-minimize 
-obj_ecart_tolerance :
-	100;/*ecart_tolerance * tolerance;*/
+maximize 
+objectif_statique :
+	100;
 
 /* Contraintes ------------------------------------------------------------------------------------------------------------------ */
-/* Contraintes d'unicité */
+/* Contraintes d'unicité 
 subject to 
 affectation_unique_detaillant {dt in DETAILLANTS} :
-	sum {dv in DIVISIONS} affectation [dt, dv] == 1; 
+	sum {dv in DIVISIONS} affectationD1 [dt] <= 1; 
+*/
 		
-subject to
-tolerance_max {dv in DIVISIONS} :
-	tolerance <= rapport_marche [dv];
-	
 /* Contraintes sur les differents rapports */
-/* Commentaire ... */ 
+/* Commentaire ... */
 subject to 
-rapport_nb_pts_vente_global {dv in DIVISIONS}:
-	rpm_tol_min [dv] * nb_global_pts_vente <= sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt]  <= rpm_tol_max [dv] * nb_global_pts_vente;
+rapport_nb_pts_vente_global :
+	rpmD1_tol_min * nb_global_pts_vente / 100  <= sum {dt in DETAILLANTS} affectationD1 [dt] * nb_pts_vente [dt] <= rpmD1_tol_max * nb_global_pts_vente / 100 ;
 	
 /* ... */
 subject to
-rapport_marche_spiritieux_global {dv in DIVISIONS}:
-	rpm_tol_min [dv] * nb_global_spiritieux <= sum {dt in DETAILLANTS} affectation [dt, dv] * nb_spiritueux [dt] <= rpm_tol_max [dv] * nb_global_spiritieux;
+rapport_marche_spiritieux_global :
+	rpmD1_tol_min * nb_global_spiritieux / 100 <= sum {dt in DETAILLANTS} affectationD1 [dt] * nb_spiritueux [dt] <= rpmD1_tol_max * nb_global_spiritieux / 100;
 
-/* ... 
-Note, cette contrainte rend le model infaisable, le solveur n'arrive pas à trouver une solution */
+/* ... */
 subject to
-rapport_marche_huile_region {dv in DIVISIONS, rg in REGIONS}: 
-	rpm_tol_min [dv] * nb_global_huile_region [rg] <= (sum {dt in DETAILLANTS} affectation [dt, dv] * (if region [dt] = rg then nb_huile [dt] else 0)) <= rpm_tol_max [dv] * nb_global_huile_region [rg];
+rapport_marche_huile_region_min {rg in REGIONS}: 
+	   (sum {dt in DETAILLANTS} affectationD1 [dt] * (if region [dt] = rg then nb_huile [dt] else 0)) / (sum {dt2 in DETAILLANTS} (if region [dt2] = rg then nb_huile [dt2] else 0)) * 100 >= 35;
 
-/* ... 
-Note, cette contrainte rend le model infaisable, le solveur n'arrive pas à trouver une solution	*/
-subject to 
-rapport_nb_detaillant_categorie {dv in DIVISIONS, ct in CATEGORIES}: 
-	rpm_tol_min [dv] * nb_global_detaillant_categorie [ct] <= (sum {dt in DETAILLANTS} affectation [dt, dv] * (if categorie [dt] = ct then 1 else 0)) <= rpm_tol_max [dv] * nb_global_detaillant_categorie [ct];
+subject to
+rapport_marche_huile_region_max {rg in REGIONS}: 
+	   (sum {dt in DETAILLANTS} affectationD1 [dt] * (if region [dt] = rg then nb_huile [dt] else 0)) / (sum {dt2 in DETAILLANTS} (if region [dt2] = rg then nb_huile [dt2] else 0)) * 100 <= 45;
+/* ... 	
+subject to
+rapport_nb_detaillant_categorie {ct in CATEGORIES}: 
+	rpmD1_tol_min * nb_global_detaillant_categorie [ct] / 100 <= sum {dt in DETAILLANTS} affectationD1 [dt] <= rpmD1_tol_max * nb_global_detaillant_categorie [ct] / 100;
 	
 /* Inclusion des données */
-data "repartition_marche.dat";
+data "repartition_marche_smp.dat";
 
 /* Commande Script AMPL */
 /* Resolution du model */
 solve;
 
 /* Affichage des données du model */
-display affectation;
-display rpm_tol_min;
-display nb_global_huile_region;
+display affectationD1;

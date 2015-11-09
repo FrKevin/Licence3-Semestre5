@@ -26,3 +26,17 @@ var mhb {dv in DIVISIONS, dt in DETAILLANTS, rg in REGIONS} binary;
 
 /* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de detaillants par categories */
 var ndb {dv in DIVISIONS, dt in DETAILLANTS, ct in CATEGORIES} binary;
+
+
+/* AFFICHAGE ------------------------------ */
+param affichage_affectation {DETAILLANTS} symbolic in DIVISIONS;
+for {dt in DETAILLANTS} {
+	for {dv in DIVISIONS} {
+		if affectation [dt, dv] == 1 then {
+			let affichage_affectation [dt] := dv;
+		}
+	}
+}
+
+
+display affichage_affectation;
