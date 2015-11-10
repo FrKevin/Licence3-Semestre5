@@ -49,14 +49,14 @@ param rpm_tol_max {dv in DIVISIONS} := (rapport_marche [dv] + tolerance) / 100;
 /* Variables binaire representant le fait que la ligne est validé ou non, en fonction du rapport concernant le nombre de points de vente */
 var affectation {dt in DETAILLANTS, dv in DIVISIONS} binary;
 
-/* ... *
-var ecart_tolerance >= 0, <= 1;
+/* Variable flottante representant un amortissement à la tolerance appliqué */
+var ammo_tol >= 0, <= (tolerance/100);
 
 /* Objectif --------------------------------------------------------------------------------------------------------------------- */
 /* Objectif fixe */
-minimize 
-obj_ecart_tolerance :
-	100;/*ecart_tolerance * tolerance;*/
+maximize 
+obj_ammortissement_tolerance :
+	ammo_tol;
 
 /* Contraintes ------------------------------------------------------------------------------------------------------------------ */
 /* Contraintes d'unicité */
@@ -69,27 +69,37 @@ tolerance_max {dv in DIVISIONS} :
 	tolerance <= rapport_marche [dv];
 	
 /* Contraintes sur les differents rapports */
-/* Commentaire ... */ 
+/* Rapport sur le nombre de points de ventes ... */ 
 subject to 
-rapport_nb_pts_vente_global {dv in DIVISIONS}:
-	rpm_tol_min [dv] * nb_global_pts_vente <= sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt]  <= rpm_tol_max [dv] * nb_global_pts_vente;
-
-/* ... */
-subject to
-rapport_marche_spiritieux_global {dv in DIVISIONS}:
-	rpm_tol_min [dv] * nb_global_spiritieux <= sum {dt in DETAILLANTS} affectation [dt, dv] * nb_spiritueux [dt] <= rpm_tol_max [dv] * nb_global_spiritieux;
-
-/* ... 
-Note, cette contrainte rend le model infaisable, le solveur n'arrive pas à trouver une solution */
-subject to
-rapport_marche_huile_region {dv in DIVISIONS, rg in REGIONS}: 
-	rpm_tol_min [dv] * nb_global_huile_region [rg] <= (sum {dt in DETAILLANTS} affectation [dt, dv] * nhuile_region_detaillant [rg, dt]) <= rpm_tol_max [dv] * nb_global_huile_region [rg];
-
-/* ... 
-Note, cette contrainte rend le model infaisable, le solveur n'arrive pas à trouver une solution	*/
+rapport_nb_pts_vente_global_min {dv in DIVISIONS}:
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt]) - ammo_tol * nb_global_pts_vente >= rpm_tol_min [dv] * nb_global_pts_vente;
 subject to 
-rapport_nb_detaillant_categorie {dv in DIVISIONS, ct in CATEGORIES}: 
-	rpm_tol_min [dv] * nb_global_detaillant_categorie [ct] <= (sum {dt in DETAILLANTS} affectation [dt, dv] * ndetail_categorie_detaillant [ct, dt]) <= rpm_tol_max [dv] * nb_global_detaillant_categorie [ct];
+rapport_nb_pts_vente_global_max {dv in DIVISIONS}:
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nb_pts_vente [dt]) + ammo_tol * nb_global_pts_vente <= rpm_tol_max [dv] * nb_global_pts_vente;
+	
+/* Rapport sur le marche du spiritieux ... */
+subject to
+rapport_marche_spiritieux_global_min {dv in DIVISIONS}:
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nb_spiritueux [dt]) - ammo_tol * nb_global_spiritieux >= rpm_tol_min [dv] * nb_global_spiritieux;
+subject to
+rapport_marche_spiritieux_global_max {dv in DIVISIONS}:
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nb_spiritueux [dt]) + ammo_tol * nb_global_spiritieux <= rpm_tol_max [dv] * nb_global_spiritieux;
+	
+/* Rapport sur le marche de l'huile dans chaque regions ... */
+subject to
+rapport_marche_huile_region_min {dv in DIVISIONS, rg in REGIONS}: 
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nhuile_region_detaillant [rg, dt]) - ammo_tol * nb_global_huile_region [rg] >= rpm_tol_min [dv] * nb_global_huile_region [rg];
+subject to
+rapport_marche_huile_region_max {dv in DIVISIONS, rg in REGIONS}: 
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * nhuile_region_detaillant [rg, dt]) + ammo_tol * nb_global_huile_region [rg] <= rpm_tol_max [dv] * nb_global_huile_region [rg];
+	
+/* Rapport sur le nombre de detaillant dans chaque categorie ... */
+subject to 
+rapport_nb_detaillant_categorie_min {dv in DIVISIONS, ct in CATEGORIES}: 
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * ndetail_categorie_detaillant [ct, dt]) - ammo_tol * nb_global_detaillant_categorie [ct] >= rpm_tol_min [dv] * nb_global_detaillant_categorie [ct];
+subject to 
+rapport_nb_detaillant_categorie_max {dv in DIVISIONS, ct in CATEGORIES}: 
+	(sum {dt in DETAILLANTS} affectation [dt, dv] * ndetail_categorie_detaillant [ct, dt]) + ammo_tol * nb_global_detaillant_categorie [ct] <= rpm_tol_max [dv] * nb_global_detaillant_categorie [ct];
 	
 /* Inclusion des données */
 data "repartition_marche.dat";
@@ -100,5 +110,13 @@ solve;
 
 /* Affichage des données du model */
 display affectation;
-display rpm_tol_min;
-display nb_global_huile_region;
+
+for {dv in DIVISIONS} {
+	printf "%s : ",  dv;
+	for {dt in DETAILLANTS} {
+		if affectation [dt, dv] == 1 then {
+			printf "%s ", dt; 
+		}
+	}
+	printf "\n";
+}
