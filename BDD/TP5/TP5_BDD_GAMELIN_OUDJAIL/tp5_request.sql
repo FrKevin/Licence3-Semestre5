@@ -12,3 +12,14 @@ WHERE e.salaire <=
        FROM vols v
        WHERE v.dep = 'CDG' and v.arr = 'NOU'
       );
+
+--Q3
+SELECT v.dep, v.arr, v.distance
+FROM vols v
+WHERE NOT EXISTS(
+  SELECT 1
+  FROM employes e NATURAL JOIN certifications c NATURAL JOIN avions a
+  WHERE v.distance > a.portee and e.salaire < 100000
+);
+
+--Q4
