@@ -1,4 +1,3 @@
-/* Data d'origine, à modifier */
 data;
 
 set DIVISIONS := D1 D2;
