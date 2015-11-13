@@ -16,14 +16,13 @@
 int conjonction = AND; /* L'operateur de la conjonction */
 int begin_cmd; /* L'index de la premère commande */
 int ncmd; /* Le nombre de commandes */
-int option_kill = 0; /* représente le paramètre --cc par défaut désactiver (= 0)
-/* */
+int option_kill = 0; /* représente le paramètre --cc par défaut désactiver (= 0) */
 
 /*
 * Ecrit sur la sortie d'erreur
 * @param : int cond: la condition d'assertion
 * @param : char * message: le message a afficher
-* @return
+* @return : N'a aucune valeur de retour
 */
 void assert_message(int cond, char * message){
  if(!cond){
@@ -33,7 +32,7 @@ void assert_message(int cond, char * message){
  }
 }
 
-void analyse_args(int arc, const char *argv[]) {
+void analyse_args(int argc, char *argv[]) {
   int opt = 0;
 /*
  * 1er colonne: le paramètre cible
@@ -55,12 +54,13 @@ void analyse_args(int arc, const char *argv[]) {
       break;
       case 'o':
       conjonction = OR;
+      break;
       case 'c':
       option_kill = 1;
       break;
     }
   }
-  assert_message(optind + 1 < argc, "Lower arguments ");
+  assert_message(optind < argc, "Lower arguments ");
   begin_cmd = optind;
   ncmd = argc - begin_cmd;
 }
@@ -82,47 +82,51 @@ void work_child(const char * argv){
  */
 void kill_process(int index, pid_t* t_pid){
    int i = 0;
-   for(i = index+1; i< ncmd; i++){
-      assert_message( kill(-t_pid[i], SIGKILL ) != -1, "Kill failure");
+   for(i = index; i< ncmd; i++){
+      assert_message(kill(t_pid[i], SIGKILL) != -1, "Kill failure");
     }
+}
+
+int IFKILLED(int result) {
+  return option_kill && ((conjonction == AND && !result) || (conjonction == OR && result));
 }
 
 /*
 * Attends tous les fils crée et fait la conjonction des valeurs retourné
-* @return le resultat de la conjonction des fils
+* @return le resultat de la conjonction des status des fils,
 */
 int wait_child(pid_t* t_pid){
- int status;
- int i;
- int result;
- result = conjonction == AND ? EXIT_SUCCESS : EXIT_FAILURE;
- for(i=0; i<ncmd; i++){
-   wait(&status);
-   assert_message(WIFEXITED(status), "The processus not quit normaly");
-   if(conjonction == AND) {
-     result &= WEXITSTATUS(status);
-   }
-   else {
-     result |= WEXITSTATUS(status);
-   }
-   if(option_kill && ((conjonction == AND && !result) || (conjonction == OR && result)) {
-     kill_process(i, t_pid);
-   }
- }
- return result;
+  int status;
+  int i;
+  int result;
+  result = conjonction;
+  for(i=0; i<ncmd; i++){
+    wait(&status);
+    assert_message(WIFEXITED(status), "The processus not quit normaly");
+    if(conjonction == AND) {
+      result &= WEXITSTATUS(status) == EXIT_SUCCESS;
+    }
+    else {
+      result |= WEXITSTATUS(status) == EXIT_SUCCESS;
+    }
+    if(IFKILLED(result)) {
+      kill_process(i+1, t_pid);
+    }
+  }
+  return result ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 /*
 * exécute commande do
 * @param int argc le nombre d'arguments
 */
-int my_do(int argc, const char * argv[]){
+int my_do(int argc, char *argv[]){
  pid_t* t_pid;
  int i;
  int t_pid_index = 0;
  int status;
  int result;
- t_pid = malloc(ncmd);
+ t_pid = (pid_t*) malloc(ncmd * sizeof(pid_t));
  for(i = begin_cmd; i < argc; i++){
    status = fork();
    assert_message(status != -1, "fork failure !");
@@ -133,13 +137,11 @@ int my_do(int argc, const char * argv[]){
    t_pid_index++;
  }
  result = wait_child(t_pid);
- /* printf("Conjonction %i\n", result); */
  free(t_pid);
  return result;
 }
 
-int main(int argc,const char argv[]) {
+int main(int argc, char *argv[]) {
   analyse_args(argc, argv);
   exit(my_do(argc, argv));
-  /* exit(EXIT_SUCCESS);*/
 }
