@@ -119,3 +119,5 @@ for {dv in DIVISIONS} {
 	}
 	printf "\n";
 }
+
+printf "Une solution a ete trouvee avec une tolerance de %f \%\n", (tolerance-ammo_tol*100);
