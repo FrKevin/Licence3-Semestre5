@@ -1,0 +1,19 @@
+# mmap() est une fonction qui permet de projeter des données de fichiers ou de
+peropherique en memoire (RAM)
+
+mmap() : On peut donner une taille d'octet (le systeme va alloué plus pour garder un
+equilibre dans "la cartographie de la memoire")
+
+ANONYMOUS : On peut donner un descripteur anonyme (/dev/zero)
+
+MAP_SHARED : Permet de preciser si la zone memoire alloue est partagé
+MAP_PRIVATE : !MAP_SHARED
+
+MAP_FAILED : Valeur renvoyé si l'appel systeme mmap à echoué
+
+
+Sémaphore : ensemble de jetons
+sem_wait P "Puis-je" prend un jeton
+                     bloque si aucun jeton
+sem_post V "Vas-y" met un jeton
+                   debloque un processus bloqué (cas écheant)

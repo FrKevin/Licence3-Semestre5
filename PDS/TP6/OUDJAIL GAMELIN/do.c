@@ -2,15 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <getopt.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "lib/makeargv.h"
 
 /* Constantes */
-
 #define AND 1
 #define OR 0
+/*  */
 
 /* Variable global*/
 int conjonction = AND; /* L'operateur de la conjonction */
@@ -51,10 +50,11 @@ void analyse_args(int argc, char * const argv[]) {
   while ((opt = getopt_long_only(argc, argv,"aoc", long_options, &long_index ) ) != -1) {
     switch (opt) {
       case 'a':
-        conjonction = AND;
+      conjonction = AND;
       break;
       case 'o':
-        conjonction = OR;
+      conjonction = OR;
+      break;
       case 'c':
         option_kill = 1;
       break;
@@ -87,6 +87,10 @@ void kill_process(int index, pid_t* t_pid){
     }
 }
 
+int IFKILLED(int result) {
+  return option_kill && ((conjonction == AND && !result) || (conjonction == OR && result));
+}
+
 /*
 * Attends tous les fils crée et fait la conjonction des valeurs retourné
 * @return le resultat de la conjonction des fils
@@ -95,30 +99,18 @@ int wait_child(pid_t* t_pid){
   int status;
   int i;
   int result;
-
-  if(conjonction == AND){
-    result = EXIT_SUCCESS;
-  }
-  else{
-    result = EXIT_FAILURE;
-  }
-
+  result = conjonction;
   for(i=0; i<ncmd; i++){
     wait(&status);
-    if(WIFEXITED(status)){
-      if(conjonction == AND){
-        if(WEXITSTATUS(status) == EXIT_FAILURE){
-          result = EXIT_FAILURE;
-        }
-      }
-      else{
-        if(WEXITSTATUS(status) == EXIT_SUCCESS){
-          result = EXIT_SUCCESS;
-        }
-      }
-      if( option_kill == 1 && ( (conjonction == AND && !result) || (conjonction == OR && result) ) ) {
-        kill_process(i, t_pid);
-      }
+    assert_message(WIFEXITED(status), "The processus not quit normaly");
+    if(conjonction == AND) {
+      result &= WEXITSTATUS(status) == EXIT_SUCCESS;
+    }
+    else {
+      result |= WEXITSTATUS(status) == EXIT_SUCCESS;
+    }
+    if(IFKILLED(result)) {
+      kill_process(i+1, t_pid);
     }
   }
   return result;
@@ -128,13 +120,13 @@ int wait_child(pid_t* t_pid){
 * exécute commande do
 * @param int argc le nombre d'arguments
 */
-int my_do(int argc, char * const argv[]){
+int my_do(int argc, char *argv[]){
  pid_t* t_pid;
  int i;
  int t_pid_index = 0;
  int status;
  int result;
- t_pid = malloc(ncmd);
+ t_pid = (pid_t*) malloc(ncmd * sizeof(pid_t));
  for(i = begin_cmd; i < argc; i++){
    status = fork();
    assert_message(status != -1, "fork failure !");
@@ -145,13 +137,11 @@ int my_do(int argc, char * const argv[]){
    t_pid_index++;
  }
  result = wait_child(t_pid);
- /* printf("Conjonction %i\n", result); */
  free(t_pid);
  return result;
 }
 
-int main(int argc,char * const argv[]) {
+int main(int argc, char *argv[]) {
   analyse_args(argc, argv);
   exit(my_do(argc, argv));
-  /* exit(EXIT_SUCCESS);*/
 }
