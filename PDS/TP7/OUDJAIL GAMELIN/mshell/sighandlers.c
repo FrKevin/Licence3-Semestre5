@@ -42,13 +42,13 @@ void sigchld_handler(int sig) {
   if (verbose)
     printf("sigchld_handler: entering\n");
 
-  pid = wait(-1, &status, WNOHANG|WUNTRACED);
+  pid = waitpid(-1, &status, WNOHANG|WUNTRACED);
   if(pid == -1){
     perror("wait failure !");
     exit(EXIT_FAILURE);
   }
 
-  if(WIFEXITED(status) || WIFSIGNALED(status)){
+  if(WIFEXITED(status) || WIFSIGNALED(status)){
 
   }
   if(WIFSTOPPED(status)){
@@ -91,8 +91,11 @@ void sigint_handler(int sig) {
 *     foreground job by sending it a SIGTSTP.
 */
 void sigtstp_handler(int sig) {
-  if (verbose)
+  pid_t job_current;
+
+  if (verbose){
     printf("sigtstp_handler: entering\n");
+  }
 
   job_current = jobs_fgpid();
   if(sig == SIGINT && job_current > 0){
