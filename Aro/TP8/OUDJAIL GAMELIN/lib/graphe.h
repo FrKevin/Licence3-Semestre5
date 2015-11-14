@@ -17,7 +17,7 @@
  * - \subpage installation
  * - \subpage syntaxe_graphe
  * - \subpage consignes
-
+ 
  \authors François Lemaire, Arnaud Liefooghe, Marie-Emilie Voge, Léopold Weinberg
  \date 2010
 
@@ -215,7 +215,7 @@ typedef struct tGraphe{
   tTableauEntiers tableSuccesseurs[MAX_SOMMETS];
 
   /** Tableaux des prédécesseurs.
-      
+
       Ce tableau n'est rempli que pour les graphes orientés.
       Pour tout sommet i,
       tablePredecesseurs[i] est le tableau des successeurs
