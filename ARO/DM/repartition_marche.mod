@@ -15,7 +15,7 @@ set CATEGORIES;
 param rapport_marche {DIVISIONS} >= 0,  <= 100;
 param tolerance >= 0,  <= 100;
 
-/* Paramétres indicé par les detaillants ayant comme ensemble de donné, regions (type de donnée region)  */
+/* Paramétres indicé par les detaillants */
 param region {DETAILLANTS} symbolic in REGIONS;
 param categorie {DETAILLANTS} symbolic in CATEGORIES;
 param nb_huile {DETAILLANTS} integer >= 0;
@@ -53,7 +53,6 @@ var affectation {dt in DETAILLANTS, dv in DIVISIONS} binary;
 var ammo_tol >= 0, <= (tolerance/100);
 
 /* Objectif --------------------------------------------------------------------------------------------------------------------- */
-/* Objectif fixe */
 maximize 
 obj_ammortissement_tolerance :
 	ammo_tol;
@@ -120,3 +119,5 @@ for {dv in DIVISIONS} {
 	}
 	printf "\n";
 }
+
+printf "Une solution a ete trouvee avec une tolerance de %f \%\n", (tolerance-ammo_tol*100);

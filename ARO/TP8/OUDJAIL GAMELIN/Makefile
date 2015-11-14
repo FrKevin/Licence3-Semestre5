@@ -23,22 +23,24 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: multif race oprocess
+all: parcoursLargeur
 
 ## Make avec argument
 
+parcoursLargeur:
+	${CC} parcoursLargeur.c lib/graphe.c -o parcoursLargeur
 
 test:
 	./test.sh
 
 clean:
-	rm  race multif oprecess || true
+	rm  parcoursLargeur || true
 
 
 ## Compilation séparée
 #  Le .o doit être recompilé dès que le .c ou le .h (s'il existe) change
 %.o: %.c %.h
-	${CC} ${CFLAGS} -c $<
+	${CC}  -c $<
 
 
 ## Permet de creer une archive coforme pour le depot PDS

@@ -7,7 +7,7 @@
 #include "graphe.h"
 
 /* pour rand() */
-#define _POSIX_SOURCE
+#define _POSIX_SOURCE_TMP
 
 /* Parser */
 #define LONG_MAX_TOKEN 255

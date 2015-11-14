@@ -1,0 +1,30 @@
+/*
+*  Check si le premier arguments est: --or ou --and
+*  @param first_argv le premier argument
+*  @return:
+*    l'index 2 si la chaine contient --or ou --and
+*    l'index 1 sinon
+
+
+*/
+int check_conjonction(const char *first_argv){
+
+
+ if(strcmp("--or", first_argv) == 0 ){
+
+
+   conjonction = OR;
+
+   return 2;
+ }
+ if(strcmp("--and", first_argv) == 0 ){
+   conjonction = AND;
+   return 2;
+ }
+ return 1;
+}
+
+void analyse_args(int argc, const char * argv[]){
+ assert_message(argc >= 2, "lower arguments ");
+ begin_cmd = check_conjonction(argv[1]);
+}

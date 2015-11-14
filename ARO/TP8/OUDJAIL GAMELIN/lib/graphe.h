@@ -1,4 +1,4 @@
-/**
+/** 
   \file graphe.h
   \brief Fichier d'entête de la bibliothèque sur les graphes
 
@@ -13,11 +13,11 @@
  * Vous devez lire les (courtes) sections qui suivent avant
  * d'aller regarder la documentation.
  *
- * - \subpage presentation
- * - \subpage installation
- * - \subpage syntaxe_graphe
- * - \subpage consignes
-
+ * - \subpage presentation 
+ * - \subpage installation 
+ * - \subpage syntaxe_graphe 
+ * - \subpage consignes 
+ 
  \authors François Lemaire, Arnaud Liefooghe, Marie-Emilie Voge, Léopold Weinberg
  \date 2010
 
@@ -41,10 +41,10 @@
  de consultation en coût constant.
 
  Les sommets des graphes sont des chaînes de caractères.
-
+ 
  Les sommets sont manipulés par leur numéro, qui est compris
  entre 0 et le nombre de sommets moins un.
-
+ 
  * \page installation Installation/Compilation
  *
  * Il n'y a rien à installer. Nous vous fournissons deux fichiers
@@ -53,7 +53,7 @@
  * <a href="graphe.c">graphe.c</a>
  *
  * Vous utiliserez la compilation séparée.
- * Télécharger le fichier d'exemple
+ * Télécharger le fichier d'exemple 
  * <a href="testAnalyseur.c">testAnalyseur.c</a>
  * et lancer la commande
  * \code
@@ -77,7 +77,7 @@ $ gcc -Wall -g -std=c99 testAnalyseur.c graphe.c -o testAnalyseur
 
 
  \page syntaxe_graphe Syntaxe des fichiers de graphe
-
+ 
  Vous pouvez mettre des commentaires d'une ligne grâce au caractère #
  suivi du commentaire. Le # peut apparaître n'importe où dans la ligne.
 
@@ -95,10 +95,10 @@ arcs = <liste d'arcs séparés par des espaces, un arc étant représenté par O
 Les arcs ont par défaut le type double (flottant double précision).
 
 Exemple d'un graphe non orienté :
-\include ex-no.grp
+\include ex-no.grp 
 
 Exemple d'un graphe orienté :
-\include ex-o.grp
+\include ex-o.grp 
 
 
 
@@ -109,7 +109,7 @@ dans un but pédagogique. Lorsque vous utilisez la bibliothèque,
 vous ne devez <b>jamais</b> accèder directement aux structures.
 Vous devez utiliser les fonctions mises à votre disposition.
 
-L'intérêt est que si les structures de données de la
+L'intérêt est que si les structures de données de la 
 bibliothèque changent en cours d'année, votre code
 continuera de fonctionner. De plus, lors du contrôle
 TP de fin de semestre, vous pourriez avoir une version
@@ -153,8 +153,8 @@ typedef double tValeurArc;
 
 /**
    Tableau de taille variable contenant des entiers (réservé à la librairie, ne pas utiliser).
-
-   Attention : la taille est limitée au nombre maximum de sommets.
+   
+   Attention : la taille est limitée au nombre maximum de sommets. 
    Exemple d'utilisation : pour colorer les sommets en couleur
 */
 typedef struct  {
@@ -177,7 +177,7 @@ typedef struct  {
 
 /**
    Type pour stocker la liste des arcs (réservé à la librairie, ne pas utiliser)
-
+   
    NB: limité à MAX_ARCS arcs */
 typedef struct  {
   /** Le tableau des arcs préalloué. */
@@ -205,11 +205,11 @@ typedef struct tGraphe{
       Sinon, matriceAdjacence[i][j] vaut 0.
    */
   tValeurArc matriceAdjacence[MAX_SOMMETS][MAX_SOMMETS];
-
+  
   /** Tableaux des successeurs.
-
+      
       Ce tableau n'est rempli que pour les graphes orientés.
-      Pour tout sommet i,
+      Pour tout sommet i, 
       tableSuccesseurs[i] est le tableau des successeurs
       du sommet i. */
   tTableauEntiers tableSuccesseurs[MAX_SOMMETS];
@@ -217,15 +217,15 @@ typedef struct tGraphe{
   /** Tableaux des prédécesseurs.
       
       Ce tableau n'est rempli que pour les graphes orientés.
-      Pour tout sommet i,
+      Pour tout sommet i, 
       tablePredecesseurs[i] est le tableau des successeurs
       du sommet i. */
   tTableauEntiers tablePredecesseurs[MAX_SOMMETS];
 
   /** Tableaux des voisins.
-
+      
       Ce tableau n'est rempli que pour les graphes non orientés.
-      Pour tout sommet i,
+      Pour tout sommet i, 
       tableVoisins[i] est le tableau des successeurs
       du sommet i. */
   tTableauEntiers tableVoisins[MAX_SOMMETS];
@@ -268,7 +268,7 @@ typedef struct tPileSommets {
 
 
 /**
- * \defgroup Allocation Allocation, chargement et libération des graphes
+ * \defgroup Allocation Allocation, chargement et libération des graphes 
  *
  * Avant d'être utilisé, un graphe doit être alloué par la fonction
  grapheAlloue. Une fois utilisé, il est libéré par la fonction
@@ -276,12 +276,12 @@ typedef struct tPileSommets {
  la fonction grapheChargeFichier.
 
 Exemple typique d'utilisation:
-   \code
+   \code 
    tGraphe graphe;
    graphe = grapheAlloue();
 
    grapheChargeFichier(graphe, "fichier.grp");
-
+ 
    ... code ...
 
    grapheLibere(graphe);
@@ -291,7 +291,7 @@ Exemple typique d'utilisation:
 /*@{*/
 
 
-/**
+/** 
     Initialisation d'un graphe.
 
     Exemple d'utilisation :
@@ -302,10 +302,10 @@ Exemple typique d'utilisation:
  */
 tGraphe grapheAlloue();
 
-/**
+/** 
     Libère la mémoire occupée par un graphe.
 
-    \param graphe : un graphe précédemment obtenu par
+    \param graphe : un graphe précédemment obtenu par 
     la fonction grapheAlloue()
 
     \code
@@ -313,10 +313,10 @@ tGraphe grapheAlloue();
     graphe = grapheAlloue();
 
     ... code ...
-
+ 
     grapheLibere(graphe);
     \endcode
-
+    
 */
 void grapheLibere(tGraphe graphe);
 
@@ -328,7 +328,7 @@ void grapheLibere(tGraphe graphe);
 void grapheChangeType(tGraphe graphe, int oriente);
 
 
-/** Crée un graphe aléatoire
+/** Crée un graphe aléatoire 
     \param graphe : un graphe (obtenu par grapheAlloue)
     \param nbSommets : le nombre de sommets
     \pram estOriente : 1 si on veut un graphe orienté, 0 sinon
@@ -336,7 +336,7 @@ void grapheChangeType(tGraphe graphe, int oriente);
     arc entre deux sommets quelconques
 
  */
-void grapheAleatoire(tGraphe graphe,
+void grapheAleatoire(tGraphe graphe, 
 		     int nbSommets,
 		     int estOriente,
 		     double probaArc);
@@ -347,12 +347,12 @@ void grapheAleatoire(tGraphe graphe,
    \param fichier : un nom de fichier contenant un graphe
 
    Exemple d'utilisation :
-   \code
+   \code 
    tGraphe graphe;
    graphe = grapheAlloue();
 
    grapheChargeFichier(graphe, "fichier.grp");
-
+ 
    ... code ...
 
    grapheLibere(graphe);
@@ -365,14 +365,14 @@ int grapheChargeFichier(tGraphe graphe, char *fichier);
 
 
 /* Modification */
-
+  
 /**
- * \defgroup Modification Modification des graphes
+ * \defgroup Modification Modification des graphes 
  */
 /*@{*/
 /**
-   Ajoute un sommet à un graphe
-   \param graphe : un graphe
+   Ajoute un sommet à un graphe 
+   \param graphe : un graphe 
    \param sommet : un nom de sommet
 
    Le sommet ne doit pas déjà exister, et le graphe ne
@@ -382,7 +382,7 @@ void grapheAjouteSommet(tGraphe graphe, tNomSommet sommet);
 
 /**
    Ajoute un sommet à un graphe
-   \param graphe : un graphe
+   \param graphe : un graphe 
    \param arc : un arc
 
    L'arc ne doit pas déjà exister, et le graphe ne
@@ -397,7 +397,7 @@ void grapheAjouteArc(tGraphe graphe, tArc arc);
 
 
 /**
- * \defgroup Consultation Consultation des graphes
+ * \defgroup Consultation Consultation des graphes 
  */
 /*@{*/
 
@@ -412,7 +412,7 @@ void grapheAjouteArc(tGraphe graphe, tArc arc);
    graphe = grapheAlloue();
 
    grapheChargeFichier(graphe, "fichier.gra");
-
+ 
    grapheAffiche(graphe);
 
    ... code ...
@@ -440,7 +440,7 @@ int grapheEstOriente(tGraphe graphe);
 int grapheNbSommets(tGraphe graphe);
 
 /**
-   Récupère le nom d'un sommet désigné par son numéro
+   Récupère le nom d'un sommet désigné par son numéro 
 
    \param graphe : un graphe
    \param numero : le numéro du sommet dont on veut le nom
@@ -464,7 +464,7 @@ void grapheRecupNomSommet(tGraphe graphe, tNumeroSommet numero,
 
    \param graphe : un graphe
    \param nomSommet : nom du sommet dont on veut le numéro
-
+   
    Renvoie le numéro si un sommet existe avec ce nom, sinon
    renvoie -1
 
@@ -472,14 +472,14 @@ void grapheRecupNomSommet(tGraphe graphe, tNumeroSommet numero,
    \code
       tNumeroSommet numero;
       numero = grapheChercheSommetParNom(graphe, "A");
-      if (numero == -1)
+      if (numero == -1) 
         printf("Il n'y a pas de sommet nommé A dans le graphe\n")
       else
         printf("Le numéro du sommet A est : %d\n", numero);
    \endcode
-
+  
 */
-tNumeroSommet grapheChercheSommetParNom(tGraphe graphe, tNomSommet nomSommet);
+tNumeroSommet grapheChercheSommetParNom(tGraphe graphe, tNomSommet nomSommet); 
 
 /**
    Renvoie le nombre de successeurs d'un sommet.
@@ -489,7 +489,7 @@ tNumeroSommet grapheChercheSommetParNom(tGraphe graphe, tNomSommet nomSommet);
 
    Renvoie le nombre de successeurs du sommet passé en paramètre.
    \warning déclenche une erreur si le graphe n'est pas orienté
-
+   
 */
 int grapheNbSuccesseursSommet(tGraphe graphe, tNumeroSommet sommet);
 
@@ -503,10 +503,10 @@ int grapheNbSuccesseursSommet(tGraphe graphe, tNumeroSommet sommet);
    Renvoie le successeur numéro \p i
    du sommet \p sommet.
    \warning déclenche une erreur si le graphe n'est pas orienté
-
+   
 */
-tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe,
-					   tNumeroSommet sommet,
+tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe, 
+					   tNumeroSommet sommet, 
 					   int i);
 
 /**
@@ -517,7 +517,7 @@ tNumeroSommet grapheSuccesseurSommetNumero(tGraphe graphe,
 
    Renvoie le nombre de prédécesseurs du sommet passé en paramètre.
    \warning déclenche une erreur si le graphe n'est pas orienté
-
+   
 */
 int grapheNbPredecesseursSommet(tGraphe graphe, tNumeroSommet sommet);
 
@@ -531,16 +531,16 @@ int grapheNbPredecesseursSommet(tGraphe graphe, tNumeroSommet sommet);
    Renvoie le successeur numéro \p i
    du sommet \p sommet.
    \warning déclenche une erreur si le graphe n'est pas orienté
-
+   
 */
-tNumeroSommet graphePredecesseurSommetNumero(tGraphe graphe,
-					     tNumeroSommet sommet,
+tNumeroSommet graphePredecesseurSommetNumero(tGraphe graphe, 
+					     tNumeroSommet sommet, 
 					     int i);
 
 /**
    Renvoie le nombre de voisins d'un sommet.
 
-   \param graphe : un graphe
+   \param graphe : un graphe 
    \param sommet : un numéro de sommet
 
    Renvoie le nombre de voisins du sommet passé en paramètre.
@@ -556,21 +556,21 @@ int grapheNbVoisinsSommet(tGraphe graphe, tNumeroSommet sommet);
 
    Renvoie le voisin numéro \p i
    du sommet \p sommet.
-
+   
 */
-tNumeroSommet grapheVoisinSommetNumero(tGraphe graphe,
-				       tNumeroSommet sommet,
+tNumeroSommet grapheVoisinSommetNumero(tGraphe graphe, 
+				       tNumeroSommet sommet, 
 				       int i);
 
 
 /**
-   Renvoie le nombre d'arcs d'un graphe
+   Renvoie le nombre d'arcs d'un graphe 
 
    \param graphe : un graphe
 
    Si le graphe n'est pas orienté, l'arc est vu comme
    une arète.
-
+  
 */
 int grapheNbArcs(tGraphe graphe);
 
@@ -688,7 +688,7 @@ tNumeroSommet pileSommetsDepile(tPileSommets);
 
 /**
    Permet d'afficher un message d'erreur, et de quitter le programme.
-
+   
    L'utilisation est identique à celle de printf
 */
 void halt(char * format, ...);

@@ -1,10 +1,3 @@
-/**********************************************************************
- *testAnalyseur.c
- *
- *  (François lemaire)  <Francois.Lemaire@lifl.fr>
- * Time-stamp: <2010-10-06 15:06:29 lemaire>
- ***********************************************************************/
-
 /* Ce program prend un nom de graphe en entrée, le charge,
    et l'affiche de façon détaillée.
 */
@@ -14,6 +7,13 @@
 #include <string.h>
 
 #include "graphe.h"
+
+/*
+ Affiche les sommets qui n'ont pas de voisins
+*/
+void printNotConnect(){
+
+}
 
 int main(int argc, char *argv[]) {
 
