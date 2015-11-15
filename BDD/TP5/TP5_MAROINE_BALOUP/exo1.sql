@@ -1,10 +1,13 @@
-\qecho Insertion des donénes dans le schéma "Vols"
+\qecho Insertion des donénes dans le schéma "TP5_MAROINE_BALOUP"
+
+DROP SCHEMA IF EXISTS TP5_MAROINE_BALOUP CASCADE;
+CREATE SCHEMA TP5_MAROINE_BALOUP;
+SET search_path to TP5_MAROINE_BALOUP;
+
 \i TP5_create.sql
 \qecho
 \qecho Ajout terminé
 \qecho
-
-SET search_path to Vols;
 
 \qecho
 \qecho =========================
@@ -57,7 +60,7 @@ HAVING every(portee>1500) AND count(*) > 1
 ORDER BY enom ASC;
 
 \qecho ----
-\qecho REQUÊTE ORIGINALE (au moins 1 avions)
+\qecho REQUÊTE ORIGINALE (au moins 1 avion)
 \qecho ----
 
 SELECT DISTINCT enom
@@ -82,7 +85,7 @@ HAVING every(portee>1500) AND count(aid) > 2
 ORDER BY enom ASC;
 
 \qecho ----
-\qecho REQUÊTE ORIGINALE (au moins 2 avion)
+\qecho REQUÊTE ORIGINALE (au moins 2 avions)
 \qecho ----
 
 SELECT DISTINCT enom
