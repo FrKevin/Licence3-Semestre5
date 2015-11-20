@@ -23,6 +23,16 @@ void nettoyerFile(tFileSommets file){
   }
 }
 
+void initCouleurs(tGraphe graphe, tTabCouleurs couleurs, int sommet) {
+  int nSommets = grapheNbSommets(graphe);
+  for (size_t i = 0; i < nSommets; i++) {
+    if( i != sommet ){
+        couleurs[i] = BLEU;
+    }
+  }
+  couleurs[sommet] = VERT;
+}
+
 void traitementGraphe(tGraphe graphe,tNumeroSommet  xSommet, tTabCouleurs couleurs,  tFileSommets file){
   size_t i;
   int estOriente = grapheEstOriente(graphe);
@@ -38,21 +48,13 @@ void traitementGraphe(tGraphe graphe,tNumeroSommet  xSommet, tTabCouleurs couleu
 }
 
 void parcoursLargeur(tGraphe graphe, int sommet){
-  size_t i;
   tTabCouleurs couleurs;
   tFileSommets file;
-  int nSommets;
   tNumeroSommet  xSommet;
 
-  nSommets = grapheNbSommets(graphe);
   file = fileSommetsAlloue();
 
-  for (i = 0; i < nSommets; i++) {
-    if( i != sommet ){
-        couleurs[i] = BLEU;
-    }
-  }
-  couleurs[sommet] = VERT;
+  initCouleurs(graphe, couleurs, sommet);
 
   /* On défile tout en affichant */
   nettoyerFile(file);
