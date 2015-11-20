@@ -1,17 +1,16 @@
 # numéro de TP
-TP=6
+TP=1
 # nom du coéquipier 1
-NOM1=Maroine
+NOM1=Baloup
 # nom du coéquipier 2
-NOM2=Baloup
+NOM2=
 
 
 
 
 # =========== NE PAS TOUCHER ===========
 CC      = gcc
-CFLAGS  = -Wall -Werror -ansi -pedantic
-CFLAGS += -D_XOPEN_SOURCE=500
+CFLAGS  = -Wall -std=c99
 CFLAGS += -g
 LDFLAGS  = -g
 # ======================================
@@ -20,7 +19,7 @@ LDFLAGS  = -g
 
 # commande 'make' sans argument
 # lister les exécutables à produire
-all: do
+all: graph
 
 # lister en argument de 'rm' les noms de fichiers binaires exécutables
 realclean: clean
@@ -55,7 +54,7 @@ archive: realclean
 
 
 # ----- les exécutables à produire -----
-do: do.o makeargv.o
+graph: main.o graphe.o display.o
 	${CC} ${LDFLAGS} -o $@ $^
 
 # --------------------------------------
