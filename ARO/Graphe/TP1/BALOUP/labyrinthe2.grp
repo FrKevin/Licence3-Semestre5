@@ -1,0 +1,20 @@
+type = non-oriente;
+
+sommets =
+entree sortie 
+11 12 13
+21 22 23
+31 32 33;
+
+arcs =
+entree 11 1
+sortie 33 1
+11 21 1
+21 22 1
+22 32 1
+32 31 1
+12 13 1
+13 23 1
+23 33 1
+;
+ 

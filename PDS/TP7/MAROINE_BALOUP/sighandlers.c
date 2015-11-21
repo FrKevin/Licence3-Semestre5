@@ -38,10 +38,27 @@ int sigaction_wrapper(int signum, handler_t * handler) {
  *     available zombie children
  */
 void sigchld_handler(int sig) {
+	int status;
+	pid_t pid;
+	struct job_t *job;
+  
+  
     if (verbose)
         printf("sigchld_handler: entering\n");
 
-    printf("sigchld_handler : To be implemented\n");
+	pid = waitpid(-1, &status, WNOHANG|WUNTRACED);
+	if(pid == -1){
+		perror("wait failure !");
+		exit(EXIT_FAILURE);
+	}
+
+	if(WIFEXITED(status) || WIFSIGNALED(status)){
+		jobs_deletejob(pid);
+	}
+	if(WIFSTOPPED(status)){
+		job = jobs_getjobpid(pid);
+		job->jb_state = ST;
+	}
 
     if (verbose)
         printf("sigchld_handler: exiting\n");
@@ -55,11 +72,18 @@ void sigchld_handler(int sig) {
  *    to the foreground job.
  */
 void sigint_handler(int sig) {
-    if (verbose)
-        printf("sigint_handler: entering\n");
+	pid_t job_current;
 
-    printf("sigint_handler : To be implemented\n");
+	if (verbose)
+		printf("sigint_handler: entering\n");
 
+	job_current = jobs_fgpid();
+	if(sig == SIGINT && job_current > 0){
+		kill(job_current, sig);
+		if (verbose)
+			printf("Send to %i the SIGINT signal.\n", job_current);
+	}
+	
     if (verbose)
         printf("sigint_handler: exiting\n");
 
@@ -72,11 +96,22 @@ void sigint_handler(int sig) {
  *     foreground job by sending it a SIGTSTP.
  */
 void sigtstp_handler(int sig) {
-    if (verbose)
-        printf("sigtstp_handler: entering\n");
+	pid_t job_current;
+	struct job_t* job;
 
-    printf("sigtstp_handler : To be implemented\n");
+	if (verbose){
+		printf("sigtstp_handler: entering\n");
+	}
 
+	job_current = jobs_fgpid();
+	if(sig == SIGTSTP && job_current > 0){
+		kill(job_current, sig);
+		job = jobs_getjobpid(job_current);
+		job->jb_state = ST;
+		if (verbose)
+			printf("Send to %i the SIGTSTP signal.\n", job_current);
+	}
+	
     if (verbose)
         printf("sigtstp_handler: exiting\n");
 

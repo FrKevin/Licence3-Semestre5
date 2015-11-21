@@ -128,8 +128,9 @@ void do_kill(char **argv) {
 
 /* do_exit - Execute the builtin exit command */
 void do_exit() {
-    printf("do_exit : To be implemented\n");
-
+    
+    kill(getpid(), 15);
+    
     return;
 }
 

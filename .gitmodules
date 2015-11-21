@@ -3,7 +3,7 @@
 	url = http://www.fil.univ-lille1.fr/~hym/d/pds.git
 [submodule "COO/projets/Scheduler"]
 	path = COO/projets/Scheduler
-	url = git@github.com:FrKevin/Scheduler.git
+	url = https://github.com/FrKevin/Scheduler.git
 [submodule "COO/projets/Courriers"]
 	path = COO/projets/Courriers
-	url = git@github.com:FrKevin/Courriers.git
+	url = https://github.com/FrKevin/Courriers.git
