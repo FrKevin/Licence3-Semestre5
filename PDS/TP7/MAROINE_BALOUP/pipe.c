@@ -11,14 +11,11 @@
 #include <errno.h>
 #include "pipe.h"
 
-#define BUFFER_SIZE 1024
-
 void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
   int **tube;
-  int buffer[BUFFER_SIZE];
   int *pid = malloc(sizeof(int)*nbcmd);
 
-
+  printf("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
   if(nbcmd <2) {
     perror("Nombre d'arguments insufisant");
     exit(EXIT_FAILURE);
@@ -68,6 +65,9 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
         break;
     }
     free(tube[0]);
+
+    wait(NULL);
+    wait(NULL);
   } /* Fin nombre de commandes = 2*/
 
   /* Nombre de commandes = 3*/
@@ -108,9 +108,7 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
         }
         close(tube[1][1]);
 
-        while(read(tube[0][1], buffer, BUFFER_SIZE)) {
-          write(tube[1][0], buffer, BUFFER_SIZE);
-        }
+        dup2(tube[1][0], STDIN_FILENO);
 
         execvp(cmds[1][0], cmds[1]);
         perror("Erreur exécution processus");
@@ -152,6 +150,10 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 
     free(tube[0]);
     free(tube[1]);
+
+    wait(NULL);
+    wait(NULL);
+    wait(NULL);
   } /* Fin nombre de commandes = 3*/
 
   free(pid);
