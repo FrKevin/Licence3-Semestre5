@@ -20,6 +20,7 @@ int sigaction_wrapper(int signum, handler_t * handler) {
   int status;
   sigemptyset(&st_sigaction.sa_mask);
   st_sigaction.sa_handler = handler;
+  st_sigaction.sa_flags = SA_RESTART; 
   status = sigaction(signum, &st_sigaction, NULL);
   if( status == -1){
     perror("sigaction failure !");

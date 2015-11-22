@@ -1,4 +1,7 @@
 # mshell - a job manager
+VPATH = src
+
+BIN=./bin/
 
 CC      = gcc
 CFLAGS  = -g
@@ -17,7 +20,7 @@ mshell: $(OBJS)
 
 # gcc -MM generated dependencies
 cmd.o: cmd.c jobs.h common.h
-common.o: common.c
+common.o: common.c common.h
 jobs.o: jobs.c jobs.h common.h
 mshell.o: mshell.c cmd.h sighandlers.h jobs.h common.h
 sighandlers.o: sighandlers.c jobs.h common.h sighandlers.h
