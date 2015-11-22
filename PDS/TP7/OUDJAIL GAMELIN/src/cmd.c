@@ -105,6 +105,7 @@ void waitfg(pid_t pid) {
   return;
 }
 
+
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
     printf("do_fg : To be implemented\n");
@@ -114,28 +115,34 @@ void do_fg(char **argv) {
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
-    printf("do_stop : To be implemented\n");
-
-    return;
+    /* WTF nb argument non present !!! */
+    if (verbose){
+      printf("do_stop: entering\n");
+    }
+    send_signal_to_job(atoi(argv[1]), SIGTSTP);
+    if (verbose){
+      printf("do_stop: exiting\n");
+    }
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
-    printf("do_kill : To be implemented\n");
-
-    return;
+  /* WTF nb argument non present !!! */
+  if (verbose){
+    printf("do_kill: entering\n");
+  }
+  send_signal_to_job(atoi(argv[1]), SIGINT);
+  if (verbose){
+    printf("do_kill: exiting\n");
+  }
 }
 
 /* do_exit - Execute the builtin exit command */
 void do_exit() {
-    printf("do_exit : To be implemented\n");
-
-    return;
+  exit(EXIT_SUCCESS);
 }
 
 /* do_jobs - Execute the builtin fg command */
 void do_jobs() {
-    printf("do_jobs : To be implemented\n");
-
-    return;
+    jobs_listjobs();
 }

@@ -7,6 +7,9 @@
 #include <sys/wait.h>
 #include <errno.h>
 
+#include <sys/types.h>
+#include <unistd.h>
+
 
 #include "jobs.h"
 #include "common.h"
@@ -20,7 +23,7 @@ int sigaction_wrapper(int signum, handler_t * handler) {
   int status;
   sigemptyset(&st_sigaction.sa_mask);
   st_sigaction.sa_handler = handler;
-  st_sigaction.sa_flags = SA_RESTART; 
+  st_sigaction.sa_flags = SA_RESTART;
   status = sigaction(signum, &st_sigaction, NULL);
   if( status == -1){
     perror("sigaction failure !");
@@ -39,9 +42,11 @@ ATENTION WAIT !!! a verifier argument jobs miltiple
 void sigchld_handler(int sig) {
   int status;
   pid_t pid;
+	struct job_t *job;
 
-  if (verbose)
+  if (verbose){
     printf("sigchld_handler: entering\n");
+  }
 
   pid = waitpid(-1, &status, WNOHANG|WUNTRACED);
   if(pid == -1){
@@ -50,14 +55,17 @@ void sigchld_handler(int sig) {
   }
 
   if(WIFEXITED(status) || WIFSIGNALED(status)){
-
+    	jobs_deletejob(pid);
   }
+
   if(WIFSTOPPED(status)){
-
+    job = jobs_getjobpid(pid);
+    job->jb_state = ST;
   }
 
-  if (verbose)
+  if (verbose){
     printf("sigchld_handler: exiting\n");
+  }
 
   return;
 }
@@ -70,18 +78,24 @@ void sigchld_handler(int sig) {
 void sigint_handler(int sig) {
   pid_t job_current;
 
-  if (verbose)
+  if (verbose){
     printf("sigint_handler: entering\n");
-
-  job_current = jobs_fgpid();
-  if(sig == SIGINT && job_current > 0){
-    kill(job_current, sig);
-    if (verbose)
-      printf("Send to %i the SIGINT signal.\n", job_current);
   }
 
-  if (verbose)
+  job_current = jobs_fgpid();
+  if(sig == SIGINT){
+    /* Nothing job is foreground => exit shell*/
+    if(job_current == 0){
+      exit(EXIT_SUCCESS);
+    }
+    else {
+        send_signal_to_job(jobs_fgpid(), SIGINT);
+    }
+  }
+
+  if (verbose){
     printf("sigint_handler: exiting\n");
+  }
 
   return;
 }
@@ -99,15 +113,19 @@ void sigtstp_handler(int sig) {
   }
 
   job_current = jobs_fgpid();
-  if(sig == SIGINT && job_current > 0){
-    kill(job_current, sig);
-    if (verbose)
-      printf("Send to %i the SIGINT signal.\n", job_current);
+  if(sig == SIGTSTP){
+    /* Nothing job is foreground => stop shell*/
+    if(job_current == 0){
+      kill(getpid(), SIGSTOP);
+    }
+    else{
+      send_signal_to_job(jobs_fgpid(), SIGSTOP);
+    }
   }
-  printf("sigtstp_handler : To be implemented\n");
 
-  if (verbose)
+  if (verbose){
     printf("sigtstp_handler: exiting\n");
+  }
 
   return;
 }
