@@ -8,7 +8,7 @@ NOM2=Oudjail
 CC      = gcc
 
 ## Options pour la compilation du C
-CFLAGS  = -Wall -c99
+CFLAGS  = -Wall -std=c99
 #  Spécifie la version de la norme POSIX à respecter
 CFLAGS += -D_XOPEN_SOURCE=500
 #  Active les informations de débogage
