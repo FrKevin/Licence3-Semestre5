@@ -140,7 +140,6 @@ void eval(char *cmdline) {
              * eliminates some nasty races between adding a job to the job
              * list and the arrival of SIGCHLD, SIGINT, and SIGTSTP signals.
              */
-
             if (sigemptyset(&mask) < 0)
                 unix_error("sigemptyset error");
             if (sigaddset(&mask, SIGCHLD))
@@ -223,7 +222,7 @@ int main(int argc, char **argv) {
     /* Install the signal handlers */
 
     /* These are the ones you will need to implement */
-    sigaction_wrapper(SIGINT, sigint_handler);  /* ctrl-c */
+    sigaction_wrapper(SIGINT, sigint_handler);          /* ctrl-c */
     sigaction_wrapper(SIGTSTP, sigtstp_handler);        /* ctrl-z */
     sigaction_wrapper(SIGCHLD, sigchld_handler);        /* Terminated or stopped child */
 

@@ -156,8 +156,10 @@ void send_signal_to_job(int pid_jid, int sig){
 int jobs_pid2jid(pid_t pid) {
   int i;
 
-  if (pid < 1)
-  return 0;
+  if (pid < 1){
+    return 0;
+  }
+
   for (i = 0; i < MAXJOBS; i++)
   if (jobs[i].jb_pid == pid) {
     return jobs[i].jb_jid;

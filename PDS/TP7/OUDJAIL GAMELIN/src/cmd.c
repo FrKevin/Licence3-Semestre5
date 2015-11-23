@@ -109,7 +109,12 @@ void waitfg(pid_t pid) {
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
     printf("do_fg : To be implemented\n");
+    /* WTF nb argument non present !!! */
+    struct job_t* job;
+    job = jobs_getjobjid(atoi(argv[1]));
+    if( job != NULL){
 
+    }
     return;
 }
 
@@ -131,7 +136,7 @@ void do_kill(char **argv) {
   if (verbose){
     printf("do_kill: entering\n");
   }
-  send_signal_to_job(atoi(argv[1]), SIGINT);
+  send_signal_to_job(atoi(argv[1]), SIGKILL);
   if (verbose){
     printf("do_kill: exiting\n");
   }
