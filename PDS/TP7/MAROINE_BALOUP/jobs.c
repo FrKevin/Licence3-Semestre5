@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
 
 #include "jobs.h"
 
@@ -160,7 +161,33 @@ void jobs_listjobs() {
             default:
                 printf("listjobs: Internal error: job[%d].state=%d ", i, jobs[i].jb_state);
             }
-            printf("%s", jobs[i].jb_cmdline);
+            printf("%s\n", jobs[i].jb_cmdline);
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* Send a sinal for job width pid or jid*/
+void send_signal_to_job(int pid_jid, int sig){
+	struct job_t *job;
+	job = jobs_getjobpid(pid_jid);
+	if(job == NULL)
+		job = jobs_getjobjid(pid_jid);
+	if(job != NULL){
+		kill(job->jb_pid, sig);
+		if (verbose)
+			printf("Send to %i the %i signal.\n", job->jb_pid, sig);
+	}
+	return;
+}
+
+
+

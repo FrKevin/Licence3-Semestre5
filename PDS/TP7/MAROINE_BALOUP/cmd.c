@@ -9,13 +9,11 @@
 
 #include "jobs.h"
 
-#define BOLD "\033[00;01m"
-#define NORM "\033[00;00m"
 
 void do_help() {
     printf("available commands are:\n");
     printf(" exit - cause the shell to exit\n");
-    printf(BOLD "\t exit\n" NORM);
+    printf(BOLD "\t exit" NORM " or " BOLD "Ctrl+D\n" NORM);
     printf(" jobs - display status of jobs in the current session\n");
     printf(BOLD "\t jobs\n" NORM);
     printf(" fg   - run a job identified by its pid or job id in the foreground\n");
@@ -66,6 +64,9 @@ struct job_t *treat_argv(char **argv) {
 
 /* do_bg - Execute the builtin bg command */
 void do_bg(char **argv) {
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
     printf("do_bg : To be implemented\n");
 
     return;
@@ -107,6 +108,9 @@ void waitfg(pid_t pid) {
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
     printf("do_fg : To be implemented\n");
 
     return;
@@ -114,15 +118,21 @@ void do_fg(char **argv) {
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
-    printf("do_stop : To be implemented\n");
-
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
+    send_signal_to_job(atoi(argv[1]), SIGTSTP);
+    
     return;
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
-    printf("do_kill : To be implemented\n");
-
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
+	send_signal_to_job(atoi(argv[1]), SIGCONT);
+	send_signal_to_job(atoi(argv[1]), SIGINT);
     return;
 }
 
@@ -136,7 +146,8 @@ void do_exit() {
 
 /* do_jobs - Execute the builtin fg command */
 void do_jobs() {
-    printf("do_jobs : To be implemented\n");
-
+    
+    jobs_listjobs();
+    
     return;
 }
