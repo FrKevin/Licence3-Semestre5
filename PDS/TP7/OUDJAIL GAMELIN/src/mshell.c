@@ -14,7 +14,7 @@
 #include "common.h"
 
 
-static char prompt[] = "mshell> ";      /* command line prompt */
+static char prompt[] = BOLD "mshell > " NORM;      /* command line prompt */
 
 /*
  * usage - print a help message
@@ -235,7 +235,7 @@ int main(int argc, char **argv) {
     while (1) {
         /* Read command line */
         printf("%s", prompt);
-
+        
         if ((fgets(cmdline, MAXLINE, stdin) == NULL) && ferror(stdin)) {
             fprintf(stdout, "fgets error\n");
             exit(EXIT_FAILURE);

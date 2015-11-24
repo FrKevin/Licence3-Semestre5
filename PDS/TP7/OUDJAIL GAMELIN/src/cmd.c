@@ -8,9 +8,7 @@
 #include <unistd.h>
 
 #include "jobs.h"
-
-#define BOLD "\033[00;01m"
-#define NORM "\033[00;00m"
+#include "common.h"
 
 void do_help() {
     printf("available commands are:\n");
@@ -108,38 +106,49 @@ void waitfg(pid_t pid) {
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-    printf("do_fg : To be implemented\n");
     /* WTF nb argument non present !!! */
-    struct job_t* job;
-    job = jobs_getjobjid(atoi(argv[1]));
-    if( job != NULL){
 
+    if (verbose){
+      printf("do_fg: entering\n");
     }
+
+
+    if (verbose){
+      printf("do_stop: exiting\n");
+    }
+      printf("do_fg : To be implemented\n");
     return;
 }
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
-    /* WTF nb argument non present !!! */
-    if (verbose){
-      printf("do_stop: entering\n");
+    struct job_t* job;
+
+    send_verbose_message("do_stop: entering");
+
+    job = treat_argv(argv);
+    if(job != NULL){
+      send_signal_to_job(job->jb_pid, SIGTSTP);
     }
-    send_signal_to_job(atoi(argv[1]), SIGTSTP);
-    if (verbose){
-      printf("do_stop: exiting\n");
-    }
+
+    send_verbose_message("do_stop: exiting");
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
-  /* WTF nb argument non present !!! */
-  if (verbose){
-    printf("do_kill: entering\n");
+  struct job_t* job;
+
+  send_verbose_message("do_kill: entering");
+
+  job = treat_argv(argv);
+  if(job != NULL){
+    if(job->jb_state == ST){
+      send_signal_to_job(job->jb_pid, SIGCONT);
+    }
+    send_signal_to_job(job->jb_pid, SIGINT);
   }
-  send_signal_to_job(atoi(argv[1]), SIGKILL);
-  if (verbose){
-    printf("do_kill: exiting\n");
-  }
+
+  send_verbose_message("do_kill: exiting");
 }
 
 /* do_exit - Execute the builtin exit command */
