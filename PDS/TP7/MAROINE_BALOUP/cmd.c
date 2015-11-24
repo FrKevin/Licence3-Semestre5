@@ -126,7 +126,7 @@ void do_stop(char **argv) {
 	job = treat_argv(argv);
 	if (job == NULL) return;
 	
-    kill(job->jb_pid, SIGTSTP);
+    kill(job->jb_pid, SIGSTOP);
     /* The sighandler will set this current job state to ST */
     
     return;
@@ -138,7 +138,7 @@ void do_kill(char **argv) {
 	job = treat_argv(argv);
 	if (job == NULL) return;
 	kill(job->jb_pid, SIGCONT);
-	kill(job->jb_pid, SIGINT);
+	kill(job->jb_pid, SIGTERM);
 	/* The sighandler will remove this current job from our job list */
     return;
 }

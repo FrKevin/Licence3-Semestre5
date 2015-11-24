@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #include "jobs.h"
 
@@ -167,6 +168,21 @@ void jobs_listjobs() {
 }
 
 
+
+
+/* called when a wait() or waitpid() returns */
+void handle_job_ending(pid_t pid, int status) {
+	struct job_t *job;
+	if (pid <= 0) return;
+	if(WIFEXITED(status) || WIFSIGNALED(status)){
+		jobs_deletejob(pid);
+	}
+	if(WIFSTOPPED(status)){
+		job = jobs_getjobpid(pid);
+		if (job != NULL)
+			job->jb_state = ST;
+	}
+}
 
 
 

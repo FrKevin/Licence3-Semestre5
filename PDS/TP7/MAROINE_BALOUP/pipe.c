@@ -14,10 +14,13 @@
 #include "pipe.h"
 #include "sighandlers.h"
 #include "jobs.h"
+#include "cmd.h"
 
 void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 	int **tube;
-	int *pid;
+	pid_t *pids;
+	/*pid_t pid;
+	int status;*/
 	int i;
 	sigset_t mask;
 
@@ -26,7 +29,7 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 		exit(EXIT_FAILURE);
 	}
 	/* tableau des PID */
-	pid = malloc(sizeof(int)*nbcmd);
+	pids = malloc(sizeof(pid_t)*nbcmd);
 	
 	/* initialisation des tubes */
 	tube = malloc(sizeof(int*)*(nbcmd-1));
@@ -42,7 +45,7 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 	
 	
 	/* premier processus */
-	switch((pid[0] = fork())) {
+	switch((pids[0] = fork())) {
 		case 0 :
 			close(tube[0][0]);
 			dup2(tube[0][1], STDOUT_FILENO);
@@ -54,11 +57,14 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 		case -1:
 			perror("Erreur création processus");
 			exit(EXIT_FAILURE);
+		
+		default:
+			jobs_addjob(pids[0], (bg == 1 ? BG : FG), cmds[0][0]);
     }
 	
 	/* processus intermédiaires */
 	for (i=1; i<nbcmd-1; i++) {
-		switch((pid[i] = fork())) {
+		switch((pids[i] = fork())) {
 			case 0 :
 				/* pipe vers le suivant */
 				close(tube[i][0]);
@@ -76,11 +82,14 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 			case -1:
 				perror("Erreur création processus");
 				exit(EXIT_FAILURE);
+		
+			default:
+				jobs_addjob(pids[i], (bg == 1 ? BG : FG), cmds[i][0]);
 		}
 	}
 	
 	/* dernier processus */
-	switch(pid[nbcmd-1] = fork()) {
+	switch(pids[nbcmd-1] = fork()) {
 		case 0 :
 			close(tube[nbcmd-2][1]);
 			dup2(tube[nbcmd-2][0], STDIN_FILENO);
@@ -92,6 +101,9 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 		case -1 :
 			perror("Erreur création de processus");
 			exit(EXIT_FAILURE);
+		
+		default:
+			jobs_addjob(pids[nbcmd-1], (bg == 1 ? BG : FG), cmds[nbcmd-1][0]);
 	}
 	
 	/* fermeture des pipes dans le processus père */
@@ -100,13 +112,22 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 		close(tube[i][1]);
 		free(tube[i]);
 	}
+	unlocksignal(&mask);
 	
-	while(wait(NULL) > 0);
+	printf(BOLD "\nWaiting for jobs ending ..." NORM "\n");
+	
+	/*
+	while((pid = wait(&status)) > 0) {
+		handle_job_ending(pid, status);
+	}*/
+	
+	for (i=0; i<nbcmd; i++)
+		waitfg(pids[i]);
 	
 	fflush(stdout);
 	
-	free(pid);
+	free(pids);
 	
-	unlocksignal(&mask);
+	
 	
 }
