@@ -129,35 +129,23 @@ struct job_t *jobs_getjobjid(int jid) {
   return NULL;
 }
 
-/* get Jobs width pid or jid */
-struct job_t * jobs_getjob(int pid_jid){
-  struct job_t *job;
-  job = jobs_getjobpid(pid_jid);
-  if(job == NULL){
-    return jobs_getjobjid(pid_jid);
-  }
-  return job;
-}
-
 /* Send a sinal for job width pid or jid*/
-void send_signal_to_job(int pid_jid, int sig){
-  struct job_t *job;
-  job = jobs_getjob(pid_jid);
-  if(job != NULL){
-    kill(job->jb_pid, sig);
-    if (verbose){
-      printf("Send to %i the %i signal.\n", job->jb_pid, sig);
-    }
+void send_signal_to_job(pid_t pid, int sig){
+  kill(pid, sig);
+  if (verbose){
+    printf("Send to %i the %i signal.\n", pid, sig);
   }
-  return;
+ return;
 }
 
 /* pid2jid - Map process ID to job ID */
 int jobs_pid2jid(pid_t pid) {
   int i;
 
-  if (pid < 1)
-  return 0;
+  if (pid < 1){
+    return 0;
+  }
+
   for (i = 0; i < MAXJOBS; i++)
   if (jobs[i].jb_pid == pid) {
     return jobs[i].jb_jid;

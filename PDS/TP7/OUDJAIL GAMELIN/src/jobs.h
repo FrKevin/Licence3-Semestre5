@@ -42,11 +42,9 @@ extern struct job_t *jobs_getjobpid(pid_t pid);
 /* getjobjid  - Find a job (by JID) on the job list */
 extern struct job_t *jobs_getjobjid(int jid);
 
-/* get Jobs width pid or jid */
-extern struct job_t * jobs_getjob(int pid_jid);
 
 /* Send a sinal for job width pid or jid*/
-extern void send_signal_to_job(int pid_jid, int sig);
+extern void send_signal_to_job(pid_t pid, int sig);
 
 /* pid2jid - Map process ID to job ID */
 extern int jobs_pid2jid(pid_t pid);

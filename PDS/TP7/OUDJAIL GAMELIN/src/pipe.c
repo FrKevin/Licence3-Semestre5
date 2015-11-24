@@ -7,6 +7,9 @@
 #include <sys/wait.h>
 #include "pipe.h"
 
+/*
+ * UTILISER pipe2 ! voir Marc pour de plus ample informations
+ */
 void begin_work(int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
   assert(pipe(fd[0]) != -1);
   switch ( t_pid[0] == fork() ) {
