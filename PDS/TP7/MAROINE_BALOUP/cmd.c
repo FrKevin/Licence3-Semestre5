@@ -61,17 +61,6 @@ struct job_t *treat_argv(char **argv) {
     return jobp;
 }
 
-
-/* do_bg - Execute the builtin bg command */
-void do_bg(char **argv) {
-	struct job_t* job;
-	job = treat_argv(char **argv);
-	if (job == NULL) return;
-    printf("do_bg : To be implemented\n");
-
-    return;
-}
-
 /* waitfg - Block until process pid is no longer the foreground process */
 void waitfg(pid_t pid) {
    struct job_t *j;
@@ -109,19 +98,36 @@ void waitfg(pid_t pid) {
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
 	struct job_t* job;
-	job = treat_argv(char **argv);
+	job = treat_argv(argv);
 	if (job == NULL) return;
-    printf("do_fg : To be implemented\n");
+	kill(job->jb_pid, SIGCONT);
+	job->jb_state = FG;
+	waitfg(job->jb_pid);
+    return;
+}
 
+/* do_bg - Execute the builtin bg command */
+void do_bg(char **argv) {
+	struct job_t* job;
+	job = treat_argv(argv);
+	if (job == NULL) return;
+	
+	if (job->jb_state == ST) {
+		kill(job->jb_pid, SIGCONT);
+		job->jb_state = BG;
+	}
+	
     return;
 }
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
 	struct job_t* job;
-	job = treat_argv(char **argv);
+	job = treat_argv(argv);
 	if (job == NULL) return;
-    send_signal_to_job(atoi(argv[1]), SIGTSTP);
+	
+    kill(job->jb_pid, SIGTSTP);
+    /* The sighandler will set this current job state to ST */
     
     return;
 }
@@ -129,10 +135,11 @@ void do_stop(char **argv) {
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
 	struct job_t* job;
-	job = treat_argv(char **argv);
+	job = treat_argv(argv);
 	if (job == NULL) return;
-	send_signal_to_job(atoi(argv[1]), SIGCONT);
-	send_signal_to_job(atoi(argv[1]), SIGINT);
+	kill(job->jb_pid, SIGCONT);
+	kill(job->jb_pid, SIGINT);
+	/* The sighandler will remove this current job from our job list */
     return;
 }
 

@@ -52,7 +52,4 @@ extern struct job_t *jobs_getstoppedjob();
 extern void jobs_listjobs();
 
 
-
-extern void send_signal_to_job(int pid_jid, int sig);
-
 #endif

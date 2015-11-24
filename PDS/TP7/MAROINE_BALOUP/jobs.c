@@ -171,23 +171,3 @@ void jobs_listjobs() {
 
 
 
-
-
-
-
-/* Send a sinal for job width pid or jid*/
-void send_signal_to_job(int pid_jid, int sig){
-	struct job_t *job;
-	job = jobs_getjobpid(pid_jid);
-	if(job == NULL)
-		job = jobs_getjobjid(pid_jid);
-	if(job != NULL){
-		kill(job->jb_pid, sig);
-		if (verbose)
-			printf("Send to %i the %i signal.\n", job->jb_pid, sig);
-	}
-	return;
-}
-
-
-
