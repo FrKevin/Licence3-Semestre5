@@ -1,5 +1,7 @@
 /* mshell - a job manager */
 
+#define _GNU_SOURCE 
+
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -10,153 +12,101 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "pipe.h"
+#include "sighandlers.h"
+#include "jobs.h"
 
 void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
-  int **tube;
-  int *pid = malloc(sizeof(int)*nbcmd);
+	int **tube;
+	int *pid;
+	int i;
+	sigset_t mask;
 
-  printf("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-  if(nbcmd <2) {
-    perror("Nombre d'arguments insufisant");
-    exit(EXIT_FAILURE);
-  }
+	if(nbcmd <2) {
+		perror("De commande insuffisante");
+		exit(EXIT_FAILURE);
+	}
+	/* tableau des PID */
+	pid = malloc(sizeof(int)*nbcmd);
+	
+	/* initialisation des tubes */
+	tube = malloc(sizeof(int*)*(nbcmd-1));
+	for (i=0; i<nbcmd-1; i++) {
+		tube[i] = malloc(sizeof(int)*2);
+		if(pipe2(tube[i], O_CLOEXEC) != 0) {
+			perror("Erreur création de pipe");
+			exit(EXIT_FAILURE);
+		}
+	}
+	
+	locksignal(&mask);
+	
+	
+	/* premier processus */
+	switch((pid[0] = fork())) {
+		case 0 :
+			close(tube[0][0]);
+			dup2(tube[0][1], STDOUT_FILENO);
+			close(tube[0][1]);
+			execvp(cmds[0][0], cmds[0]);
+			perror("Erreur exécution processus");
+			exit(EXIT_FAILURE);
 
-  tube = malloc(sizeof(int*)*(nbcmd-1));
-
-  /* Nombre de commandes = 2*/
-  if(nbcmd == 2) {
-
-    /* Premier processus */
-    switch((pid[0] = fork())) {
-      case 0 :
-        tube[0] = malloc(sizeof(int)*2);
-        if(pipe(tube[0]) == -1) {
-          perror("Erreur création de pipe");
-          exit(EXIT_FAILURE);
-        }
-        close(tube[0][1]);
-        dup2(tube[0][0], STDIN_FILENO);
-        close(tube[0][0]);
-        execvp(cmds[0][0], cmds[0]);
-        perror("Erreur exécution processus");
-        exit(EXIT_FAILURE);
-
-      case -1 :
-        perror("Erreur création processus");
-        exit(EXIT_FAILURE);
-
-      default :
-        break;
+		case -1:
+			perror("Erreur création processus");
+			exit(EXIT_FAILURE);
     }
+	
+	/* processus intermédiaires */
+	for (i=1; i<nbcmd-1; i++) {
+		switch((pid[i] = fork())) {
+			case 0 :
+				/* pipe vers le suivant */
+				close(tube[i][0]);
+				dup2(tube[i][1], STDOUT_FILENO);
+				close(tube[i][1]);
+				/* pipe depuis le précédent */
+				close(tube[i-1][1]);
+				dup2(tube[i-1][0], STDIN_FILENO);
+				close(tube[i-1][0]);
+				
+				execvp(cmds[i][0], cmds[i]);
+				perror("Erreur exécution processus");
+				exit(EXIT_FAILURE);
 
-    /* Second processus */
-    switch(pid[1] = fork()) {
-      case 0 :
-        close(tube[0][0]);
-        dup2(tube[0][1], STDOUT_FILENO);
-        close(tube[0][1]);
-        execvp(cmds[1][0], cmds[1]);
-        perror("Erreur exécution processus");
-        exit(EXIT_FAILURE);
-      case -1 :
-        perror("Erreur création de processus");
-        exit(EXIT_FAILURE);
-      default :
-        break;
-    }
-    free(tube[0]);
-
-    wait(NULL);
-    wait(NULL);
-  } /* Fin nombre de commandes = 2*/
-
-  /* Nombre de commandes = 3*/
-  else if(nbcmd == 3) {
-
-    /* Premier processus */
-    switch((pid[0] = fork())) {
-      case 0 :
-
-        /* Premier tube*/
-        tube[0] = malloc(sizeof(int)*2);
-        if(pipe(tube[0]) == -1) {
-          perror("Erreur création de pipe");
-          exit(EXIT_FAILURE);
-        }
-        close(tube[0][1]);
-        dup2(tube[0][0], STDIN_FILENO);
-        close(tube[0][0]);
-
-        execvp(cmds[0][0], cmds[0]);
-        perror("Erreur exécution processus");
-        exit(EXIT_FAILURE);
-      default :
-        break;
-    }
-
-    /* Second processus */
-    switch(pid[1] = fork()) {
-      case 0 :
-        /* Premier tube */
-        close(tube[0][0]);
-
-        /* Second tube */
-        tube[1] = malloc(sizeof(int)*2);
-        if(pipe(tube[1]) == -1) {
-          perror("Erreur création de pipe");
-          exit(EXIT_FAILURE);
-        }
-        close(tube[1][1]);
-
-        dup2(tube[1][0], STDIN_FILENO);
-
-        execvp(cmds[1][0], cmds[1]);
-        perror("Erreur exécution processus");
-        exit(EXIT_FAILURE);
-
-      case -1 :
-        perror("Erreur création de processus");
-        exit(EXIT_FAILURE);
-
-      default :
-        break;
-    }
-
-    /* Troisième processus */
-    switch(pid[2] = fork()) {
-      case 0 :
-        /* Premier tube */
-        close(tube[0][0]);
-        close(tube[0][1]);
-
-        /* Second tube */
-        close(tube[1][0]);
-        dup2(tube[1][1], STDOUT_FILENO);
-
-        close(tube[1][1]);
-
-        execvp(cmds[2][0], cmds[2]);
-        perror("Erreur exécution processus");
-        exit(EXIT_FAILURE);
-
-      case -1 :
-        perror("Erreur création de processus");
-        exit(EXIT_FAILURE);
-
-      default :
-        break;
-    }
-
-
-    free(tube[0]);
-    free(tube[1]);
-
-    wait(NULL);
-    wait(NULL);
-    wait(NULL);
-  } /* Fin nombre de commandes = 3*/
-
-  free(pid);
-  free(tube);
-  return;
+			case -1:
+				perror("Erreur création processus");
+				exit(EXIT_FAILURE);
+		}
+	}
+	
+	/* dernier processus */
+	switch(pid[nbcmd-1] = fork()) {
+		case 0 :
+			close(tube[nbcmd-2][1]);
+			dup2(tube[nbcmd-2][0], STDIN_FILENO);
+			close(tube[nbcmd-2][0]);
+			execvp(cmds[nbcmd-1][0], cmds[nbcmd-1]);
+			perror("Erreur exécution processus");
+			exit(EXIT_FAILURE);
+			
+		case -1 :
+			perror("Erreur création de processus");
+			exit(EXIT_FAILURE);
+	}
+	
+	/* fermeture des pipes dans le processus père */
+	for (i=0; i<nbcmd-1; i++) {
+		close(tube[i][0]);
+		close(tube[i][1]);
+		free(tube[i]);
+	}
+	
+	while(wait(NULL) > 0);
+	
+	fflush(stdout);
+	
+	free(pid);
+	
+	unlocksignal(&mask);
+	
 }

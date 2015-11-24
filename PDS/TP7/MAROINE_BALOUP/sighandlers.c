@@ -19,12 +19,13 @@ int sigaction_wrapper(int signum, handler_t * handler) {
     struct sigaction st_siga;
     int status;
     sigemptyset(&st_siga.sa_mask);
-
+    
+	st_siga.sa_flags = SA_RESTART;
     st_siga.sa_handler = handler;
     status = sigaction(signum, &st_siga, NULL);
 
     if(status < 0 ) {
-      perror("Erreur sigacton !");
+      perror("Erreur sigaction !");
       exit(EXIT_FAILURE);
     }
 
@@ -48,8 +49,9 @@ void sigchld_handler(int sig) {
 
 	pid = waitpid(-1, &status, WNOHANG|WUNTRACED);
 	if(pid == -1){
-		perror("wait failure !");
-		exit(EXIT_FAILURE);
+		if (verbose)
+			perror("sigchld_handler, wait");
+		return;
 	}
 
 	if(WIFEXITED(status) || WIFSIGNALED(status)){
@@ -116,4 +118,36 @@ void sigtstp_handler(int sig) {
         printf("sigtstp_handler: exiting\n");
 
     return;
+}
+
+
+
+
+
+
+
+void locksignal(sigset_t* mask) {
+	/*
+	 * This is a little tricky. Block SIGCHLD, SIGINT, and SIGTSTP
+	 * signals until we can add the job to the job list. This
+	 * eliminates some nasty races between adding a job to the job
+	 * list and the arrival of SIGCHLD, SIGINT, and SIGTSTP signals.
+	 */
+
+	if (sigemptyset(mask) < 0)
+		perror("sigemptyset error");
+	if (sigaddset(mask, SIGCHLD))
+		perror("sigaddset error");
+	if (sigaddset(mask, SIGINT))
+		perror("sigaddset error");
+	if (sigaddset(mask, SIGTSTP))
+		perror("sigaddset error");
+	if (sigprocmask(SIG_BLOCK, mask, NULL) < 0)
+		perror("sigprocmask error");
+}
+
+
+
+void unlocksignal(sigset_t* mask) {
+	sigprocmask(SIG_UNBLOCK, mask, NULL);
 }
