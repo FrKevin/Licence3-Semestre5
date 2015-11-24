@@ -64,10 +64,9 @@ struct job_t *treat_argv(char **argv) {
 
 /* do_bg - Execute the builtin bg command */
 void do_bg(char **argv) {
-	if (argv[1] == NULL) {
-		printf("Cette commande nécessite un argument.\n");
-		return;
-	}
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
     printf("do_bg : To be implemented\n");
 
     return;
@@ -109,10 +108,9 @@ void waitfg(pid_t pid) {
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-	if (argv[1] == NULL) {
-		printf("Cette commande nécessite un argument.\n");
-		return;
-	}
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
     printf("do_fg : To be implemented\n");
 
     return;
@@ -120,20 +118,19 @@ void do_fg(char **argv) {
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
-	if (argv[1] == NULL) {
-		printf("Cette commande nécessite un argument.\n");
-		return;
-	}
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
     send_signal_to_job(atoi(argv[1]), SIGTSTP);
+    
     return;
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
-	if (argv[1] == NULL) {
-		printf("Cette commande nécessite un argument.\n");
-		return;
-	}
+	struct job_t* job;
+	job = treat_argv(char **argv);
+	if (job == NULL) return;
 	send_signal_to_job(atoi(argv[1]), SIGCONT);
 	send_signal_to_job(atoi(argv[1]), SIGINT);
     return;
