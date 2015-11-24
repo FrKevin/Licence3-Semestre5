@@ -135,7 +135,6 @@ void send_signal_to_job(pid_t pid, int sig){
   if (verbose){
     printf("Send to %i the %i signal.\n", pid, sig);
   }
- return;
 }
 
 /* pid2jid - Map process ID to job ID */

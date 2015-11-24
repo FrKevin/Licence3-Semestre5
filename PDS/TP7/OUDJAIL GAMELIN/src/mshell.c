@@ -235,12 +235,13 @@ int main(int argc, char **argv) {
     while (1) {
         /* Read command line */
         printf("%s", prompt);
-        
+
         if ((fgets(cmdline, MAXLINE, stdin) == NULL) && ferror(stdin)) {
             fprintf(stdout, "fgets error\n");
             exit(EXIT_FAILURE);
         }
         if (feof(stdin)) {      /* End of file (ctrl-d) */
+            printf("\n");
             fflush(stdout);
             exit(EXIT_SUCCESS);
         }
