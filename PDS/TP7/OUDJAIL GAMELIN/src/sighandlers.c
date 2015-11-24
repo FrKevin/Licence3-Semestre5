@@ -44,9 +44,7 @@ void sigchld_handler(int sig) {
   pid_t pid;
 	struct job_t *job;
 
-  if (verbose){
-    printf("sigchld_handler: entering\n");
-  }
+  send_verbose_message("sigchld_handler: entering");
 
   pid = waitpid(-1, &status, WNOHANG|WUNTRACED);
   if(pid == -1){
@@ -63,11 +61,7 @@ void sigchld_handler(int sig) {
     job->jb_state = ST;
   }
 
-  if (verbose){
-    printf("sigchld_handler: exiting\n");
-  }
-
-  return;
+  send_verbose_message("sigchld_handler: exiting");
 }
 
 /*
@@ -78,26 +72,16 @@ void sigchld_handler(int sig) {
 void sigint_handler(int sig) {
   pid_t job_current;
 
-  if (verbose){
-    printf("sigint_handler: entering\n");
-  }
+  send_verbose_message("sigint_handler: entering");
 
   job_current = jobs_fgpid();
   if(sig == SIGINT){
-    /* Nothing job is foreground => exit shell*/
-    if(job_current == 0){
-      exit(EXIT_SUCCESS);
-    }
-    else {
-        send_signal_to_job(jobs_fgpid(), SIGINT);
+    if(job_current != 0){
+      send_signal_to_job(jobs_fgpid(), SIGINT);
     }
   }
 
-  if (verbose){
-    printf("sigint_handler: exiting\n");
-  }
-
-  return;
+  send_verbose_message("sigint_handler: exiting");
 }
 
 /*
@@ -108,9 +92,7 @@ void sigint_handler(int sig) {
 void sigtstp_handler(int sig) {
   pid_t job_current;
 
-  if (verbose){
-    printf("sigtstp_handler: entering\n");
-  }
+  send_verbose_message("sigtstp_handler: entering");
 
   job_current = jobs_fgpid();
   if(sig == SIGTSTP){
@@ -123,9 +105,5 @@ void sigtstp_handler(int sig) {
     }
   }
 
-  if (verbose){
-    printf("sigtstp_handler: exiting\n");
-  }
-
-  return;
+  send_verbose_message("sigtstp_handler: exiting");
 }

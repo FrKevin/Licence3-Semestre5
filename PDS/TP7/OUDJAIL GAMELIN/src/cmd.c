@@ -106,18 +106,17 @@ void waitfg(pid_t pid) {
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-    /* WTF nb argument non present !!! */
+  struct job_t* job;
 
-    if (verbose){
-      printf("do_fg: entering\n");
-    }
+  send_verbose_message("do_fg: entering");
 
+  job = treat_argv(argv);
+  if(jobs_fgpid() == 0 && job != NULL){
+    job->jb_state = FG;
+    waitfg(job->jb_pid);
+  }
 
-    if (verbose){
-      printf("do_stop: exiting\n");
-    }
-      printf("do_fg : To be implemented\n");
-    return;
+  send_verbose_message("do_fg: exiting");
 }
 
 /* do_stop - Execute the builtin stop command */
