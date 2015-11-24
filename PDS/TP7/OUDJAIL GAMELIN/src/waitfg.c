@@ -1,16 +1,14 @@
 /* waitfg - Block until process pid is no longer the foreground process */
-void
-waitfg(pid_t pid)
-{
+void waitfg(pid_t pid) {
    struct job_t *j;
    sigset_t maskchld;
    sigset_t masknormal;
-    
+
    j = jobs_getjobpid(pid);
 
    if (!j)
       return;
-   
+
    /* maskchld initialization (no signal) */
    sigemptyset(&maskchld);
    /* Adding SIGCHLD signal to maskchld */
@@ -27,9 +25,9 @@ waitfg(pid_t pid)
       /* (i.e. blocked SIGCHLD) */
       sigsuspend(&masknormal);
    }
-   
+
    /* Back to previous blocked signals only */
    sigprocmask(SIG_SETMASK, &masknormal, NULL);
-       
+
    return;
 }

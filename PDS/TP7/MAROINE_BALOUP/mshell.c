@@ -13,7 +13,7 @@
 #include "pipe.h"
 #include "common.h"
 
-static char prompt[] = "mshell> ";      /* command line prompt */
+static char prompt[] = BLUE "m" RED "s" YELLOW "h" BLUE "e" GREEN "l" RED"l" NORM "" BOLD "$ " NORM;      /* command line prompt */
 
 /*
  * usage - print a help message
@@ -140,16 +140,7 @@ void eval(char *cmdline) {
              * list and the arrival of SIGCHLD, SIGINT, and SIGTSTP signals.
              */
 
-            if (sigemptyset(&mask) < 0)
-                unix_error("sigemptyset error");
-            if (sigaddset(&mask, SIGCHLD))
-                unix_error("sigaddset error");
-            if (sigaddset(&mask, SIGINT))
-                unix_error("sigaddset error");
-            if (sigaddset(&mask, SIGTSTP))
-                unix_error("sigaddset error");
-            if (sigprocmask(SIG_BLOCK, &mask, NULL) < 0)
-                unix_error("sigprocmask error");
+            locksignal(&mask);
 
             /* Create a child process */
             if ((pid = fork()) < 0)
@@ -181,7 +172,7 @@ void eval(char *cmdline) {
             /* Parent adds the job, and then unblocks signals so that
                the signals handlers can run again */
             jobs_addjob(pid, (bg == 1 ? BG : FG), cmdline);
-            sigprocmask(SIG_UNBLOCK, &mask, NULL);
+            unlocksignal(&mask);
 
             if (!bg)
                 waitfg(pid);
@@ -229,7 +220,7 @@ int main(int argc, char **argv) {
     /* Initialize the job list */
     jobs_initjobs();
 
-    printf("\nType help to find out all the available commands in mshell\n\n");
+    printf("\nType " BOLD "help" NORM " to find out all the available commands in mshell\n\n");
 
     /* Execute the shell's read/eval loop */
     while (1) {
@@ -241,8 +232,10 @@ int main(int argc, char **argv) {
             exit(EXIT_FAILURE);
         }
         if (feof(stdin)) {      /* End of file (ctrl-d) */
-            fflush(stdout);
-            exit(EXIT_SUCCESS);
+			printf("exit\n");
+			fflush(stdout);
+			
+			kill(getpid(), 15);
         }
 
         /* Evaluate the command line */

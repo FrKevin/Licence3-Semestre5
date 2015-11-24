@@ -1,0 +1,48 @@
+En C, pour une fonction, extern signifie que la fonction a une scope global. Cela s'oppose a static qui precise que la fonction a un scope limité au fichier ou elle est declaree.
+Par defaut, toute fonction est extern.
+
+Donc
+extern mytype 1myproto(mytype2  myvar);
+et
+mytype1 myproto(mytype2  myvar);
+sont entierement equivalent et s'opposent a
+static mytype1 myproto(mytype2  myvar);
+
+Dans la pratique, on ecrit parfois explicitement extern pour clairement indiquer dans un module que la fonction est definie dans un autre:
+Un style que j'ai vu utilise dans des boites etait:
+
+/******** extern protos *************/
+extern int f1();
+.........
+extern int fk();
+
+/******** public protos **************/
+int g1();
+.......
+int gk();
+
+/******** local protos ****************/
+static int h1();
+.......
+static int hk();
+
+
+On regroupe avec cette technique les protos de
+fonctions globales declarées ailleurs et utilisees dans le fichier.
+fonctions globales definies dans le fichier;
+fonctions locales definies dans le fichier.
+
+Je recommande pas cette technique:
+Une technique superieure est:
+* regrouper les globales definies dans le fichier dans un header (fichier.h)
+* inclure les headers de ce types pour les fonctions publiques utilisees par le fichier
+* garder la partie statique en tete de son fichier.
+Ce genre de chose peut s'automatiser assez facilement.
+
+J'ai vu des variantes:
+* regrouper les globales definies dans les fichiers du repertoire et utilisees par du code d'autre repertoires dans un header (glob_dir.h)
+* regrouper les globales definies dans les fichiers du repertoire et utilisees par du code d'autre fichiers du meme repertoire dans un header (loc_dir.h)
+* inclure les headers glob_otherdir.h pour les fonctions publiques utilisees par le fichier.
+* inclure le header loc_dir.h.
+* garder la partie statique en tete de son fichier.
+Ce genre de chose peut s'automatiser assez facilement. 
