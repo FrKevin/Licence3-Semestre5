@@ -1,24 +1,28 @@
   /* mshell - a job manager */
-#include <stdio.h>
-#include <unistd.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include "pipe.h"
+  #define _GNU_SOURCE
 
-/*
- * UTILISER pipe2 ! voir Marc pour de plus ample informations
- */
+  #include <stdio.h>
+  #include <unistd.h>
+  #include <fcntl.h>
+  #include <limits.h>
+  #include <sys/stat.h>
+  #include <sys/wait.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <errno.h>
+  #include <assert.h>
+  #include "pipe.h"
+
+
 void begin_work(int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
-  assert(pipe(fd[0]) != -1);
+  assert(pipe2(fd[0], O_CLOEXEC) != -1);
   switch ( t_pid[0] == fork() ) {
     case -1:
       exit(EXIT_FAILURE);
     break;
     case 0:
       close(fd[0][0]);
-      dup2(STDOUT_FILENO, fd[0][1]);
+      dup2(fd[0][1], STDOUT_FILENO);
       close(fd[0][1]);
       execvp(cmds[0][0], cmds[0]);
       exit(EXIT_FAILURE);
@@ -29,7 +33,7 @@ void begin_work(int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
 void midlle_work(int nbcmd, int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
   size_t i;
   for(i = 1; i < nbcmd -1; i++){
-    assert(pipe(fd[i]) != -1);
+    assert(pipe2(fd[i], O_CLOEXEC) != -1);
     switch ( t_pid[i] == fork() ) {
       case -1:
         exit(EXIT_FAILURE);
@@ -39,13 +43,13 @@ void midlle_work(int nbcmd, int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS
         close(fd[i-1][1]);
         close(fd[i][0]);
 
-        dup2(STDIN_FILENO, fd[i-1][0]);
-        dup2(STDOUT_FILENO, fd[i][1]);
+        dup2(fd[i-1][0], STDIN_FILENO);
+        dup2(fd[i][1], STDOUT_FILENO);
 
         close(fd[i-1][0]);
         close(fd[i][1]);
 
-        execvp(cmds[0][0], cmds[0]);
+        execvp(cmds[i][0], cmds[i]);
         exit(EXIT_FAILURE);
       break;
     }
@@ -65,13 +69,12 @@ void end_work(pid_t* t_pid, int nbcmd, int fd[MAXCMDS][2], char *cmds[MAXCMDS][M
         close(fd[i][1]);
       }
 
-
       /* Ncmd - 2 = 1*/
       close(fd[nbcmd-2][1]);
-      dup2(STDIN_FILENO, fd[nbcmd-2][0]);
+      dup2(fd[nbcmd-2][0], STDIN_FILENO);
       close(fd[nbcmd-2][0]);
 
-      execvp(cmds[1][0], cmds[1]);
+      execvp(cmds[nbcmd-1][0], cmds[nbcmd-1]);
       exit(EXIT_FAILURE);
     break;
   }

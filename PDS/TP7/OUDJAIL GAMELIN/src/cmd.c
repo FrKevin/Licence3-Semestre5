@@ -64,9 +64,18 @@ struct job_t *treat_argv(char **argv) {
 
 /* do_bg - Execute the builtin bg command */
 void do_bg(char **argv) {
-    printf("do_bg : To be implemented\n");
+    struct job_t* job;
 
-    return;
+    send_verbose_message("do_bg: entering");
+
+    job = treat_argv(argv);
+    if(job!= NULL){
+      if(job->jb_state == ST){
+        send_signal_to_job(job->jb_pid, SIGCONT);
+      }
+      job->jb_state = BG;
+    }
+    send_verbose_message("do_bg: exiting");
 }
 
 /* waitfg - Block until process pid is no longer the foreground process */
