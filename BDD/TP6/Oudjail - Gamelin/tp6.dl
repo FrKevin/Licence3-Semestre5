@@ -13,4 +13,4 @@ question4(X) :- femme(mia), femme(yolande), not femme(lapin).
 % Question 5 /listing femme
 
 % Question 6
-question6(X) :- aime(X, Y), femme(Y).
+question6(X) :- aime(vincent, X), femme(X).
