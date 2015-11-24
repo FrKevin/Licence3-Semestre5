@@ -41,7 +41,6 @@ int sigaction_wrapper(int signum, handler_t * handler) {
 void sigchld_handler(int sig) {
 	int status;
 	pid_t pid;
-	struct job_t *job;
   
   
     if (verbose)
@@ -54,13 +53,7 @@ void sigchld_handler(int sig) {
 		return;
 	}
 
-	if(WIFEXITED(status) || WIFSIGNALED(status)){
-		jobs_deletejob(pid);
-	}
-	if(WIFSTOPPED(status)){
-		job = jobs_getjobpid(pid);
-		job->jb_state = ST;
-	}
+	handle_job_ending(pid, status);
 
     if (verbose)
         printf("sigchld_handler: exiting\n");
@@ -78,12 +71,12 @@ void sigint_handler(int sig) {
 
 	if (verbose)
 		printf("sigint_handler: entering\n");
-
-	job_current = jobs_fgpid();
-	if(sig == SIGINT && job_current > 0){
-		kill(job_current, sig);
+	
+	while ((job_current = jobs_fgpid()) > 0) {
+		/* boucle prenant en charge toutes les commandes d'un pipe */
+		kill(job_current, SIGTERM);
 		if (verbose)
-			printf("Send to %i the SIGINT signal.\n", job_current);
+			printf("Send to %i the SIGTERM signal.\n", job_current);
 	}
 	
     if (verbose)
@@ -105,13 +98,16 @@ void sigtstp_handler(int sig) {
 		printf("sigtstp_handler: entering\n");
 	}
 
-	job_current = jobs_fgpid();
-	if(sig == SIGTSTP && job_current > 0){
-		kill(job_current, sig);
+
+	while ((job_current = jobs_fgpid()) > 0) {
+		/* boucle prenant en charge toutes les commandes d'un pipe */
 		job = jobs_getjobpid(job_current);
-		job->jb_state = ST;
-		if (verbose)
-			printf("Send to %i the SIGTSTP signal.\n", job_current);
+		if (job->jb_state != ST) {
+			job->jb_state = ST;
+			kill(job_current, SIGSTOP);
+			if (verbose)
+				printf("Send to %i the SIGTSTP signal.\n", job_current);
+		}
 	}
 	
     if (verbose)

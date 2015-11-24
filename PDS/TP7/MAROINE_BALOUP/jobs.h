@@ -52,7 +52,8 @@ extern struct job_t *jobs_getstoppedjob();
 extern void jobs_listjobs();
 
 
+/* called when a wait() or waitpid() returns */
+extern void handle_job_ending(pid_t pid, int status);
 
-extern void send_signal_to_job(int pid_jid, int sig);
 
 #endif

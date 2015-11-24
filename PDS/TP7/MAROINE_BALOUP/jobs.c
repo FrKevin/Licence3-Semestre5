@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #include "jobs.h"
 
@@ -169,25 +170,20 @@ void jobs_listjobs() {
 
 
 
-
-
-
-
-
-
-/* Send a sinal for job width pid or jid*/
-void send_signal_to_job(int pid_jid, int sig){
+/* called when a wait() or waitpid() returns */
+void handle_job_ending(pid_t pid, int status) {
 	struct job_t *job;
-	job = jobs_getjobpid(pid_jid);
-	if(job == NULL)
-		job = jobs_getjobjid(pid_jid);
-	if(job != NULL){
-		kill(job->jb_pid, sig);
-		if (verbose)
-			printf("Send to %i the %i signal.\n", job->jb_pid, sig);
+	if (pid <= 0) return;
+	if(WIFEXITED(status) || WIFSIGNALED(status)){
+		jobs_deletejob(pid);
 	}
-	return;
+	if(WIFSTOPPED(status)){
+		job = jobs_getjobpid(pid);
+		if (job != NULL)
+			job->jb_state = ST;
+	}
 }
+
 
 
 
