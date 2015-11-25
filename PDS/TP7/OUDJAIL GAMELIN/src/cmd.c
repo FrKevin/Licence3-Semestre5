@@ -177,7 +177,10 @@ void do_jobs() {
     jobs_listjobs();
 }
 
-/* basic cd command */
+/*
+ * basic cd command
+ * petit bug pour les fichiers ayants des espaces
+ */
 void do_cd(char **argv){
   char buff[PATH_MAX+1];
   char new_path[PATH_MAX+1];
@@ -188,7 +191,7 @@ void do_cd(char **argv){
   getlogin_r(user_name, PATH_MAX+1);
 
   if(argv[1] == NULL){
-    argv[1] = "/"; /* par défaut /home/USER*/
+    argv[1] = "/"; /* par défaut / mais en réalité: /home/USER */
   }
 
   print_path = getcwd(buff, PATH_MAX+1);
@@ -199,17 +202,21 @@ void do_cd(char **argv){
     else {
         snprintf(new_path, PATH_MAX+1, "%s", argv[1]);
     }
+    /* lstat pour checker si c'est un dossier */
     status = lstat(new_path, &st);
     if(status == 0 && S_ISDIR(st.st_mode)){
+      /* access pour checker si on peut y accéder */
       status = access(new_path, R_OK);
       if( status == 0){
+        /* Et enfin on déplace le repertoire courant */
         status = chdir(new_path);
         if( status == -1){
           send_verbose_message("chdir failre, default value for print_path");
         }
         else{
           print_path = getcwd(buff, PATH_MAX+1);
-          snprintf(new_path, PATH_MAX+1, "%s@mshell:%s", user_name, print_path);
+          /* On ajout au debut le USER@mshell */
+          snprintf(new_path, PATH_MAX+1, ANSI_COLOR_CYAN"%s@mshell"ANSI_COLOR_BLUE":%s", user_name, print_path);
           print_path = new_path;
         }
       }

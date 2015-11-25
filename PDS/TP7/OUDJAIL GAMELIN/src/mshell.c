@@ -110,7 +110,7 @@ int builtin_cmd(char **argv) {
         do_kill(argv);
         return 1;
     }
-    
+
     if(!strcmp(cmd, "cd")){
       do_cd(argv);
       return 1;
@@ -241,7 +241,7 @@ int main(int argc, char **argv) {
     /* Execute the shell's read/eval loop */
     while (1) {
         /* Read command line */
-        printf(ANSI_COLOR_BLUE "%s$ "NORM, print_path);
+        printf("%s"NORM"$ "NORM, print_path);
 
         if ((fgets(cmdline, MAXLINE, stdin) == NULL) && ferror(stdin)) {
             fprintf(stdout, "fgets error\n");
