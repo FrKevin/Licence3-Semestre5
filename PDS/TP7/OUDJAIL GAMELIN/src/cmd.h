@@ -11,5 +11,5 @@ extern void do_bg(char **argv);
 extern void do_fg(char **argv);
 extern void do_kill(char **argv);
 extern void do_stop(char **argv);
-
+extern void do_cd(char **argv);
 #endif
