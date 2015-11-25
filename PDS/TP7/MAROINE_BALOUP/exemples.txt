@@ -1,0 +1,76 @@
+
+
+TASK signal SIGINT sur processus unique
+MSHELL xeyes
+RES les yeux apparaissent
+MSHELL Ctrl + C
+RES le processus xeyes se termine (les yeux disparaissent)
+RES on récupère la main sur le mshell
+
+
+
+TASK signal SIGTSTP, bg, fg et jobs sur processus unique
+MSHELL xeyes
+RES les yeux apparaissent et bougent
+MSHELL Ctrl + Z
+RES les yeux sont toujours là, mais ils ne bougent plus
+MSHELL jobs
+RES le processus xeyes apparait comme "tant stoppé
+MSHELL fg %1
+RES le job xeyes refontionne, comme à l'état précédent (au premier plan)
+MSHELL Ctrl + Z
+RES les yeux ne bougent plus
+MSHELL bg %1
+RES les yeux bougent, mais on peut taper une autre commande
+MSHELL xeyes
+RES une deuxième paire d'yeux s'affiche, qui bouge
+MSHELL Ctrl + Z
+RES la deuxième paire (pour 1€ de plus) ne bouge plus, mais le 1er process est toujours en fonctionnement
+
+
+TASK symbole '&', jobs, kill, stop
+MSHELL xeyes &
+RES l'état du job xeyes s'affiche dans la console
+RES les yeux sont affiché et bougent. On peut lancer une commande supplémentaire
+MSHELL xclock -update 1 &
+RES l'état du job xclock s'affiche dans la console
+RES une horloge s'affiche, qui fonctionne, et on peut lancer une commande
+MSHELL jobs
+RES affiche les deux processus, fonctionnant en arrière plan
+MSHELL kill %2
+RES l'horloge disparait
+MSHELL jobs
+RES seul xeyes est listé
+MSHELL stop %1
+RES les yeux ne bougent plus
+MSHELL kill %1
+RES les yeux disparaissent
+MSHELL jobs
+RES plus rien n'est listé
+
+TASK Ctrl+D
+MSHELL Ctrl+D
+RES le mshell se termine, avec l'intitulé "Complété" (résultat d'un signal 15)
+RES Ctrl+D ferme l'entrée standard du mshell. Il a pour réponse de s'auto-kill avec le signal 15
+
+TASK exit
+MSHELL exit
+RES le mshell se termine, avec l'intitulé "Complété" (résultat d'un signal 15)
+RES la commande do_exit() envoi au processus courant le signal 15
+
+TASK kill externe d'un processus fils
+MSHELL xeyes
+TERM killall xeyes
+RES les yeux ont disparu
+MSHELL jobs
+RES il n'y a aucun jobs
+
+TASK pipe
+MSHELL ls | cat | cat | cat | grep e | grep c | cat
+RES affiche tous les noms de fichiers du dossier courant, ayant au moins un 'e' et un 'c'.
+RES on récupère la main sur le mshell. (sauf parfois ou un processus reste bloqué, pour la même commande)
+MSHELL jobs
+RES aucun job n'est affiché
+
+
+
