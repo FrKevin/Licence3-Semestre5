@@ -1,4 +1,3 @@
-  /* mshell - a job manager */
   #define _GNU_SOURCE
 
   #include <stdio.h>
@@ -11,102 +10,78 @@
   #include <stdlib.h>
   #include <errno.h>
   #include <assert.h>
+
   #include "pipe.h"
+  #include "jobs.h"
+  #include "cmd.h"
 
-
-void begin_work(int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
-  assert(pipe2(fd[0], O_CLOEXEC) != -1);
-  switch ( t_pid[0] == fork() ) {
-    case -1:
-      exit(EXIT_FAILURE);
-    break;
-    case 0:
-      close(fd[0][0]);
-      dup2(fd[0][1], STDOUT_FILENO);
-      close(fd[0][1]);
-      execvp(cmds[0][0], cmds[0]);
-      exit(EXIT_FAILURE);
-    break;
-  }
-}
-
-void midlle_work(int nbcmd, int fd[MAXCMDS][2], pid_t* t_pid, char *cmds[MAXCMDS][MAXARGS]){
+static void general_work(char *cmds[MAXCMDS][MAXARGS], int fd[MAXCMDS][2], pid_t *t_pid, int nbcmd, int bg) {
   size_t i;
-  for(i = 1; i < nbcmd -1; i++){
+  for(i = 0; i < nbcmd -1; i++){
     assert(pipe2(fd[i], O_CLOEXEC) != -1);
-    switch ( t_pid[i] == fork() ) {
+    switch (t_pid[i] = fork()) {
       case -1:
         exit(EXIT_FAILURE);
       break;
       case 0:
-        /* 0 => lecture 1 => ecriture */
-        close(fd[i-1][1]);
-        close(fd[i][0]);
-
-        dup2(fd[i-1][0], STDIN_FILENO);
-        dup2(fd[i][1], STDOUT_FILENO);
-
-        close(fd[i-1][0]);
-        close(fd[i][1]);
+        if (i > 0) {
+          close(fd[i-1][WRITE]);
+          dup2(fd[i-1][READ], STDIN_FILENO);
+          close(fd[i-1][READ]);
+        }
+        close(fd[i][READ]);
+        dup2(fd[i][WRITE], STDOUT_FILENO);
+        close(fd[i][WRITE]);
 
         execvp(cmds[i][0], cmds[i]);
         exit(EXIT_FAILURE);
       break;
+      default :
+        close(fd[i][WRITE]);
+        if (i > 0) {
+          close(fd[i-1][READ]);
+        }
+        jobs_addjob(t_pid[i], (bg == 1 ? BG : FG), cmds[i][0]);
     }
   }
 }
 
-void end_work(pid_t* t_pid, int nbcmd, int fd[MAXCMDS][2], char *cmds[MAXCMDS][MAXARGS]){
-  size_t i;
-  switch ( t_pid[nbcmd-1] == fork() ) {
+static void end_work(char *cmds[MAXCMDS][MAXARGS], int fd[MAXCMDS][2], pid_t *t_pid, int nbcmd, int bg) {
+  size_t last_pipe = nbcmd - 2;
+  size_t last_cmd = nbcmd - 1;
+  switch (t_pid[last_cmd] = fork()) {
     case -1:
       exit(EXIT_FAILURE);
     break;
     case 0:
-    /* Ncmd - 3  for*/
-      for( i = 0; i< nbcmd-3; i++){
-        close(fd[i][0]);
-        close(fd[i][1]);
-      }
+      close(fd[last_pipe][WRITE]); 
+      dup2(fd[last_pipe][READ], STDIN_FILENO);
+      close(fd[last_pipe][READ]);
 
-      /* Ncmd - 2 = 1*/
-      close(fd[nbcmd-2][1]);
-      dup2(fd[nbcmd-2][0], STDIN_FILENO);
-      close(fd[nbcmd-2][0]);
-
-      execvp(cmds[nbcmd-1][0], cmds[nbcmd-1]);
+      execvp(cmds[last_cmd][0], cmds[last_cmd]);
       exit(EXIT_FAILURE);
     break;
+    default :
+      close(fd[last_pipe][READ]);
+      jobs_addjob(t_pid[last_cmd], (bg == 1 ? BG : FG), cmds[last_cmd][0]);
   }
 }
 
-void close_all_pipe(int nbcmd, int fd[MAXCMDS][2]){
+static void wait_all_child(pid_t *t_pid, int nbcmd){
   size_t i;
-  for(i = 0; i< nbcmd-1; i++){
-    close(fd[i][0]);
-    close(fd[i][1]);
+  for(i = 0; i < nbcmd; i++) {
+    waitfg(t_pid[i]);
   }
 }
 
-void wait_all_child(int nbcmd){
-  size_t i;
-  for(i = 0; i < nbcmd; i++){
-    wait(NULL);
-  }
-}
-
-/*
- * fd[0] lecture
- * fd[1] ecriture
- */
 void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
   int fd[MAXCMDS][2];
   pid_t t_pid[MAXCMDS];
+  if (nbcmd > MAXCMDS) {
+    fprintf(stderr, "%s%d\n", "Nb de commande <= ", MAXCMDS);
+  }
 
-  begin_work(fd, t_pid, cmds);
-  midlle_work(nbcmd, fd, t_pid, cmds);
-  end_work(t_pid, nbcmd, fd, cmds);
-
-  close_all_pipe(nbcmd, fd);
-  wait_all_child(nbcmd);
+  general_work(cmds, fd, t_pid, nbcmd, bg);
+  end_work(cmds, fd, t_pid, nbcmd, bg);
+  wait_all_child(t_pid, nbcmd);
 }
