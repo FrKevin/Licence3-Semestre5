@@ -19,6 +19,7 @@
 #define NORM "\033[00;00m"
 
 int verbose;                    /* if true, print additional output   */
+char* print_path;                      /* = getcwd() */
 
 extern void unix_error(char *msg);
 

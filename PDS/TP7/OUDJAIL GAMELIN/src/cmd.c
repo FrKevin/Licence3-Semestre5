@@ -6,9 +6,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <libgen.h>
 
-#include "jobs.h"
 #include "common.h"
+#include "jobs.h"
+
 
 void do_help() {
     printf("available commands are:\n");
@@ -26,6 +32,8 @@ void do_help() {
     printf(BOLD "\t kill " NORM "pid" BOLD "|" NORM "jobid \n");
     printf(" help - print this message\n");
     printf(BOLD "\t help\n" NORM);
+    printf(" cd- change directory (BETA)\n");
+    printf(BOLD "\t cd\n" NORM);
     printf("\n");
     printf("ctrl-z and ctrl-c can be used to send a SIGTSTP and a SIGINT, respectively\n\n");
 }
@@ -167,4 +175,48 @@ void do_exit() {
 /* do_jobs - Execute the builtin fg command */
 void do_jobs() {
     jobs_listjobs();
+}
+
+/* basic cd command */
+void do_cd(char **argv){
+  char buff[PATH_MAX+1];
+  char new_path[PATH_MAX+1];
+  char user_name[PATH_MAX+1];
+  struct stat st;
+  int status;
+
+  getlogin_r(user_name, PATH_MAX+1);
+
+  if(argv[1] == NULL){
+    argv[1] = "/"; /* par défaut /home/USER*/
+  }
+
+  print_path = getcwd(buff, PATH_MAX+1);
+  if(print_path != NULL ){
+    if(strcmp(argv[1], "/") > 0){
+      snprintf(new_path, PATH_MAX+1, "%s/%s", print_path, argv[1]);
+    }
+    else {
+        snprintf(new_path, PATH_MAX+1, "%s", argv[1]);
+    }
+    status = lstat(new_path, &st);
+    if(status == 0 && S_ISDIR(st.st_mode)){
+      status = access(new_path, R_OK);
+      if( status == 0){
+        status = chdir(new_path);
+        if( status == -1){
+          send_verbose_message("chdir failre, default value for print_path");
+        }
+        else{
+          print_path = getcwd(buff, PATH_MAX+1);
+          snprintf(new_path, PATH_MAX+1, "%s@mshell:%s", user_name, print_path);
+          print_path = new_path;
+        }
+      }
+    }
+  }
+  else{
+    print_path = "mshell > ";
+    send_verbose_message("getcwd failre, default value for print_path");
+  }
 }

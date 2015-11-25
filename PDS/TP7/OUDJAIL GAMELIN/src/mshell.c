@@ -13,9 +13,6 @@
 #include "pipe.h"
 #include "common.h"
 
-
-static char prompt[] = BOLD "mshell > " NORM;      /* command line prompt */
-
 /*
  * usage - print a help message
  */
@@ -113,8 +110,11 @@ int builtin_cmd(char **argv) {
         do_kill(argv);
         return 1;
     }
-
-
+    
+    if(!strcmp(cmd, "cd")){
+      do_cd(argv);
+      return 1;
+    }
     return 0;                   /* not a builtin command */
 }
 
@@ -198,6 +198,7 @@ void eval(char *cmdline) {
 int main(int argc, char **argv) {
     char c;
     char cmdline[MAXLINE];
+    char **read_line = malloc(2*sizeof(char*));
 
     verbose = 0;
 
@@ -231,10 +232,16 @@ int main(int argc, char **argv) {
 
     printf("\nType help to find out all the available commands in mshell\n\n");
 
+    /* Initialise a "read command line" */
+    read_line[0] = "cd";
+    read_line[1] = "./";
+    do_cd(read_line);
+    free(read_line);
+
     /* Execute the shell's read/eval loop */
     while (1) {
         /* Read command line */
-        printf("%s", prompt);
+        printf(ANSI_COLOR_BLUE "%s$ "NORM, print_path);
 
         if ((fgets(cmdline, MAXLINE, stdin) == NULL) && ferror(stdin)) {
             fprintf(stdout, "fgets error\n");
