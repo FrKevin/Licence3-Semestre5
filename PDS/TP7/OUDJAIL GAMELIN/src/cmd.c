@@ -130,6 +130,7 @@ void do_fg(char **argv) {
   job = treat_argv(argv);
   if(jobs_fgpid() == 0 && job != NULL){
     job->jb_state = FG;
+    send_signal_to_job(job->jb_pid, SIGCONT);
     waitfg(job->jb_pid);
   }
 
@@ -216,7 +217,7 @@ void do_cd(char **argv){
         else{
           print_path = getcwd(buff, PATH_MAX+1);
           /* On ajout au debut le USER@mshell */
-          snprintf(new_path, PATH_MAX+1, ANSI_COLOR_BOLDCYAN"%s@mshell"ANSI_COLOR_BOLDBLUE":%s", user_name, print_path);
+          snprintf(new_path, PATH_MAX+1, ANSI_COLOR_BOLDCYAN"%s@mshell"NORM":"ANSI_COLOR_BOLDBLUE"%s", user_name, print_path);
           print_path = new_path;
         }
       }

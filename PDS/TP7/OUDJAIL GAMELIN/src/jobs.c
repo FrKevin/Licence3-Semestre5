@@ -61,7 +61,7 @@ int jobs_addjob(pid_t pid, int state, char *cmdline) {
       }
       strcpy(jobs[i].jb_cmdline, cmdline);
       if (verbose) {
-        printf(ANSI_COLOR_GREEN"Added job [%d] %d %s"NORM"\n", jobs[i].jb_jid, (int) jobs[i].jb_pid,
+        printf(ANSI_COLOR_BOLDGREEN"Added job [%d] %d %s"NORM"\n", jobs[i].jb_jid, (int) jobs[i].jb_pid,
         jobs[i].jb_cmdline);
       }
       return 1;
@@ -133,7 +133,7 @@ struct job_t *jobs_getjobjid(int jid) {
 void send_signal_to_job(pid_t pid, int sig){
   kill(pid, sig);
   if (verbose){
-    printf(ANSI_COLOR_GREEN"Send to %i the %i signal."NORM"\n", pid, sig);
+    printf(ANSI_COLOR_BOLDGREEN"Send to %i the %i signal."NORM"\n", pid, sig);
   }
 }
 
