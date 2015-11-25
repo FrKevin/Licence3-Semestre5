@@ -54,10 +54,9 @@ static void end_work(char *cmds[MAXCMDS][MAXARGS], int fd[MAXCMDS][2], pid_t *t_
       exit(EXIT_FAILURE);
     break;
     case 0:
-      close(fd[last_pipe][WRITE]); 
+      close(fd[last_pipe][WRITE]);
       dup2(fd[last_pipe][READ], STDIN_FILENO);
       close(fd[last_pipe][READ]);
-
       execvp(cmds[last_cmd][0], cmds[last_cmd]);
       exit(EXIT_FAILURE);
     break;
