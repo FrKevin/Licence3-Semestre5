@@ -130,6 +130,7 @@ void do_fg(char **argv) {
   job = treat_argv(argv);
   if(jobs_fgpid() == 0 && job != NULL){
     job->jb_state = FG;
+    send_signal_to_job(job->jb_pid, SIGCONT);
     waitfg(job->jb_pid);
   }
 
@@ -203,27 +204,34 @@ void do_cd(char **argv){
         snprintf(new_path, PATH_MAX+1, "%s", argv[1]);
     }
     /* lstat pour checker si c'est un dossier */
-    status = lstat(new_path, &st);
+    status = stat(new_path, &st);
     if(status == 0 && S_ISDIR(st.st_mode)){
       /* access pour checker si on peut y accéder */
-      status = access(new_path, R_OK);
-      if( status == 0){
+      if( access(new_path, X_OK) == 0){
         /* Et enfin on déplace le repertoire courant */
-        status = chdir(new_path);
-        if( status == -1){
-          send_verbose_message("chdir failre, default value for print_path");
+        if( chdir(new_path) == -1){
+          send_verbose_message("chdir failure");
         }
         else{
           print_path = getcwd(buff, PATH_MAX+1);
-          /* On ajout au debut le USER@mshell */
-          snprintf(new_path, PATH_MAX+1, ANSI_COLOR_BOLDCYAN"%s@mshell"ANSI_COLOR_BOLDBLUE":%s", user_name, print_path);
-          print_path = new_path;
         }
       }
+      else{
+        /* Si nous n'avons pas le droit d'accéder a ce dossier */
+        printf("cd: Permission non accordée\n");
+      }
     }
+    else{
+      /* Si ce n'est pas un dossier */
+      printf("cd: Aucun fichier ou dossier de ce type\n");
+    }
+    /* On ajout au debut le USER@mshell */
+    snprintf(new_path, PATH_MAX+1, ANSI_COLOR_BOLDCYAN"%s@mshell"NORM":"ANSI_COLOR_BOLDBLUE"%s", user_name, print_path);
+    print_path = new_path;
   }
+  /* En cas d'erreur du getcwd */
   else{
     print_path = "mshell > ";
-    send_verbose_message("getcwd failre, default value for print_path");
+    send_verbose_message("getcwd failure");
   }
 }

@@ -14,6 +14,6 @@ void unix_error(char *msg) {
 
 void send_verbose_message(const char* message){
   if(verbose){
-    printf(ANSI_COLOR_GREEN "%s"NORM"\n", message);
+    printf(ANSI_COLOR_BOLDGREEN "%s"NORM"\n", message);
   }
 }

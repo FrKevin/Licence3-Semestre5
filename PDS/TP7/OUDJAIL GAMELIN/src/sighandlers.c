@@ -74,10 +74,11 @@ void sigint_handler(int sig) {
 
   send_verbose_message("sigint_handler: entering");
 
-  job_current = jobs_fgpid();
-  if(sig == SIGINT){
-    if(job_current != 0){
-      send_signal_to_job(jobs_fgpid(), SIGINT);
+  while ((job_current = jobs_fgpid()) > 0) {
+    /* boucle prenant en charge toutes les commandes d'un pipe */
+    kill(job_current, SIGTERM);
+    if (verbose) {
+      printf("Send to %i the SIGTERM signal.\n", job_current);
     }
   }
 
@@ -90,20 +91,20 @@ void sigint_handler(int sig) {
 *     foreground job by sending it a SIGTSTP.
 */
 void sigtstp_handler(int sig) {
-  pid_t job_current;
-
+  pid_t fg_job_pid;
+  struct job_t *fg_job;
   send_verbose_message("sigtstp_handler: entering");
 
-  job_current = jobs_fgpid();
-  if(sig == SIGTSTP){
-    /* Nothing job is foreground => stop shell*/
-    if(job_current == 0){
-      kill(getpid(), SIGSTOP);
-    }
-    else{
-      send_signal_to_job(jobs_fgpid(), SIGSTOP);
-    }
-  }
-
+  while ((fg_job_pid = jobs_fgpid()) > 0) {
+		/* boucle prenant en charge toutes les commandes d'un pipe */
+		fg_job = jobs_getjobpid(fg_job_pid);
+		if (fg_job->jb_state != ST) {
+			fg_job->jb_state = ST;
+			kill(fg_job_pid, SIGSTOP);
+			if (verbose) {
+				printf("Send to %i the SIGTSTP signal.\n", fg_job_pid);
+      }
+		}
+	}
   send_verbose_message("sigtstp_handler: exiting");
 }
