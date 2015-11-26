@@ -1,7 +1,7 @@
 CC      = gcc
 CFLAGS  = -Wall -Werror
 CFLAGS += -g
-LDFLAGS = -g -pthread
+LDFLAGS = -g -pthread -lpthread
 
 BINS    = aleazard compteur-gc tri-rapide
 
@@ -27,4 +27,8 @@ clean:
 realclean: clean
 	rm ${BINS} || true
 
-.PHONY: all clean realclean
+.PHONY: all clean realclean test
+
+
+test: all
+	./tests.sh

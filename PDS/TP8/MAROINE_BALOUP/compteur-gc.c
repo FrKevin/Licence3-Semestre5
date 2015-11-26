@@ -6,17 +6,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
-
-
-
-
-typedef struct arg_s {
-	char* bloc;
-	unsigned long taille;
-	
-	
-	unsigned long returnVal;
-} arg_t;
+#include <pthread.h>
 
 
 
@@ -32,12 +22,6 @@ typedef struct arg_s {
 
 
 
-
-void* wrapper(void* args) {
-	arg_t* data = (arg_t*) args;
-	data->returnVal = compteur_gc(data->bloc, data->taille);
-	return NULL;
-}
 
 
 unsigned long compteur_gc(char *bloc, unsigned long taille) {
@@ -52,38 +36,108 @@ unsigned long compteur_gc(char *bloc, unsigned long taille) {
 
 
 
+/*
+ * Wrapping
+ */
+typedef struct arg_s {
+	char* bloc;
+	unsigned long taille;
+	
+	
+	unsigned long returnVal;
+} arg_t;
 
+void* wrapper(void* args) {
+	arg_t* data = (arg_t*) args;
+	data->returnVal = compteur_gc(data->bloc, data->taille);
+	return NULL;
+}
+/*
+ */
+
+
+
+
+/*
+ * Premier argument : le nombre de thread
+ * Deuxième argument : le chemin du fichier
+ */
 
 int main(int argc, char *argv[]) {
     struct stat st;
-    int fd;
+    int fd, i, lastPos = 0, currentPos = 0, nbPerThread;
+    int nbThread;
     char *tampon;
     int lus;
     unsigned long cptr = 0;
     off_t taille = 0;
     struct timespec debut, fin;
-
-    assert(argv[1] != NULL);
+    pthread_t* threads;
+    arg_t* threadsArgs;
+    
+    if (argc <= 2) {
+		printf("Nécessite au moins 2 arguments.\n");
+		printf("Utilisation : %s <NbThread> <Path>\n", argv[0]);
+		return EXIT_FAILURE;
+	}
+	
+	nbThread = atoi(argv[1]);
+	if (nbThread <= 0) {
+		printf("Nombre de thread invalide : %s\n", argv[1]);
+		printf("Valeur autorisé : nombre entier > 0");
+	}
+	
 
     /* Quelle taille ? */
-    assert(stat(argv[1], &st) != -1);
+    assert(stat(argv[2], &st) != -1);
     tampon = malloc(st.st_size);
     assert(tampon != NULL);
 
     /* Chargement en mémoire */
-    fd = open(argv[1], O_RDONLY);
+    fd = open(argv[2], O_RDONLY);
     assert(fd != -1);
     while ((lus = read(fd, tampon + taille, st.st_size - taille)) > 0)
         taille += lus;
     assert(lus != -1);
     assert(taille == st.st_size);
     close(fd);
+    
+    /* Répartition du travail */
+    threads = malloc(sizeof(pthread_t)*nbThread);
+    threadsArgs = malloc(sizeof(arg_t)*nbThread);
+    
+    nbPerThread = (taille / nbThread) + 1;
+    for (i=0; i<nbThread; i++) {
+		threadsArgs[i].bloc = &(tampon[lastPos]);
+		currentPos = lastPos + nbPerThread;
+		if (currentPos > taille)
+			currentPos = taille;
+			
+		threadsArgs[i].taille = currentPos-lastPos;
+		printf("%i : %i -> %lu\n", i, lastPos, threadsArgs[i].taille);
+		lastPos = currentPos;
+	}
+    
+    
 
     /* Calcul proprement dit */
     assert(clock_gettime(CLOCK_MONOTONIC, &debut) != -1);
-    cptr = compteur_gc(tampon, taille);
+    
+    
+    /* création threads */
+    for (i=0; i<nbThread; i++) {
+		assert(pthread_create(&(threads[i]), NULL, wrapper, &(threadsArgs[i])) == 0);
+	}
+	/* attente threads */
+    for (i=0; i<nbThread; i++) {
+		assert(pthread_join(threads[i], NULL) == 0);
+		cptr += threadsArgs[i].returnVal;
+	}
+	
+    
     assert(clock_gettime(CLOCK_MONOTONIC, &fin) != -1);
-
+	/* Fin des calculs */
+	
     /* Affichage des résultats */
     printf("Nombres de GC:   %ld\n", cptr);
     printf("Taux de GC:      %lf\n", ((double) cptr) / ((double) taille));
