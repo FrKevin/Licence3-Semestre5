@@ -1,7 +1,9 @@
 # mshell - a job manager
 VPATH = src
 
-BIN=./bin/
+TP=7
+NOM1=Gamelin
+NOM2=Oudjail
 
 CC      = gcc
 CFLAGS  = -g
@@ -27,8 +29,12 @@ sighandlers.o: sighandlers.c jobs.h common.h sighandlers.h
 
 # misc
 .PHONY: clean realclean
+
 clean:
 	rm -f $(OBJS) *~
 
 realclean: clean
 	rm -f $(EXEC)
+
+archive: clean realclean
+	zip -r TP${TP}_${NOM1}_${NOM2}.zip *
