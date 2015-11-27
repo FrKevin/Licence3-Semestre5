@@ -1,0 +1,98 @@
+
+
+TASK signal SIGINT sur processus unique
+MSHELL xclock -update 1
+RES l'application xclock est en cours d'excécution
+MSHELL Ctrl + C
+RES le processus xclock se termine (l'application n'est plus prèsente)
+RES on récupère la main sur le mshell
+
+TASK signal SIGTSTP, bg, fg et jobs sur processus unique
+MSHELL xclock -update 1
+RES l'application xclock est en cours d'excécution
+MSHELL Ctrl + Z
+RES l'application xclock est toujours là, mais ne bouge plus
+MSHELL jobs
+RES le processus xclock apparait comme étant stoppé
+MSHELL fg %1
+RES le job xclock refonctione, comme à l'état précédent (au premier plan)
+MSHELL Ctrl + Z
+RES l'application xclock est toujours là, mais ne bouge plus
+MSHELL bg %1
+RES l'application xclock est en cours d'éxcécution, mais on peut taper une autre commande
+MSHELL xeyes
+RES une paire d'yeux s'affiche, qui bouge
+MSHELL Ctrl + Z
+RES l'application xclock mais l'application xeyes est stoppé
+
+TASK symbole '&', jobs, kill, stop
+MSHELL xeyes &
+RES l'état du job xeyes s'affiche dans la console
+RES On peut lancé une autre commande par exemple
+MSHELL xclock -update 1 &
+RES une horloge s'affiche et fonctionne, on peut encore une toujours lancer une commande
+MSHELL jobs
+RES affiche les deux processus, fonctionnant en arrière plan
+MSHELL kill %2
+RES xclock est arréter
+MSHELL jobs
+RES seul xeyes est listé
+MSHELL stop %1
+RES l'application xeyes est toujours là, mais ne bouge plus
+MSHELL kill %1
+RES xeyes est arréter
+MSHELL jobs
+RES plus rien n'est listé
+
+TASK Ctrl+D
+MSHELL Ctrl+D
+RES le mshell se termine
+RES Ctrl+D ferme l'entrée standard du mshell
+
+TASK exit
+MSHELL exit
+RES le mshell se termine
+
+TASK kill externe d'un processus fils
+MSHELL xclock -update 1
+TERM killall xclock
+RES l'application xclock c'est terminé
+MSHELL jobs
+RES il n'y a aucun jobs
+
+TASK cd (on est à la racine du projet)
+MSHELL cd 42
+RES Un message s'affiche: Aucun fichier ou dossier de ce type
+MSHELL cd src
+RES nous déplace dans le répertoire src
+RES le texte XXX@mshell:[...] change
+MSHELL cd ..
+MSHELL mkdir test
+MSHELL chmod -x test
+MSHELL ls -l
+RES Nous n'avons plus le droit d'exécution sur le dossier
+MSHELL cd test
+RES impossible de ce déplacer: cd Permission non accordée
+MSHELL rm -rf test
+
+TASK cd (on est à la racine du projet) avec ln
+MSHELL mkdir test
+MSHELL ln -s test/ link_test
+MSHELL ln -s link_test link_test_2
+MSHELL cd link_test_2
+RES On est déplacer dans le dossier test
+MSHELL cd ..
+MSHELL rm -rf test
+MSHELL rm link_test
+MSHELL rm link_test_2
+MSHELL ln -s link_test link_test_2
+MSHELL ln -s link_test_2 link_test
+MSHELL cd link_test_2
+RES Un message s'affiche: Aucun fichier ou dossier de ce type
+
+TASK pipe
+MSHELL ls | cat | grep e
+RES affiche tous les noms de fichiers du dossier courant, ayant au moins un 'e'.
+RES on récupère la main sur le mshell. (sauf parfois ou un processus reste bloqué, pour la même commande)
+MSHELL jobs
+RES aucun job n'est affiché
