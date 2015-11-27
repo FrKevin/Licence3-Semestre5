@@ -11,4 +11,7 @@ extern void sigint_handler(int sig);
 extern void sigtstp_handler(int sig);
 extern void sigquit_handler(int sig);
 
+extern void lock_signal(sigset_t *mask);
+extern void unlock_signal(sigset_t *mask);
+
 #endif
