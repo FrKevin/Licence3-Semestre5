@@ -1,6 +1,0 @@
-Commande a utiliser :
-  dot -Tps test.dot -o test.ps
-  evince test.ps
-
--- Q7 : L'abreviation "digraph" correspond à directionnal graph (graphe orienté)
-        Cela implique que la mention "graph" correspond à un graphe non orienté
