@@ -58,7 +58,9 @@ void sigchld_handler(int sig) {
 
   if(WIFSTOPPED(status)){
     job = jobs_getjobpid(pid);
-    job->jb_state = ST;
+    if (job != NULL) {
+      job->jb_state = ST;
+    }
   }
 
   send_verbose_message("sigchld_handler: exiting");
@@ -107,4 +109,28 @@ void sigtstp_handler(int sig) {
 		}
 	}
   send_verbose_message("sigtstp_handler: exiting");
+}
+
+/*
+ * This is a little tricky. Block SIGCHLD, SIGINT, and SIGTSTP
+ * signals until we can add the job to the job list. This
+ * eliminates some nasty races between adding a job to the job
+ * list and the arrival of SIGCHLD, SIGINT, and SIGTSTP signals.
+ */
+void lock_signal(sigset_t *mask) {
+	if (sigemptyset(mask) < 0)
+		perror("sigemptyset error");
+	if (sigaddset(mask, SIGCHLD))
+		perror("sigaddset error");
+	if (sigaddset(mask, SIGINT))
+		perror("sigaddset error");
+	if (sigaddset(mask, SIGTSTP))
+		perror("sigaddset error");
+
+	if (sigprocmask(SIG_BLOCK, mask, NULL) < 0)
+		perror("sigprocmask error");
+}
+
+void unlock_signal(sigset_t *mask) {
+	sigprocmask(SIG_UNBLOCK, mask, NULL);
 }

@@ -9,8 +9,9 @@ void graphe2visu(tGraphe graphe, char *outfile) {
   strcpy(dotfile, outfile);
   strcat(dotfile, ".dot");
   fic = fopen(dotfile, "w");
-  if (fic==NULL)
+  if (fic==NULL) {
     halt ("Ouverture du fichier %s en ´ecriture impossible\n", dotfile);
+  }
   /*
   on parcourt le graphe pour en tirer les informations
   n´ecessaires pour graphviz.
