@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     int fd, i, lastPos = 0, currentPos = 0, nbPerThread;
     int nbThread;
     char *tampon;
-    int lus;
+    int lus, compact_result = 0;
     unsigned long cptr = 0;
     off_t taille = 0;
     struct timespec debut, fin;
@@ -85,6 +85,11 @@ int main(int argc, char *argv[]) {
 	if (nbThread <= 0) {
 		printf("Nombre de thread invalide : %s\n", argv[1]);
 		printf("Valeur autorisé : nombre entier > 0");
+		return EXIT_FAILURE;
+	}
+	
+	if (argc > 3 && (argv[3][0] == 'c' || argv[3][0] == 'C')) {
+		compact_result = 1;
 	}
 	
 
@@ -114,7 +119,8 @@ int main(int argc, char *argv[]) {
 			currentPos = taille;
 			
 		threadsArgs[i].taille = currentPos-lastPos;
-		printf("%i : %i -> %lu\n", i, lastPos, threadsArgs[i].taille);
+		if (!compact_result)
+			printf("%i : %i -> %lu\n", i, lastPos, threadsArgs[i].taille);
 		lastPos = currentPos;
 	}
     
@@ -139,17 +145,22 @@ int main(int argc, char *argv[]) {
 	/* Fin des calculs */
 	
     /* Affichage des résultats */
-    printf("Nombres de GC:   %ld\n", cptr);
-    printf("Taux de GC:      %lf\n", ((double) cptr) / ((double) taille));
-
+    if (!compact_result) {
+		printf("Nombres de GC:   %ld\n", cptr);
+		printf("Taux de GC:      %lf\n", ((double) cptr) / ((double) taille));
+	}
     fin.tv_sec  -= debut.tv_sec;
     fin.tv_nsec -= debut.tv_nsec;
     if (fin.tv_nsec < 0) {
         fin.tv_sec--;
         fin.tv_nsec += 1000000000;
     }
-    printf("Durée de calcul: %ld.%09ld\n", fin.tv_sec, fin.tv_nsec);
-    printf("(Attention: très peu de chiffres après la virgule sont réellement significatifs !)\n");
-
-    return 0;
+    if (!compact_result) {
+		printf("Durée de calcul: %ld.%09ld\n", fin.tv_sec, fin.tv_nsec);
+		printf("(Attention: très peu de chiffres après la virgule sont réellement significatifs !)\n");
+	}
+	else {
+		printf("%ld.%09ld", fin.tv_sec, fin.tv_nsec);
+	}
+    return EXIT_SUCCESS;
 }
