@@ -14,12 +14,3 @@ solutions(X,Y):- affiche_1(X,Y),affiche_2(X,Y).
 
 alt_solution(X,Y) :- contenu(X),contenu(Y),
 			  not(affiche_1(X,Y)),not(affiche_2(X,Y)).
-			  
-
-% Question 16
-
-% Question 17
-
-% Question 18
-
-
