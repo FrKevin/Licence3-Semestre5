@@ -1,3 +1,4 @@
+% Question 1
 femme(mia).
 femme(jody).
 femme(yolande).
@@ -9,17 +10,32 @@ aime(lapin, mon_chou).
 
 est_jaloux_de(X,Y) :- aime(X,Z), aime(Y,Z).
 
-question4(X) :- femme(mia), femme(yolande), not femme(lapin).
+% Question 2
+% Chargement de la base de donnees avec plusieur commande
+%   - /consult jalousie
+%   - /consult jalousie.dl
+%   - /c jalousie
+%   - /c jalousie.dl
 
-% Question 5 /listing femme
+
+% Question 3
+% /listing
+
+% Question 4
+question4_but :- femme(mia), femme(yolande), not femme(lapin).
+
+% Question 5
+toute_les_femmes(F) :- femme(F).
 
 % Question 6
-question6(X) :- aime(vincent, X), femme(X).
+toutes_les_femmes_vincent(F) :- aime('vincent', F), femme(F).
 
 % Question 7
-question7(X) :- aime(vincent, X), not femme(X).
+tous_les_hommes_vincent(H) :- aime('vincent', H), not femme(H).
 
 % Question 8
-question8(X) :- est_jaloux_de(vincent, X).
+% Pas utilisé variables anonymes (trait bas : _)
+les_jalousies_vincent(X) :- est_jaloux_de('vincent', X).
 
 % Question 9
+% Non compris
