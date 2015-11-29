@@ -11,6 +11,11 @@
 ###Commandes utiles
 	
 	Pour charger un fichier \d file.sql
+	
+###Commandes lancement RA
+	Par rapport à l'énoncé qui nous est fournie, les commandes sont les suivantes (à faire à partir de TP1) :
+	- export CLASSPATH=$CLASSPATH:aql.jar
+	- rlwrap java edu.gsu.cs.ra.RA boutique
 
 ###RA
 	project <=> Select
