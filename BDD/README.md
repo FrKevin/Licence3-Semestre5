@@ -13,26 +13,55 @@
 	Pour charger un fichier \d file.sql
 
 ###RA
-	project <=> Select
+	project <=> SELECT
 	select <=> WHERE 
-	* <=> NATURAL JOIN
+	minus <=> NOT IN 
 	
 	Exemples:
 	
 	project[fnom](fournisseurs);
 	<=> équivalent:
-		Select fnom
+		SELECT fnom
 		FROM fournisseurs
 	
 	select[fad='Paris'](fournisseurs);
 	<=> équivalent:
-		Select *
+		SELECT *
 		FROM fournisseurs
 		WHERE fad='Paris'
 		
 	project[fid](select[prix > 10 AND prix < 20](catalogue));
 	<=> équivalent:
-	Select fid
+	SELECT fid
 	FROM catalogue
 	WHERE prix > 10 AND prix < 20
+	
+	Donner les noms d’articles rouges ou verts. 
+	project[anom](select[acoul='rouge'](articles)) union project[anom](select[acoul='vert'](articles))
+	SELECT anom
+	FROM articles
+	WHERE acoul='rouge'
+	UNION
+	SELECT anom
+	FROM articles
+	WHERE acoul='vert'
+	
+	Donner la liste des articles fournissables, avec les prix auxquels ils sont offerts et le nom du fournisseur correspondant.
+	project[anom, prix, fnom](articles join catalogue join fournisseurs);
+	SELECT anom, prix, fnom
+	FROM articles NATURAL JOIN catalogue NATURAL JOIN fournisseurs
+	
+	Quels fournisseurs offrent uniquement des articles à plus de 10000 euros ?
+	(project[fid](catalogue))
+		minus
+	(project[fid](select[prix<10000](catalogue)));
+	<=>
+	SELECT fid
+	FROM catalogue
+	WHERE fid NOT IN(
+		SELECT fid
+		FROM catalogue
+		WHERE prix<10000
+	)
+	
 	
