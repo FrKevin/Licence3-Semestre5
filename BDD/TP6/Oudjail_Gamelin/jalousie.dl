@@ -1,3 +1,4 @@
+% Question 1
 femme(mia).
 femme(jody).
 femme(yolande).
@@ -9,9 +10,22 @@ aime(lapin, mon_chou).
 
 est_jaloux_de(X,Y) :- aime(X,Z), aime(Y,Z).
 
+% Question 2
+% Chargement de la base de donnees avec plusieur commande
+%   - /consult jalousie
+%   - /consult jalousie.dl
+%   - /c jalousie
+%   - /c jalousie.dl
+
+
+% Question 3
+/listing femme
+
+% Question 4
 question4(X) :- femme(mia), femme(yolande), not femme(lapin).
 
-% Question 5 /listing femme
+% Question 5
+question5(-) :- femme(-).
 
 % Question 6
 question6(X) :- aime(vincent, X), femme(X).
