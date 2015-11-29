@@ -21,3 +21,5 @@ alt_solution(X,Y) :- contenu(X),contenu(Y),
 % Question 17
 
 % Question 18
+
+
