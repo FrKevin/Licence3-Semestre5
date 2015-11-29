@@ -1,0 +1,29 @@
+% Question 2
+% Chargement de la base de donnees avec plusieur commande
+%   - /consult jalousie
+%   - /consult jalousie.dl
+%   - /c jalousie
+%   - /c jalousie.dl
+
+
+% Question 3
+% /listing
+
+% Question 4
+question4_but :- femme(mia), femme(yolande), not femme(lapin).
+
+% Question 5
+toute_les_femmes(F) :- femme(F).
+
+% Question 6
+toutes_les_femmes_vincent(F) :- aime('vincent', F), femme(F).
+
+% Question 7
+tous_les_hommes_vincent(H) :- aime('vincent', H), not femme(H).
+
+% Question 8
+% Pas utilisé variables anonymes (trait bas : _)
+vincent_jalou_de(X) :- est_jaloux_de('vincent', X), not X = 'vincent'.
+
+% Question 9
+vincent_est_jalou :- vincent_jalou_de(_).
