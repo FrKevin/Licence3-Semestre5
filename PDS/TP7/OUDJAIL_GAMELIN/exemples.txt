@@ -91,6 +91,9 @@ MSHELL cd link_test_2
 RES Un message s'affiche: Aucun fichier ou dossier de ce type
 
 TASK pipe
+Note Multiple bug
+N'imprime pas sur la sortie standart pour certaine commande
+Plante de maniere aleatoire
 MSHELL ls | cat | grep e
 RES affiche tous les noms de fichiers du dossier courant, ayant au moins un 'e'.
 RES on récupère la main sur le mshell. (sauf parfois ou un processus reste bloqué, pour la même commande)
