@@ -1,0 +1,16 @@
+% Question 11
+p(X,Y) :- e(X,Y).
+p(X,Y) :- e(X,Z), p(Z,Y).
+
+% Question 12
+% e(c,d).
+% e(c,a).
+% p(X, Y) :- e(X,Z), p(Z,Y).
+
+% Question 13: Nous ne pouvons pas d�terminer le noubre de passage dans un cycle
+
+
+% Question 14
+impair(X,Y) :-  e(X,Y).
+impair(X,Y) :- e(X,Z), e(Z,W), e(W,Y).
+% cas ou n > 3 not implemented
