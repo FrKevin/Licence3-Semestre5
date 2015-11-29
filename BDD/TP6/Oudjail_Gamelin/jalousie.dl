@@ -6,6 +6,7 @@ aime(vincent, pierre).
 aime(marcellus, mia).
 aime(mon_chou, lapin).
 aime(lapin, mon_chou).
+
 est_jaloux_de(X,Y) :- aime(X,Z), aime(Y,Z).
 
 question4(X) :- femme(mia), femme(yolande), not femme(lapin).
@@ -14,3 +15,11 @@ question4(X) :- femme(mia), femme(yolande), not femme(lapin).
 
 % Question 6
 question6(X) :- aime(vincent, X), femme(X).
+
+% Question 7
+question7(X) :- aime(vincent, X), not femme(X).
+
+% Question 8
+question8(X) :- est_jaloux_de(vincent, X).
+
+% Question 9

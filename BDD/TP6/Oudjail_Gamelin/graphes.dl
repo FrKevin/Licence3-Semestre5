@@ -1,0 +1,23 @@
+% Question 10
+e(a,b).
+e(b,c).
+e(b,f).
+e(f,g).
+e(z,f).
+e(d,z).
+e(d,a).
+
+% Question 11
+% graphe directement conectés:
+question11(X,Y) :- e(X,Y).
+% toutes (bug no results)  
+question112(X,Y) :-  e(X,W), question112(W,Y).
+
+% Question 12
+e(c,d).
+e(c,a).
+question12(X,Y) :-  e(X,W), question112(W,Y).
+
+% Question 13
+
+% Question 14
