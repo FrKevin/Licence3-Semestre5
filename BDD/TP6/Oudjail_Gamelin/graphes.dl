@@ -16,7 +16,7 @@ p(X, Y) :- e(X,Z), p(Z,Y).
 % e(c,a).
 % p(X, Y) :- e(X,Z), p(Z,Y).
 
-% Question 13: Nous ne pouvons pas déterminer le noubre de passage dans un cycle
+% Question 13: Nous ne pouvons pas dï¿½terminer le noubre de passage dans un cycle
 
 
 % Question 14

@@ -19,21 +19,23 @@ est_jaloux_de(X,Y) :- aime(X,Z), aime(Y,Z).
 
 
 % Question 3
-/listing femme
+% /listing
 
 % Question 4
-question4(X) :- femme(mia), femme(yolande), not femme(lapin).
+question4_but :- femme(mia), femme(yolande), not femme(lapin).
 
 % Question 5
-question5(-) :- femme(-).
+toute_les_femmes(F) :- femme(F).
 
 % Question 6
-question6(X) :- aime(vincent, X), femme(X).
+toutes_les_femmes_vincent(F) :- aime('vincent', F), femme(F).
 
 % Question 7
-question7(X) :- aime(vincent, X), not femme(X).
+tous_les_hommes_vincent(H) :- aime('vincent', H), not femme(H).
 
 % Question 8
-question8(X) :- est_jaloux_de(vincent, X).
+% Pas utilisé variables anonymes (trait bas : _)
+les_jalousies_vincent(X) :- est_jaloux_de('vincent', X).
 
 % Question 9
+% Non compris
