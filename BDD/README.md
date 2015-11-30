@@ -10,7 +10,7 @@
   
 ###Commandes utiles
 	
-	Pour charger un fichier \d file.sql
+	Pour charger un fichier \i file.sql
 	
 ###Commandes lancement RA
 
