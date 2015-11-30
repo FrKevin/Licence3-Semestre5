@@ -1,0 +1,1 @@
+deuxrouges(X) :- articles(X, _, rouges), articles(X, _, rouges).
