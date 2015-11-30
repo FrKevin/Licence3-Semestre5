@@ -1,0 +1,1 @@
+deuxCoul(X) :- catalogue(fid, aid, _), articles(aid, _, X)
