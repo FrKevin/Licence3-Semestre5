@@ -1,0 +1,20 @@
+Q3.2
+select * from joueur jo join play p on jo.id = p.id_joueur join jeux je on je.id = p.id_jeux;
+
+Q3.3
+UPDATE joueur
+SET adresse = 'Dunkerque'
+WHERE nom = 'joueur4';
+
+Q3.4
+SELECT count(jo.id)
+from joueur jo join play p on jo.id = p.id_joueur
+      join jeux je on je.id = p.id_jeux
+GROUP BY jo.id;
+
+Q3.5
+SELECT je.id
+from joueur jo join play p on jo.id = p.id_joueur
+      join jeux je on je.id = p.id_jeux
+group by je.id
+Having count(*) = 1;

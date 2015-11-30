@@ -1,10 +1,11 @@
+#Q3.1
 DROP TABLE IF EXISTS  play;
 DROP TABLE IF EXISTS  joueur;
 DROP TABLE IF EXISTS  jeux;
 
 CREATE TABLE joueur(
 	id serial primary key,
-  nom varchar(30) NOT NULL
+  nom varchar(30) NOT NULL,
 	adresse varchar(30) NOT NULL
 );
 
@@ -29,16 +30,16 @@ ALTER TABLE play
 	ON DELETE CASCADE
 	ON UPDATE CASCADE;
 
+#Q3.2
+INSERT INTO jeux VALUES (0, 'War');
+INSERT INTO jeux VALUES (1, 'Racing');
+INSERT INTO jeux VALUES (2, 'Foot');
+INSERT INTO jeux VALUES (3, 'Adventure');
 
-INSERT INTO jeux VALUES (0, "War");
-INSERT INTO jeux VALUES (1, "Racing");
-INSERT INTO jeux VALUES (2, "Foot");
-INSERT INTO jeux VALUES (3, "Adventure");
-
-INSERT INTO joueur VALUES (0, "joueur1", "Lille");
-INSERT INTO joueur VALUES (1, "joueur2", "Lens");
-INSERT INTO joueur VALUES (2, "joueur3", "Lille");
-INSERT INTO joueur VALUES (3, "joueur4", "Lille");
+INSERT INTO joueur VALUES (0, 'joueur1', 'Lille');
+INSERT INTO joueur VALUES (1, 'joueur2', 'Lens');
+INSERT INTO joueur VALUES (2, 'joueur3', 'Lille');
+INSERT INTO joueur VALUES (3, 'joueur4', 'Lille');
 
 INSERT INTO play VALUES (0, 0);
 INSERT INTO play VALUES (0, 1);
