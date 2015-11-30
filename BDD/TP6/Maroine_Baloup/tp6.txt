@@ -1,0 +1,22 @@
+Exo 1 --
+
+Q4) femme :- femme(mia).
+femme :- femme(yolanda).
+non_femme :- not femme(lapin).
+
+Q5) /listing femme.
+
+Q6) femme_vincent_aime(X) :- aime(vincent,X), femme(X).
+
+Q7) homme_vincent_aime(X) :- aime(vincent,X), not femme(X).
+
+Q8) vincent_jalou_de(Y) :- aime(vincent,Z), aime(Y,Z), not Y=vincent.
+Q9) vincent_jalou :- aime(X,Z), aime(_,Z), X=vincent.
+
+Exo 2 --
+
+Q13) Non on ne peut pas.
+Q14) sont_impairs(X,Y) :- impair(X,Y), not pair(X,Y).
+
+Exo 3 --
+Q16) 

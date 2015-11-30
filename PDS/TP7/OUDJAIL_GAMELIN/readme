@@ -1,0 +1,9 @@
+Binome: Veis Oudjail et Kevin Gamelin
+TP7 : MSHELL
+
+Commandes possibles:
+  make
+  make mshell
+  make clean
+  make archive
+  ./mshell

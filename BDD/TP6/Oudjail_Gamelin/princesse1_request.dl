@@ -1,0 +1,7 @@
+% Question 15
+% On a bien discuter !!
+
+% Question 16
+affiche_1(princesse,Y) :- contenu(Y).
+affiche_2(tigre,X) :- contenu(X).
+affiche_2(X,princesse) :- contenu(X).

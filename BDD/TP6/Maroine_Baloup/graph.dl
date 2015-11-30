@@ -1,0 +1,20 @@
+e(a,b).
+e(b,c).
+e(b,f).
+e(f,g).
+e(e,f).
+e(e,g).
+e(d,e).
+e(d,a).
+
+%Ajout d'une boucle
+e(b,d).
+
+p(X,Y) :- e(X,Y).
+p(X,Z) :- e(X,Y), p(Y,Z).
+
+pair(X,Z) :- e(X,Y), e(Y,Z).
+pair(X,Y) :- X=Y.
+pair(X) :- pair(X,X).
+
+impair(X,Z) :- pair(X,Y), e(Y,Z).
