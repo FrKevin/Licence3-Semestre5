@@ -1,0 +1,4 @@
+Question 2.1:
+	project[fnom]((select[acoul='rouge'](articles)) join catalogue join fournisseurs)
+
+Question 2.2:
