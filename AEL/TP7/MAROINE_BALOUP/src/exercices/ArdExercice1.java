@@ -1,29 +1,41 @@
-package ard;
+package exercices;
 
 import java.io.Reader;
 
+import ard.Ard;
+import ard.ErrorType;
+import ard.ParserException;
+import ard.SyntaxException;
+
 public class ArdExercice1 extends Ard {
 
-	protected ArdExercice1(Reader in) {
+	public ArdExercice1(Reader in) {
 		super(in);
 	}
 	
 	
 	
+	private String expandedExpression = null;
 	
-	private void S() throws SyntaxException, ParserException {
+	
+	
+	
+	private String S() throws SyntaxException, ParserException {
 		switch(current) {
 		case 'a':
 		case 'b':
 		case 'c':
 		case '(':
-			E();
-			R();
-			S();
-			break;
+			String ret = "";
+			String repeted = E();
+			int count = R();
+			for (int i=0;i<count; i++)
+				ret+=repeted;
+			ret+=S();
+			return ret;
 		case ')':
 		case END_MARKER:
-			break;
+			return "";
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
@@ -31,18 +43,17 @@ public class ArdExercice1 extends Ard {
 	
 	
 	
-	private void E() throws SyntaxException, ParserException {
+	private String E() throws SyntaxException, ParserException {
 		switch(current) {
 		case 'a':
 		case 'b':
 		case 'c':
-			L();
-			break;
+			return L();
 		case '(':
 			eat('(');
-			S();
+			String s = S();
 			eat(')');
-			break;
+			return s;
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
@@ -50,7 +61,7 @@ public class ArdExercice1 extends Ard {
 	
 	
 	
-	private void R() throws SyntaxException, ParserException {
+	private int R() throws SyntaxException, ParserException {
 		switch(current) {
 		case '0':
 		case '1':
@@ -62,15 +73,15 @@ public class ArdExercice1 extends Ard {
 		case '7':
 		case '8':
 		case '9':
-			C();
-			break;
+			return C();
+			
 		case 'a':
 		case 'b':
 		case 'c':
 		case '(':
 		case ')':
 		case END_MARKER:
-			break;
+			return 1;
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
@@ -78,13 +89,14 @@ public class ArdExercice1 extends Ard {
 	
 	
 	
-	private void L() throws SyntaxException, ParserException {
+	private String L() throws SyntaxException, ParserException {
 		switch(current) {
 		case 'a':
 		case 'b':
 		case 'c':
+			char c = current;
 			eat(current);
-			break;
+			return c+"";
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
@@ -98,7 +110,7 @@ public class ArdExercice1 extends Ard {
 	
 	
 	
-	private void C() throws SyntaxException, ParserException {
+	private int C() throws SyntaxException, ParserException {
 		switch(current) {
 		case '0':
 		case '1':
@@ -110,8 +122,9 @@ public class ArdExercice1 extends Ard {
 		case '7':
 		case '8':
 		case '9':
+			char c = current;
 			eat(current);
-			break;
+			return Integer.parseInt(c+"");
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
@@ -122,7 +135,16 @@ public class ArdExercice1 extends Ard {
 
 	@Override
 	protected void axiom() throws SyntaxException, ParserException {
-		S();
+		expandedExpression = S();
 	}
+
+
+
+	public String getExpandedExpression() {
+		return expandedExpression;
+	}
+
+
+	
 
 }
