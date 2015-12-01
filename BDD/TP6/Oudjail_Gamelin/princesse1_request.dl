@@ -1,7 +1,24 @@
 % Question 15
-% On a bien discuter !!
+% On a bien discutés :) !!
 
 % Question 16
-affiche_1(princesse,Y) :- contenu(Y).
-affiche_2(tigre,X) :- contenu(X).
-affiche_2(X,princesse) :- contenu(X).
+contenu(tigre).
+contenu(princesse).
+
+% Il y a une princesse dans cette cellule et un tigre dans l'autre.
+affiche_1(princesse, tigre) :- contenu(princesse).
+
+% Il y a une princesse dans une cellule et un tigre dans l'autre.
+affiche_2(princesse, tigre) :- contenu(tigre).
+affiche_2(tigre, princesse) :- contenu(princesse).
+
+% Solution
+solution(X, Y) :- contenu(X),contenu(Y), not(affiche_1(X,Y)),not(affiche_2(X,Y)).
+
+% Aide
+% Il y a un tigre derrière cette porte, ou la princesse derrière l'autre.
+% affiche_1(tigre,X):-contenu(X).
+% affiche_1(X,princesse):- contenu(X).
+
+% La princesse est derrière l'autre porte.
+% affiche_2(princesse,Y) :- contenu(Y).

@@ -5,3 +5,4 @@ doit_argent(cecile,barbara).
 evite(X,Y) :- doit_argent(X,Y).
 evite(X,Z) :- doit_argent(X,Y), evite(Y,Z).
 
+request(X) :- doit_argent(X, _).
