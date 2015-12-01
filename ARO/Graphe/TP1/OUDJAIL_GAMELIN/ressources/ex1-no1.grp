@@ -2,7 +2,7 @@
 type = oriente;
 
 # la liste des sommets
-sommets = A B C D E;
+sommets = A B C D E F;
 
 # la liste des arcs
 arcs =
