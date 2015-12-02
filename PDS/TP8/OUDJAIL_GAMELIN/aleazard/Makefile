@@ -5,7 +5,6 @@ CC      = gcc
 CFLAGS  = -Wall -Werror
 CFLAGS += -g
 LDFLAGS = -g -pthread
-
 BINS    = aleazard compteur-gc
 
 all: ${BINS}

@@ -28,7 +28,7 @@ all: parcoursLargeur
 ## Make avec argument
 
 parcoursLargeur:
-	${CC} ${CFLAGS} parcoursLargeur.c lib/graphe.c -o parcoursLargeur
+	${CC} ${CFLAGS} parcoursLargeur.c graphe_visu_color.c ../lib/graphe.c -o parcoursLargeur
 
 test:
 	./test.sh

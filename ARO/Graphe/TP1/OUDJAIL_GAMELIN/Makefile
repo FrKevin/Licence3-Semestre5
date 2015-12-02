@@ -18,18 +18,22 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: testAnalyseur
+all: testAnalyseur ex8
 
 ## Make avec argument
 
 testAnalyseur:
-	${CC} ${CFLAGS} testAnalyseur.c lib/graphe.c -o testAnalyseur
+	${CC} ${CFLAGS} testAnalyseur.c ../lib/graphe.c -o testAnalyseur
+
+ex8:
+		${CC} ${CFLAGS} graphe2visu.c ../lib/graphe.c -o graphe2visu
 
 test:
 	./test.sh
 
 clean:
-	rm  testAnalyseur || true
+	rm  testAnalyseur graphe2visu || true
+	rm  ressources/*.ps  ressources/*.dot || true
 
 
 ## Compilation séparée

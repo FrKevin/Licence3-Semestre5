@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "lib/graphe.h"
 
-/* Couleurs */
-typedef enum {ROUGE=0, BLEU=1, VERT=2} tCouleur;
-typedef tCouleur tTabCouleurs[MAX_SOMMETS];
+#include "../lib/graphe.h"
+#include "color.h"
+#include "graphe_visu_color.h"
 
 tGraphe init(int argc, char * file){
   tGraphe graphe;
@@ -22,6 +21,7 @@ void nettoyerFile(tFileSommets file){
     fileSommetsDefile(file);
   }
 }
+
 void initCouleurs(tGraphe graphe, tTabCouleurs couleurs, int sommet) {
   int nSommets = grapheNbSommets(graphe);
   for (size_t i = 0; i < nSommets; i++) {
@@ -46,14 +46,11 @@ void traitementGraphe(tGraphe graphe,tNumeroSommet  xSommet, tTabCouleurs couleu
   }
 }
 
-void parcoursLargeur(tGraphe graphe, int sommet){
-  size_t i;
+void parcoursLargeur(tGraphe graphe, int sommet, char *outfile){
   tTabCouleurs couleurs;
   tFileSommets file;
-  int nSommets;
   tNumeroSommet  xSommet;
-
-  nSommets = grapheNbSommets(graphe);
+  int entrer;
   file = fileSommetsAlloue();
 
   initCouleurs(graphe, couleurs, sommet);
@@ -66,20 +63,26 @@ void parcoursLargeur(tGraphe graphe, int sommet){
 
   /* PArcours du graphe en largeur */
   while (!fileSommetsEstVide(file)) {
+    graphe_visu_color(graphe, couleurs, outfile);
     xSommet =  fileSommetsDefile(file);
     traitementGraphe(graphe, xSommet, couleurs, file);
     couleurs[xSommet] = ROUGE;
+    printf("Enter number: ");
+    scanf("%d", &entrer);
   }
+  graphe_visu_color(graphe, couleurs, outfile);
 
   /* On libère la mémoire */
   fileSommetsLibere(file);
 }
 
 int main(int argc, char *argv[]) {
-    tGraphe graphe;
-    char * file = argv[1];
-    graphe = init(argc, file);
-    parcoursLargeur(graphe, 0);
-
+  if (argc<4) {
+    halt("Usage : %s FichierGraphe\n", argv[0]);
+  }
+  tGraphe graphe;
+  char * file = argv[1];
+  graphe = init(argc, file);
+  parcoursLargeur(graphe, atoi(argv[2]), argv[3]);
   exit(EXIT_SUCCESS);
 }

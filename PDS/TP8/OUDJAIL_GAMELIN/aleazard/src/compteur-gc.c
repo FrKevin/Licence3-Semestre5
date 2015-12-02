@@ -8,6 +8,9 @@
 #include <assert.h>
 #include <pthread.h>
 
+
+#define VERBOSE 1
+
 /* Signature de fonction */
 unsigned long compteur_gc(char *bloc, unsigned long taille);
 void *wrapper(void *arg);
@@ -22,7 +25,6 @@ typedef struct {
 
 unsigned long compteur_gc(char *bloc, unsigned long taille) {
     unsigned long i, cptr = 0;
-
     for (i = 0; i < taille; i++) {
         if (bloc[i] == 'G' || bloc[i] == 'C') {
             cptr++;
@@ -51,24 +53,35 @@ long mtcompteur_gc(char* tampon, unsigned long taille, int nthread) {
   /* Tableau de pointeur d'argument de threads */
   t_th_arg = (tharg_t **)malloc(sizeof(tharg_t *)*nthread);
   assert(t_th_arg != NULL);
-
   segment_size = taille/nthread;
   for (i = 0 ; i < nthread-1; i++) {
     t_th_arg[i] = (tharg_t *)malloc(sizeof(tharg_t));
     assert(t_th_arg[i] != NULL);
-
+    #ifdef VERBOSE
+      printf("Threads %ld\n", i);
+    #endif
     t_th_arg[i]->result = 0;
-    t_th_arg[i]->bloc = tampon + i * segment_size;
+    t_th_arg[i]->bloc = &tampon[i * segment_size];
     t_th_arg[i]->taille = segment_size;
-    pthread_create(&t_pthread[i], NULL, wrapper, t_th_arg[i]);
+    #ifdef VERBOSE
+    printf("Args->begin : %ld, Args->taille %ld\n", i * segment_size, t_th_arg[i]->taille);
+    #endif
+    pthread_create(&(t_pthread[i]), NULL, wrapper, t_th_arg[i]);
   }
 
-  t_th_arg[i]->result = 0; /* i = n-1 */
-  t_th_arg[i]->bloc = tampon + i * segment_size;
+  #ifdef VERBOSE
+    printf("Threads %ld\n", i);
+  #endif
+  t_th_arg[i] = (tharg_t *)malloc(sizeof(tharg_t));
+  t_th_arg[i]->result = 0; /* i = n-1*/
+  t_th_arg[i]->bloc = &tampon[i * segment_size];
   t_th_arg[i]->taille = taille - segment_size * i;
-  pthread_create(&t_pthread[i], NULL, wrapper, t_th_arg[i]);
+  #ifdef VERBOSE
+  printf("Args->begin : %ld, Args->taille %ld\n", i * segment_size, t_th_arg[i]->taille);
+  #endif
+  pthread_create(&(t_pthread[i]), NULL, wrapper, t_th_arg[i]);
 
-  /* Boucle d'attente */
+  /* Boucle d'attente d */
   for(i = 0; i < nthread; i++){
     pthread_join(t_pthread[i], NULL);
     result += t_th_arg[i]->result;
@@ -76,7 +89,7 @@ long mtcompteur_gc(char* tampon, unsigned long taille, int nthread) {
     t_th_arg[i] = NULL;
   }
   free(t_pthread);
-  t_pthread = NULL;
+  free(t_th_arg);
   return result;
 }
 
@@ -85,19 +98,22 @@ int main(int argc, char *argv[]) {
     int fd;
     char *tampon;
     int lus;
+    int nthread;
     unsigned long cptr = 0;
     off_t taille = 0;
     struct timespec debut, fin;
 
-    assert(argv[1] != NULL);
 
+    assert(argc == 3);
+    nthread = atoi(argv[1]);
+    assert(nthread > 0);
     /* Quelle taille ? */
-    assert(stat(argv[1], &st) != -1);
+    assert(stat(argv[2], &st) != -1);
     tampon = malloc(st.st_size);
     assert(tampon != NULL);
 
     /* Chargement en mémoire */
-    fd = open(argv[1], O_RDONLY);
+    fd = open(argv[2], O_RDONLY);
     assert(fd != -1);
     while ((lus = read(fd, tampon + taille, st.st_size - taille)) > 0){
         taille += lus;
@@ -108,7 +124,7 @@ int main(int argc, char *argv[]) {
 
     /* Calcul proprement dit */
     assert(clock_gettime(CLOCK_MONOTONIC, &debut) != -1);
-    cptr = compteur_gc(tampon, taille);
+    cptr = mtcompteur_gc(tampon, taille, nthread);
     assert(clock_gettime(CLOCK_MONOTONIC, &fin) != -1);
 
     /* Affichage des résultats */
