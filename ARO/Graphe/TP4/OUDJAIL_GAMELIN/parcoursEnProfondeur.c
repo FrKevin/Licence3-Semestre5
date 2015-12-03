@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "sys/wait.h" /* n´ecessaire pour la macro WEXITSTATUS */
 #include "../lib/graphe.h"
 #include "color.h"
+#include "graphe_visu_color.h"
 
 /*
 * Ecrit sur la sortie d'erreur
@@ -23,13 +23,13 @@ void assert_message(int cond, char * message){
 /*
 * Initialise le graphe
 */
-tGraphe init(int argc, char * file){
+tGraphe init(int argc, char * pile){
   tGraphe graphe;
   if (argc<2) {
-    halt("Usage : %s FichierGraphe\n", file);
+    halt("Usage : %s FichierGraphe\n", pile);
   }
   graphe = grapheAlloue();
-  grapheChargeFichier(graphe,  file);
+  grapheChargeFichier(graphe,  pile);
   return graphe;
 }
 
@@ -44,40 +44,53 @@ void init_parcours(tGraphe graphe, tTabCouleurs couleurs, int i[MAX_SOMMETS], in
 }
 
 /*
-* Vide la file
+* Vide la pile
 */
-void nettoyer_file(tFileSommets file){
-  while (!fileSommetsEstVide(file)) {
-    fileSommetsDefile(file);
+void nettoyer_pile(tPileSommets pile){
+  while (!pileSommetsEstPleine(pile)) {
+    pileSommetsDepile(pile);
   }
 }
 
 /*
 * Boucle principal
 */
-void traitement_pile(tFileSommets file, tNumeroSommet xSommet, int i[MAX_SOMMETS], tGraphe graphe, tTabCouleurs couleurs){
+void traitement_pile(tPileSommets pile, tNumeroSommet xSommet, int i[MAX_SOMMETS], tGraphe graphe, tTabCouleurs couleurs){
   tNumeroSommet iSucc;
+    tNomSommet nomSommet;
+      tNomSommet nomSommet2;
   int trouver = 0;
   int nSucc =0;
-
+  int j =0;
   i[xSommet] = i[xSommet] + 1;
   nSucc = grapheNbSuccesseursSommet(graphe, xSommet);
   while(i[xSommet] <= nSucc && trouver == 0){
-    iSucc = grapheSuccesseurSommetNumero(graphe, xSommet, i[xSommet]);
+    iSucc = grapheSuccesseurSommetNumero(graphe, xSommet, j);
+      grapheRecupNomSommet(graphe, iSucc, nomSommet);
+      grapheRecupNomSommet(graphe, xSommet, nomSommet2);
+    printf("sommet x %s\n", nomSommet2);
+      printf("succ du sommet x %s\n", nomSommet);
+    printf("sommet %d\n", i[xSommet]);
+    printf("couleur i %d\n",couleurs[iSucc] );
+    printf("BLEU = %d\n", BLEU);
+    printf("-----------------------------\n");
     if(couleurs[iSucc] == BLEU){
       trouver = 1;
     }
     else{
       i[xSommet] = i[xSommet] +1;
+      j++;
     }
   }
   if(trouver == 1){
     couleurs[iSucc] = VERT;
-    fileSommetsEnfile(file, iSucc);
+    printf("empile \n");
+    pileSommetsEmpile(pile, iSucc);
   }
   else{
     couleurs[xSommet] = ROUGE;
-    fileSommetsDefile(file);
+    printf("depile \n");
+    pileSommetsDepile(pile);
   }
 }
 
@@ -95,38 +108,43 @@ void print_i(tGraphe graphe, int i[MAX_SOMMETS], int nSommet){
 /*
 * Parcours en parcours_en_profondeur
 */
-void parcours_en_profondeur(tGraphe graphe, tNumeroSommet sommet){
+void parcours_en_profondeur(tGraphe graphe, tNumeroSommet sommet, char *outfile){
   tTabCouleurs couleurs;
-  tFileSommets file;
+  tPileSommets pile;
   tNumeroSommet xSommet;
 
   int i[MAX_SOMMETS];
   int nSommet = grapheNbSommets(graphe);
+  int entrer;
 
   /* On Initialise les couleurs et l'indice i*/
   init_parcours(graphe, couleurs, i, nSommet);
-  /* On vide la file */
-  nettoyer_file(file);
-  /* On colorie le promier sommet en vert et on l'enfile */
+  /* On dépile tout en affichant */
+  pile = pileSommetsAlloue();
+
+  /* On colorie le promier sommet en vert et on l'enpile */
   couleurs[sommet] = VERT;
-  fileSommetsEnfile(file, sommet);
+  pileSommetsEmpile(pile, sommet);
 
-  while (!fileSommetsEstVide(file)) {
-    xSommet =  fileSommetsDefile(file);
-    traitement_pile(file, xSommet, i, graphe, couleurs);
+  while (!pileSommetsEstVide(pile)) {
+    graphe_visu_color(graphe, couleurs, outfile);
+    xSommet = pileSommetsTete(pile);
+    traitement_pile(pile, xSommet, i, graphe, couleurs);
+    scanf("%d", &entrer);
   }
-
+  graphe_visu_color(graphe, couleurs, outfile);
+  pileSommetsLibere(pile);
   printf("resultat du parcours en profondeur: ---------------------------------------\n");
   print_i(graphe, i, nSommet);
 }
 
 int main(int argc, char *argv[]) {
-  if (argc<3) {
+  if (argc<4) {
     halt("Usage : %s FichierGraphe\n", argv[0]);
   }
   tGraphe graphe;
-  char * file = argv[1];
-  graphe = init(argc, file);
-  parcours_en_profondeur(graphe, atoi(argv[2]));
+  char * pile = argv[1];
+  graphe = init(argc, pile);
+  parcours_en_profondeur(graphe, atoi(argv[2]), argv[3]);
   exit(EXIT_SUCCESS);
 }
