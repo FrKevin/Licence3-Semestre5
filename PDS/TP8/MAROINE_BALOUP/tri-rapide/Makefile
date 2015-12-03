@@ -3,15 +3,9 @@ CFLAGS  = -Wall -Werror
 CFLAGS += -g
 LDFLAGS = -g -pthread -lpthread
 
-BINS    = aleazard compteur-gc tri-rapide
+BINS    = tri-rapide
 
 all: ${BINS}
-
-aleazard: aleazard.o
-	${CC} ${LDFLAGS} -o $@ $^
-
-compteur-gc: compteur-gc.o
-	${CC} ${LDFLAGS} -o $@ $^
 
 tri-rapide: pile.o tri.o rapide.o main.o
 	${CC} ${LDFLAGS} -o $@ $^
@@ -31,4 +25,4 @@ realclean: clean
 
 
 test: all
-	./tests.sh
+	./test.sh

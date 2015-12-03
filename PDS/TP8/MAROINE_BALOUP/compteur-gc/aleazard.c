@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
         prev_nb_bases = nb_bases;
         nb_bases -= 4 * lus;
         
-        if (nb_bases % (total/100) > prev_nb_bases % (total/100)) {
+        if (total > 4000000 && nb_bases % (total/100) > prev_nb_bases % (total/100)) {
 			fprintf(stderr, ".");
 			fflush(stderr);
 		}
