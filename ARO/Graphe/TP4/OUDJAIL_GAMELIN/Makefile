@@ -17,18 +17,18 @@ LDFLAGS  = -g
 
 ## Première cible
 	#  « make » sans argument construit sa première cible
-all: parcoursLargeur
+all: parcoursEnProfondeur
 
 ## Make avec argument
 
-parcoursLargeur:
-	${CC} ${CFLAGS} parcoursLargeur.c graphe_visu_color.c ../lib/graphe.c -o parcoursLargeur
+plusCourteChaine: parcoursEnProfondeur.c
+	${CC} ${CFLAGS} parcoursEnProfondeur.c ../lib/graphe.c -o parcoursEnProfondeur
 
 test:
 	./test.sh
 
 clean:
-	rm  parcoursLargeur || true
+	rm  parcoursEnProfondeur || true
 
 
 ## Compilation séparée

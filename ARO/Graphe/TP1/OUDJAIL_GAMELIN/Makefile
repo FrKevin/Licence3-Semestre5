@@ -1,4 +1,3 @@
-
 ## Compilateur C et éditeur de liens
 CC      = gcc
 
