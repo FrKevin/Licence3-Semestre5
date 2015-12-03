@@ -7,9 +7,9 @@
 
 echo "--- Préparation des fichiers pour compteur-gc ---"
 for size in `awk 'BEGIN { for( i=1000; i<=1000000000; i*=10 ) print i }'`; do
-	echo -n "$size octets ... "
+	echo "$size octets :"
 	./aleazard $size > $size.adn
-	echo "ok"
+	echo " ok"
 done
 echo -n "" > gc_result.txt
 echo "-------------------------------------------------"
@@ -19,7 +19,7 @@ echo "-------------------------------------------------"
 echo "-------------- Test de compteur-gc --------------"
 for size in `awk 'BEGIN { for( i=1000; i<=1000000000; i*=10 ) print i }'`; do
 	echo -n "Pour $size octets ..."
-    for nbTh in `awk 'BEGIN { for( i=1; i<=10; i++ ) print i }'`; do
+    for nbTh in `awk 'BEGIN { for( i=1; i<=32; i*=2 ) print i }'`; do
 		echo -n "$size $nbTh " >> gc_result.txt
 		echo -n " $nbTh"
 		nbTest=5

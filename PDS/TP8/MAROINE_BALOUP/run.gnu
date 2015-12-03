@@ -1,6 +1,7 @@
 # configuration du graph
 set logscale x
-set dgrid3d 10,7
+set logscale y
+set dgrid3d 6,7
 set pm3d
 
 # enregistrement sous forme d'image PNG
