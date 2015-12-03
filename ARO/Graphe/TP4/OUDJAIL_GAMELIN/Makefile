@@ -21,8 +21,8 @@ all: parcoursEnProfondeur
 
 ## Make avec argument
 
-plusCourteChaine: parcoursEnProfondeur.c
-	${CC} ${CFLAGS} parcoursEnProfondeur.c ../lib/graphe.c -o parcoursEnProfondeur
+parcoursEnProfondeur: parcoursEnProfondeur.c
+	${CC} ${CFLAGS} parcoursEnProfondeur.c graphe_visu_color.c ../lib/graphe.c -o parcoursEnProfondeur
 
 test:
 	./test.sh
