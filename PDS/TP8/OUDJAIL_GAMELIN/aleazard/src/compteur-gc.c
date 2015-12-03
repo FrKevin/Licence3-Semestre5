@@ -42,52 +42,38 @@ void *wrapper(void *arg) {
 long mtcompteur_gc(char* tampon, unsigned long taille, int nthread) {
   unsigned long i;
   pthread_t *t_pthread;
-  tharg_t **t_th_arg;
-  unsigned long segment_size;
+  tharg_t *t_th_arg;
+  unsigned long segment_size =  taille/nthread;
   unsigned long result = 0;
 
   /* Allocation variables */
   /* Tableau de threads */
-  t_pthread = (pthread_t*)malloc(sizeof(pthread_t)*nthread);
+  t_pthread = (pthread_t*)malloc(sizeof(pthread_t) * nthread);
   assert(t_pthread != NULL);
+
   /* Tableau de pointeur d'argument de threads */
-  t_th_arg = (tharg_t **)malloc(sizeof(tharg_t *)*nthread);
+  t_th_arg = (tharg_t *)malloc(sizeof(tharg_t) * nthread);
   assert(t_th_arg != NULL);
-  segment_size = taille/nthread;
-  for (i = 0 ; i < nthread-1; i++) {
-    t_th_arg[i] = (tharg_t *)malloc(sizeof(tharg_t));
-    assert(t_th_arg[i] != NULL);
+
+  for (i = 0 ; i < nthread; i++) {
     #ifdef VERBOSE
       printf("Threads %ld\n", i);
     #endif
-    t_th_arg[i]->result = 0;
-    t_th_arg[i]->bloc = &tampon[i * segment_size];
-    t_th_arg[i]->taille = segment_size;
+    t_th_arg[i].result = 0;
+    t_th_arg[i].bloc = &(tampon[i * segment_size]);
+    t_th_arg[i].taille = (i != nthread -1) ? segment_size : taille - segment_size * i;
     #ifdef VERBOSE
-    printf("Args->begin : %ld, Args->taille %ld\n", i * segment_size, t_th_arg[i]->taille);
+      printf("Args->begin : %ld, Args->taille %ld\n", i * segment_size, t_th_arg[i].taille);
     #endif
-    pthread_create(&(t_pthread[i]), NULL, wrapper, t_th_arg[i]);
+    pthread_create(&(t_pthread[i]), NULL, wrapper, &(t_th_arg[i]) );
   }
-
-  #ifdef VERBOSE
-    printf("Threads %ld\n", i);
-  #endif
-  t_th_arg[i] = (tharg_t *)malloc(sizeof(tharg_t));
-  t_th_arg[i]->result = 0; /* i = n-1*/
-  t_th_arg[i]->bloc = &tampon[i * segment_size];
-  t_th_arg[i]->taille = taille - segment_size * i;
-  #ifdef VERBOSE
-  printf("Args->begin : %ld, Args->taille %ld\n", i * segment_size, t_th_arg[i]->taille);
-  #endif
-  pthread_create(&(t_pthread[i]), NULL, wrapper, t_th_arg[i]);
 
   /* Boucle d'attente d */
   for(i = 0; i < nthread; i++){
     pthread_join(t_pthread[i], NULL);
-    result += t_th_arg[i]->result;
-    free(t_th_arg[i]);
-    t_th_arg[i] = NULL;
+    result += t_th_arg[i].result;
   }
+
   free(t_pthread);
   free(t_th_arg);
   return result;
