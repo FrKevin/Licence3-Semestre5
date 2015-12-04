@@ -1,5 +1,6 @@
 # mshell - a job manager
 VPATH = src
+OBJ = ./obj
 
 TP=7
 NOM1=Gamelin
@@ -16,6 +17,9 @@ EXEC    = mshell
 
 # main entries
 all: $(EXEC)
+		 rm -rf $(OBJ)/ || true
+		 mkdir $(OBJ)
+		 mv -f $(OBJS) $(OBJ)
 
 mshell: $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $@
@@ -31,7 +35,7 @@ sighandlers.o: sighandlers.c jobs.h common.h sighandlers.h
 .PHONY: clean realclean
 
 clean:
-	rm -f $(OBJS) *~
+	rm -rf $(OBJ) *~
 
 realclean: clean
 	rm -f $(EXEC)
