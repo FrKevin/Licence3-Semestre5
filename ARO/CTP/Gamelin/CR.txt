@@ -1,0 +1,34 @@
+NOM : gamelin
+Prénom : kevin
+Nom de la machine : a14p24
+
+
+
+Q1)
+1) d(A,F) = 2
+2) d(A,B) = 2-1
+3) C D E F
+4)  E F
+
+Q2) Fait : OUI
+Sommet de depart : A
+*** Parcours largeur:	A C D E F G H
+*** Distance <= 2:	C D E F
+*** Distance == 2:	E F
+*** Distance == k (3):
+
+
+Q3) Fait : OUI
+Sommet de depart : A
+*** Parcours largeur:	A C D E F G H
+*** Distance <= 2:	C D E F
+*** Distance == 2:	E F
+*** Distance == k (3):
+
+Q4) Fait : OUI/NON
+Indiquer la sortie écran :
+Expliquez les difficultés rencontrées si vous n'y arrivez pas
+
+
+Q5) Fait : OUI/NON
+Expliquez les difficultés rencontrées si vous n'y arrivez pas
