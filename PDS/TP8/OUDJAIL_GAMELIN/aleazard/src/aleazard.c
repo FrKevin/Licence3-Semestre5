@@ -28,7 +28,7 @@ void convertit_bases(const char *binaires, char *lettres, unsigned long taille) 
 #define min(a,b) ((a<b)?(a):(b))
 
 int main(int argc, char *argv[]) {
-    int fd, nb_bases, lus;
+    int fd, total, nb_bases, lus, prev_nb_bases;
     char binaires[TAILLE_TAMPON];
     char lettres[TAILLE_TAMPON * 4];
 
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    nb_bases = strtol(argv[1], NULL, 10);
+    total = nb_bases = strtol(argv[1], NULL, 10);
 
     fd = open("/dev/urandom", O_RDONLY);
     assert(fd != -1);
@@ -47,7 +47,12 @@ int main(int argc, char *argv[]) {
         assert(lus > 0);
         convertit_bases(binaires, lettres, lus);
         write(STDOUT_FILENO, lettres, min(4 * lus, nb_bases));
+        prev_nb_bases = nb_bases;
         nb_bases -= 4 * lus;
+        if (total > 4000000 && nb_bases % (total/100) > prev_nb_bases % (total/100)) {
+    			fprintf(stderr, ".");
+    			fflush(stderr);
+    		}
     }
     close(fd);
 

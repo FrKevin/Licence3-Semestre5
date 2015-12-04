@@ -1,3 +1,8 @@
+# variable pour l'archive
+TP=8
+NOM1=Gamelin
+NOM2=Oudjail
+
 # source du projets
 VPATH = src
 
@@ -25,6 +30,12 @@ clean:
 	rm *.o || true
 
 realclean: clean
-	rm ${BINS} || true
+	rm ${BINS} *.adn *.dat *.png || true
 
 .PHONY: all clean realclean
+
+test: all
+	./src/test.sh
+
+archive:
+	zip -r TP${TP}_${NOM1}_${NOM2}.zip *
