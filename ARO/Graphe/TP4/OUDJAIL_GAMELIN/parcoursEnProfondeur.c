@@ -140,7 +140,7 @@ void parcours_en_profondeur(tGraphe graphe, tNumeroSommet sommet, char *outfile)
 
 int main(int argc, char *argv[]) {
   if (argc<4) {
-    halt("Usage : %s FichierGraphe\n", argv[0]);
+    halt("Usage : %s fichier_souce_graphe sommet_de_depart fichier_output\n", argv[0]);
   }
   tGraphe graphe;
   char * pile = argv[1];
