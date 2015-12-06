@@ -13,21 +13,24 @@ public class ArdExercice1 extends Ard{
 		super(in);
 	}
 	
-	private void S() throws SyntaxException, ParserException {
+	private String S() throws SyntaxException, ParserException {
 		switch (current) {
 		case 'a':
 		case 'b':
 		case 'c':
 		case '(':
 			// S -> ERS
-			E();
-			R();
-			S();
-			break;
+			String expression = E();
+			int repeat = R();
+			StringBuilder developedExpression = new StringBuilder();
+			for(int i = 1; i <= repeat; ++i) {
+				developedExpression.append(expression);
+			}
+			return developedExpression + S();
 		case ')':
 		case END_MARKER:
 			// S -> epsilon
-			break;
+			return "";
 		default:
 			// erreur
 //			String myName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -36,35 +39,35 @@ public class ArdExercice1 extends Ard{
 		}
 	}
 
-	private void E() throws SyntaxException, ParserException{
+	private String E() throws SyntaxException, ParserException{
 		switch (current) {
 		case 'a':
 		case 'b':
 		case 'c':
 			// E -> L
-			L();
-			break;
+			return L();
 		case '(':
 			// E -> (S)
 			eat('(');
-			S();
+			String result = S();
 			eat(')');
-			break;
+			return result;
 		default:
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
 	}
 
-	private void L() throws SyntaxException, ParserException{
+	private String L() throws SyntaxException, ParserException{
 		if(current >= 'a' && current <= 'c'){
 			eat(current);
+			return "" + current;
 		}
 		else{
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
 	}
 	
-	private void R() throws SyntaxException, ParserException{
+	private int R() throws SyntaxException, ParserException{
 		switch (current) {
 		case 'a':
 		case 'b':
@@ -73,19 +76,22 @@ public class ArdExercice1 extends Ard{
 		case ')':
 		case END_MARKER:
 			// R -> epsilon
-			break;
+			return 1;
 		default:
 			if(current >= '0' && current <= '9'){
-				// R->C
-				C();
+				// R -> C
+				return C();
 			}
 			throw new SyntaxException(ErrorType.NO_RULE,current);
 		}
 	}
 	
-	private void C() throws SyntaxException, ParserException{
+	private int C() throws SyntaxException, ParserException{
 		if(current >= '0' && current <= '9'){
+			// C -> 0 .. 9
 			eat(current);
+			return Integer.parseInt("" +current);
+			
 		}
 		else{
 			throw new SyntaxException(ErrorType.NO_RULE,current);
