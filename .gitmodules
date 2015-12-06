@@ -7,3 +7,6 @@
 [submodule "COO/projets/Courriers"]
 	path = COO/projets/Courriers
 	url = https://github.com/FrKevin/Courriers.git
+[submodule "COO/projets/Plugins"]
+	path = COO/projets/Plugins
+	url = https://github.com/FrKevin/Plugins.git
