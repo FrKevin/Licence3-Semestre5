@@ -10,9 +10,6 @@ import condenses_lex.*;
 %unicode
 %line
 %column
-%{
-	private int previousInt;
-%}
 
 
 ENTIER=[0-9]
