@@ -20,6 +20,7 @@ public class TestARD {
 			}
 			System.out.print("mot ? > ");
 		}
+		input.close();
 	}
 
 }

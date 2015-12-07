@@ -1,10 +1,7 @@
-package main;
+package ard;
 
 import java.io.IOException;
 
-import ard.ErrorType;
-import ard.ParserException;
-import ard.SyntaxException;
 import condenses_lex.TokenType;
 import condenses_lex.Tokenizer;
 import condenses_lex.Yytoken;
@@ -48,7 +45,7 @@ public abstract class ArdTokenizer {
 	 */
 	protected void eat(Yytoken expected) throws SyntaxException, ParserException {
 		if (!current.equals(expected))
-		   throw new SyntaxException(ErrorType.UNMATCHING_CHAR, current, expected);
+		   throw new SyntaxException("Error type : " + ErrorType.UNMATCHING_CHAR +  ", current : " + current.getType() + "excepted " + expected);
 		next();
 	}
 
@@ -59,7 +56,7 @@ public abstract class ArdTokenizer {
 	 */
 	protected void eat(TokenType expected) throws SyntaxException, ParserException {
 		if (!current.getType().equals(expected))
-		   throw new SyntaxException(ErrorType.UNMATCHING_CHAR, current);
+			throw new SyntaxException("Error type : " + ErrorType.UNMATCHING_CHAR +  ", current : " + current.getType());
 		next();
 	}
 	
@@ -83,7 +80,7 @@ public abstract class ArdTokenizer {
 		axiom();
 		// check end of data :
 		if (!(current.getType().equals(END_MARKER)))
-			throw new SyntaxException(ErrorType.UNMATCHING_CHAR,current);
+			throw new SyntaxException("Error type : " + ErrorType.UNMATCHING_CHAR +  ", current : " + current.getType());
 		this.invalid = true;
 	}
 	

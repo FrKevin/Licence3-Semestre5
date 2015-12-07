@@ -1,0 +1,71 @@
+TP1 ----------------------------
+
+Question 1 :
+  Exp : [A-Z]+([A-Za-z])*
+  Exemple: Toto
+  Contre-Exemple: toto
+
+Question 2 :
+	Exp : \+33[1-9][0-9]{8}
+	Exemple : +33123456789
+	Contre-Exemple : +33023456789
+
+Question 3 :
+  Exp : ([02][1-9]|[13-8][0-9]|9[0-5]|2[AB]|97[1-6])
+	Exemple : 2A, 50
+	Contre-Exemple : 20, 2C
+
+Question 4 :
+	Exp : [a-zA-Z](_?[a-zA-Z0-9]+)*
+	Exemple : Aasas_dd
+	Contre-Exemple : Aaa___ ou _A
+
+Question 5 :
+	Exp : (0(_?([0-7]+))*)|([1-9](_?([0-9]+))*)|(0x(_?([0-9a-fA-F]+))+)
+	Exemple : 0x0_11_11111_10_aE, 077, 123456789
+	Contre-Exemple : 0x0_11_11111_10_aE__, _077, 12__345_6789
+
+Question 6 :
+	Exp: ( )*[a-zA-Z](_?[a-zA-Z0-9]+)*(( )*,( )*[a-zA-Z](_?[a-zA-Z0-9]+)*)*( )*
+	Exemple:   a,toto,aoosjj00
+	Contre-Exemple: a,toto,aoosjj00,
+
+Question 7 :
+	Exp : ()*[a-zA-Z](_?[a-zA-Z0-9]+)*(=((0(_?([0-7]+))*)|([1-9](_?([0-9]+))*)|(0x(_?([0-9a-fA-F]+))+)))?(( )*,( )*[a-zA-Z](_?[a-zA-Z0-9]+)*(=((0(_?([0-7]+))*)|([1-9](_?([0-9]+))*)|(0x(_?([0-9a-fA-F]+))+)))?)*( )*
+  Exemple : x=3, y=5
+  Contre-Exemple : a,&
+
+Question 8 :
+	Exp : "[^"]*"
+	Exemple : "azdasasa"
+	Contre-Exemple : “
+
+Question 9 :
+  Exp : ("[^"]*")*
+	Exemple : “abhah””hbdde””  ,”
+	Contre-Exemple : “ee””
+
+Question 10 :
+  Exp : ("(([^"\\]*)(\\"|\\\\)*)*")*
+	Exemple : “ahbahbhbhbh \\ hdeuhdud \” “”,   ”
+	Contre-Exemple : “\”
+
+Question 11 :
+  Exp : ([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*
+	Exemple : toto, _toto.xml, :toto
+	contre-Exemple : 01.xml
+
+Question 12 :
+	Exp : &(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*);
+	Exemple : &tata;
+	Contre-Exemple &
+
+Question 13 :
+	Exp : "([^"<&]|(&(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*);))*"
+	Exemple : "toto01&tata;a111&toto;"
+	Contre-Exemple : "toto01&a111&toto;"
+
+Question 14 :
+	Exp : <(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*)+((( )+([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*( )*=( )*("([^"<&]|(&(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*);))*"))?)*( )*>
+	Exemple : <button   toto="toto" tata="tata" titi="titi"     >
+	Contre-Exemple : <button < type="button" name="changer">>
