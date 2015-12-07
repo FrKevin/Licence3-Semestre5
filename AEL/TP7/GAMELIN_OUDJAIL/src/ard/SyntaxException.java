@@ -2,6 +2,11 @@ package ard;
 
 public class SyntaxException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public SyntaxException() {
 	}
 	
@@ -15,6 +20,7 @@ public class SyntaxException extends Exception {
 			return null;
 		}
 	}
+	
 	static protected String prepareMessage(ErrorType error, char current){
 		return prepareMessage(error,current,null);
 	}
