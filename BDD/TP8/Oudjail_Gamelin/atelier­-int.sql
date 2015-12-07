@@ -1,26 +1,12 @@
-INSERT INTO machine(nom, prix)
-  VALUES
-  ('Presse', 35000),
-  ('Moissonneuse-­batteuse', 50000);
+-- Requete 5
+-- Q1
+\qecho "Q1: Afficher les noms et prix des machines produites par l’atélier (résultat attendu: Presse à 35000 euros, Moissonneuse­-batteuse – 50000 euros)"
+SELECT m.nom, m.prix
+FROM machine m;
 
-INSERT INTO fournisseur(nom, numero_rue, nom_rue, nom_ville, code_ville, numero_tel, numero_fax)
-  VALUES
-  ('Recharges Agricoles', 'XX', 'XX', 'Boulogne', '62200', 'XX', 'XX'),
-  ('MultiRoues', 'XX', 'XX', 'Tourcoing', '59200', 'XX', 'XX'),
-  ('Pouce Vert', 'XX', 'XX', 'Lille', '59000', 'XX', 'XX');
+-- Q2
+\qecho "Q2: Afficher, pour les fournisseurs des pièces roues, leurs noms et villes (résultat attendu: MultiRoues de Tourcoing)"
+SELECT f.nom, f.nom_ville
+FROM fournisseur f JOIN piece p ON p.id_fournisseur = f.id;
 
-  INSERT INTO client(nom)
-    VALUES
-    ('Chicorée'),
-    ('Gremise');
-
-INSERT INTO piece(nom, nb_exemplaire, id_fournisseur)
-  VALUES
-  ('arbre', 42, (select id from fournisseur where nom = 'Recharges Agricoles') ),
-  ('deroulements', 42, (select id from fournisseur where nom = 'MultiRoues') ),
-  ('embrayages', 42, (select id from fournisseur where nom = 'Recharges Agricoles') ),
-  ('roues', 42, (select id from fournisseur where nom = 'MultiRoues') ),
-  ('structure primaire', 42, (select id from fournisseur where nom = 'MultiRoues') ),
-  ('van', 42, (select id from fournisseur where nom = 'XX') ),
-  ('batteur', 42, (select id from fournisseur where nom = 'XX') ),
-  ('ascenseur', 42, (select id from fournisseur where nom = 'XX') ),
+-- Q3

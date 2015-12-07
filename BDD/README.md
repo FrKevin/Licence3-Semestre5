@@ -1,27 +1,27 @@
-###Important:
+### Important:
 
-  activation de votre base de donnée a l'aide http://intranet.fil.univ-lille1.fr
+  Activation de votre base de donnée a l'aide http://intranet.fil.univ-lille1.fr
 
-###Login
+### Login
 
   psql -h webtp
   mot de passe de login
 
 
-###Commandes utiles
+### Commandes utiles
 
 	Pour charger un fichier \i file.sql
 
-###Commandes lancement RA
+### Commandes lancement RA
 
 	Par rapport à l'énoncé qui nous est fournie, les commandes sont les suivantes (à faire à partir de TP1) :
 	- export CLASSPATH=$CLASSPATH:aql.jar
 	- rlwrap java edu.gsu.cs.ra.RA boutique
 
-###Datalog
+### Datalog
 /home/enseign/DES/des
 
-###RA
+### RA
 	project <=> SELECT
 	select <=> WHERE
 	minus <=> NOT IN
