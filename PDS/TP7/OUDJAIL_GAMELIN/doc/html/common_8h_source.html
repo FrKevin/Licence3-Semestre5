@@ -94,56 +94,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="common_8h.html#a3e937c42922f7601edb17b747602c471">   12</a></span>&#160;<span class="preprocessor">#define MAXLINE    1024</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="common_8h.html#a41101847771d39a4f0a7f9395061c629">   17</a></span>&#160;<span class="preprocessor">#define MAXARGS    20</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="common_8h.html#a2f84e574694e0455fc2cb444686509a5">   22</a></span>&#160;<span class="preprocessor">#define MAXCMDS    10           </span><span class="comment">/* */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="common_8h.html#af5204e182e074b4c840671043c845e53">   27</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BLACK        &quot;\033[30m&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="common_8h.html#a34995b955465f6bbb37c359173d50477">   32</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_RED          &quot;\033[31m&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="common_8h.html#a966c72d8d733c7734c6c784753d894c7">   37</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_GREEN        &quot;\033[32m&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="common_8h.html#a5a123b382640b3aa65dd5db386002fbc">   42</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_YELLOW       &quot;\033[33m&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="common_8h.html#a41101847771d39a4f0a7f9395061c629">   18</a></span>&#160;<span class="preprocessor">#define MAXARGS    20</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="common_8h.html#a2f84e574694e0455fc2cb444686509a5">   24</a></span>&#160;<span class="preprocessor">#define MAXCMDS    10</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="common_8h.html#af5204e182e074b4c840671043c845e53">   30</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BLACK        &quot;\033[30m&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="common_8h.html#a34995b955465f6bbb37c359173d50477">   36</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_RED          &quot;\033[31m&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="common_8h.html#a966c72d8d733c7734c6c784753d894c7">   42</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_GREEN        &quot;\033[32m&quot;</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="common_8h.html#aca16e6a49eb51333c5fd3eee19487315">   47</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BLUE         &quot;\033[34m&quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="common_8h.html#acb30614ba1535da5b9d0c490b3c10515">   52</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_MAGENTA      &quot;\033[35m&quot;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="common_8h.html#a8d0b0043e152438bb39b918a1f98c65f">   57</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_CYAN         &quot;\033[36m&quot;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="common_8h.html#ab126a29a20ee0fe9ada8269c91edb753">   62</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_WHITE        &quot;\033[37m&quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="common_8h.html#a376dfa7081cf3ee53f24dcdd681285de">   67</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDBLACK    &quot;\033[1m\033[30m&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="common_8h.html#ada839c3ebe0041c0002110916925c8c7">   72</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDRED      &quot;\033[1m\033[31m&quot;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="common_8h.html#a5a123b382640b3aa65dd5db386002fbc">   48</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_YELLOW       &quot;\033[33m&quot;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="common_8h.html#aca16e6a49eb51333c5fd3eee19487315">   54</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BLUE         &quot;\033[34m&quot;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="common_8h.html#acb30614ba1535da5b9d0c490b3c10515">   60</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_MAGENTA      &quot;\033[35m&quot;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="common_8h.html#a8d0b0043e152438bb39b918a1f98c65f">   66</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_CYAN         &quot;\033[36m&quot;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="common_8h.html#ab126a29a20ee0fe9ada8269c91edb753">   72</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_WHITE        &quot;\033[37m&quot;</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="common_8h.html#accee9921ad6acccd979a1c8140ad998e">   77</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDGREEN    &quot;\033[1m\033[32m&quot;</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="common_8h.html#a05ea039f5d3816b1b8630a0121eacae3">   82</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDYELLOW   &quot;\033[1m\033[33m&quot;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="common_8h.html#ac06791db66c3a125228e1aee0ee99677">   87</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDBLUE     &quot;\033[1m\033[34m&quot;</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="common_8h.html#a5c4920532ca5eee83603529927775c46">   92</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDMAGENTA  &quot;\033[1m\033[35m&quot;</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="common_8h.html#aafa1b00d2c89de64321a90d91c73fbe9">   97</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDCYAN     &quot;\033[1m\033[36m&quot;</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="common_8h.html#af32d3f3ad2f84b1a7aee916da0c8dc6a">  102</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDWHITE    &quot;\033[1m\033[37m&quot;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="common_8h.html#a376dfa7081cf3ee53f24dcdd681285de">   78</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDBLACK    &quot;\033[1m\033[30m&quot;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="common_8h.html#ada839c3ebe0041c0002110916925c8c7">   84</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDRED      &quot;\033[1m\033[31m&quot;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="common_8h.html#accee9921ad6acccd979a1c8140ad998e">   90</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDGREEN    &quot;\033[1m\033[32m&quot;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="common_8h.html#a05ea039f5d3816b1b8630a0121eacae3">   96</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDYELLOW   &quot;\033[1m\033[33m&quot;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="common_8h.html#ac06791db66c3a125228e1aee0ee99677">  102</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDBLUE     &quot;\033[1m\033[34m&quot;</span></div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="common_8h.html#a26cdbb1a00213c810caccf21cd33a631">  107</a></span>&#160;<span class="preprocessor">#define BOLD &quot;\033[00;01m&quot;</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="common_8h.html#ae1fc77c1a1666773a25dc88a72da4b2b">  112</a></span>&#160;<span class="preprocessor">#define NORM &quot;\033[00;00m&quot;</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">  117</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">verbose</a>;</div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">  121</a></span>&#160;<span class="keywordtype">char</span>* <a class="code" href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">print_path</a>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="common_8h.html#a17e24e521a7c65e0dbd3bf2f82f5230b">unix_error</a>(<span class="keywordtype">char</span> *msg);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="common_8h.html#aad19de906e3dfa4bdba3e97b4c1cda5b">send_verbose_message</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="common_8h.html#a5c4920532ca5eee83603529927775c46">  108</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDMAGENTA  &quot;\033[1m\033[35m&quot;</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="common_8h.html#aafa1b00d2c89de64321a90d91c73fbe9">  114</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDCYAN     &quot;\033[1m\033[36m&quot;</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="common_8h.html#af32d3f3ad2f84b1a7aee916da0c8dc6a">  120</a></span>&#160;<span class="preprocessor">#define ANSI_COLOR_BOLDWHITE    &quot;\033[1m\033[37m&quot;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="common_8h.html#a26cdbb1a00213c810caccf21cd33a631">  126</a></span>&#160;<span class="preprocessor">#define BOLD &quot;\033[00;01m&quot;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="common_8h.html#ae1fc77c1a1666773a25dc88a72da4b2b">  132</a></span>&#160;<span class="preprocessor">#define NORM &quot;\033[00;00m&quot;</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">  137</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">verbose</a>;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">  142</a></span>&#160;<span class="keywordtype">char</span>* <a class="code" href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">print_path</a>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="common_8h.html#a17e24e521a7c65e0dbd3bf2f82f5230b">unix_error</a>(<span class="keywordtype">char</span> *msg);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="common_8h.html#aad19de906e3dfa4bdba3e97b4c1cda5b">send_verbose_message</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* message);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="common_8h_html_a17e24e521a7c65e0dbd3bf2f82f5230b"><div class="ttname"><a href="common_8h.html#a17e24e521a7c65e0dbd3bf2f82f5230b">unix_error</a></div><div class="ttdeci">void unix_error(char *msg)</div><div class="ttdoc">print unix errno and the message </div><div class="ttdef"><b>Definition:</b> common.c:10</div></div>
-<div class="ttc" id="common_8h_html_a0b2caeb4b6f130be43e5a2f0267dd453"><div class="ttname"><a href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">verbose</a></div><div class="ttdeci">int verbose</div><div class="ttdoc">If true, print additional output. </div><div class="ttdef"><b>Definition:</b> common.h:117</div></div>
-<div class="ttc" id="common_8h_html_adf4b78f90db981fcbaffae5a5373d724"><div class="ttname"><a href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">print_path</a></div><div class="ttdeci">char * print_path</div><div class="ttdoc">print the absolute pathname of the current working directory </div><div class="ttdef"><b>Definition:</b> common.h:121</div></div>
+<div class="ttc" id="common_8h_html_a0b2caeb4b6f130be43e5a2f0267dd453"><div class="ttname"><a href="common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453">verbose</a></div><div class="ttdeci">int verbose</div><div class="ttdoc">If true, print additional output. </div><div class="ttdef"><b>Definition:</b> common.h:137</div></div>
+<div class="ttc" id="common_8h_html_adf4b78f90db981fcbaffae5a5373d724"><div class="ttname"><a href="common_8h.html#adf4b78f90db981fcbaffae5a5373d724">print_path</a></div><div class="ttdeci">char * print_path</div><div class="ttdoc">print the absolute pathname of the current working directory </div><div class="ttdef"><b>Definition:</b> common.h:142</div></div>
 <div class="ttc" id="common_8h_html_aad19de906e3dfa4bdba3e97b4c1cda5b"><div class="ttname"><a href="common_8h.html#aad19de906e3dfa4bdba3e97b4c1cda5b">send_verbose_message</a></div><div class="ttdeci">void send_verbose_message(const char *message)</div><div class="ttdoc">if verbose = true, print additional output </div><div class="ttdef"><b>Definition:</b> common.c:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

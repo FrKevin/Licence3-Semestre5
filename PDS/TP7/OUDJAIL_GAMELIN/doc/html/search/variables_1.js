@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['verbose',['verbose',['../common_8h.html#a0b2caeb4b6f130be43e5a2f0267dd453',1,'common.h']]]
+  ['print_5fpath',['print_path',['../common_8h.html#adf4b78f90db981fcbaffae5a5373d724',1,'common.h']]]
 ];
