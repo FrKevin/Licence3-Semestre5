@@ -16,7 +16,7 @@ LDFLAGS  = -g
 ## Première cible
 #  « make » sans argument construit sa première cible
 #  Indiquez en dépendance le ou les binaires à construire
-all: exemple
+all: mdu
 
 
 ## Compilation séparée
@@ -28,7 +28,7 @@ clean:
 	rm *.o || true
 
 realclean: clean
-	rm exemple || true
+	rm mdu || true
 
 ## Liste des pseudo-cibles
 #  Ces cibles ne correspondent pas à des fichiers que l'on veut créer,
