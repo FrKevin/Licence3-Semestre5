@@ -8,6 +8,7 @@
 
 enum jstate { UNDEF, BG, FG, ST };
 
+
 struct job_t {                  /* The job struct */
     pid_t jb_pid;               /* job PID */
     int jb_jid;                 /* job ID [1, 2, ...] */
