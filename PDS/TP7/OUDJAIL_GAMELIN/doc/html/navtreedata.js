@@ -5,6 +5,7 @@ var NAVTREE =
       [ "Introduction", "index.html#intro_sec", null ],
       [ "Commandes possibles ?", "index.html#install_sec", null ]
     ] ],
+    [ "Modules", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],

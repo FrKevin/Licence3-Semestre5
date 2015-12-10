@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -106,18 +107,23 @@ $(document).ready(function(){initNavTree('pipe_8h_source.html','');});
 <div class="title">pipe.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _PIPE_H_</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define _PIPE_H_</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define READ 0</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define WRITE 1</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> do_pipe(<span class="keywordtype">char</span> *cmds[<a class="code" href="common_8h.html#a2f84e574694e0455fc2cb444686509a5">MAXCMDS</a>][<a class="code" href="common_8h.html#a41101847771d39a4f0a7f9395061c629">MAXARGS</a>], <span class="keywordtype">int</span> nbcmd, <span class="keywordtype">int</span> bg);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif</span></div>
+<a href="pipe_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef _PIPE_H_</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#define _PIPE_H_</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define READ 0</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define WRITE 1</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___pipe.html#gaf5fad6ad80a22f618955410794963779">do_pipe</a>(<span class="keywordtype">char</span> *cmds[<a class="code" href="common_8h.html#a2f84e574694e0455fc2cb444686509a5">MAXCMDS</a>][<a class="code" href="common_8h.html#a41101847771d39a4f0a7f9395061c629">MAXARGS</a>], <span class="keywordtype">int</span> nbcmd, <span class="keywordtype">int</span> bg);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="common_8h_html_a41101847771d39a4f0a7f9395061c629"><div class="ttname"><a href="common_8h.html#a41101847771d39a4f0a7f9395061c629">MAXARGS</a></div><div class="ttdeci">#define MAXARGS</div><div class="ttdoc">Le nombre d&#39;args max. </div><div class="ttdef"><b>Definition:</b> common.h:19</div></div>
+<div class="ttc" id="group___pipe_html_gaf5fad6ad80a22f618955410794963779"><div class="ttname"><a href="group___pipe.html#gaf5fad6ad80a22f618955410794963779">do_pipe</a></div><div class="ttdeci">void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg)</div><div class="ttdoc">do_pipe est une methode qui permet de faire communiquer un ensemble de processus en redirigeant leurs...</div><div class="ttdef"><b>Definition:</b> pipe.c:103</div></div>
 <div class="ttc" id="common_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">define et méthode de debug </div></div>
 <div class="ttc" id="common_8h_html_a2f84e574694e0455fc2cb444686509a5"><div class="ttname"><a href="common_8h.html#a2f84e574694e0455fc2cb444686509a5">MAXCMDS</a></div><div class="ttdeci">#define MAXCMDS</div><div class="ttdoc">le nombre max de commandes possibles pour les pipes </div><div class="ttdef"><b>Definition:</b> common.h:25</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -125,7 +131,7 @@ $(document).ready(function(){initNavTree('pipe_8h_source.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_0a4e634503a60ffd43cca762a3d3566b.html">Lille-1</a></li><li class="navelem"><a class="el" href="dir_fbc1c8e908db9c389b740c905ab99a6f.html">Licence3-Semestre5</a></li><li class="navelem"><a class="el" href="dir_498598d416d6a6a022c2a5ff1403c7bd.html">PDS</a></li><li class="navelem"><a class="el" href="dir_709f91335360dbde0a810af17d623e43.html">TP7</a></li><li class="navelem"><a class="el" href="dir_21a2183932a4b7501795ae47a9289c38.html">OUDJAIL_GAMELIN</a></li><li class="navelem"><a class="el" href="dir_375fc2d210686bf154535e7c0b79da91.html">src</a></li><li class="navelem"><b>pipe.h</b></li>
+    <li class="navelem"><a class="el" href="dir_0a4e634503a60ffd43cca762a3d3566b.html">Lille-1</a></li><li class="navelem"><a class="el" href="dir_fbc1c8e908db9c389b740c905ab99a6f.html">Licence3-Semestre5</a></li><li class="navelem"><a class="el" href="dir_498598d416d6a6a022c2a5ff1403c7bd.html">PDS</a></li><li class="navelem"><a class="el" href="dir_709f91335360dbde0a810af17d623e43.html">TP7</a></li><li class="navelem"><a class="el" href="dir_21a2183932a4b7501795ae47a9289c38.html">OUDJAIL_GAMELIN</a></li><li class="navelem"><a class="el" href="dir_375fc2d210686bf154535e7c0b79da91.html">src</a></li><li class="navelem"><a class="el" href="pipe_8h.html">pipe.h</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>

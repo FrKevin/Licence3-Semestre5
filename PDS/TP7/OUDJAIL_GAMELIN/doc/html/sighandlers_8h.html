@@ -46,6 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -110,167 +111,43 @@ $(document).ready(function(){initNavTree('sighandlers_8h.html','');});
 </div><!--header-->
 <div class="contents">
 
+<p>gestion des signaux  
+<a href="#details">More...</a></p>
+
 <p><a href="sighandlers_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:acefb2ae1d743b3e28bdcd190cd1060f5"><td class="memItemLeft" align="right" valign="top">typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#acefb2ae1d743b3e28bdcd190cd1060f5">handler_t</a>(int)</td></tr>
-<tr class="separator:acefb2ae1d743b3e28bdcd190cd1060f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacefb2ae1d743b3e28bdcd190cd1060f5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gacefb2ae1d743b3e28bdcd190cd1060f5"></a>
+typedef void&#160;</td><td class="memItemRight" valign="bottom"><b>handler_t</b>(int)</td></tr>
+<tr class="separator:gacefb2ae1d743b3e28bdcd190cd1060f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a897310bf5d40244e5da806fae0dee397"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a897310bf5d40244e5da806fae0dee397">sigaction_wrapper</a> (int signum, <a class="el" href="sighandlers_8h.html#acefb2ae1d743b3e28bdcd190cd1060f5">handler_t</a> *handler)</td></tr>
-<tr class="separator:a897310bf5d40244e5da806fae0dee397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ec144a9a628442e52b80210bc8364ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a7ec144a9a628442e52b80210bc8364ad">sigchld_handler</a> (int sig)</td></tr>
-<tr class="separator:a7ec144a9a628442e52b80210bc8364ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a258e3b580e688a0cf46e4258525aeaf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a258e3b580e688a0cf46e4258525aeaf1">sigint_handler</a> (int sig)</td></tr>
-<tr class="separator:a258e3b580e688a0cf46e4258525aeaf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a809b7c47b9e4abc05325a4b3d33f59a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a809b7c47b9e4abc05325a4b3d33f59a5">sigtstp_handler</a> (int sig)</td></tr>
-<tr class="separator:a809b7c47b9e4abc05325a4b3d33f59a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a368a774e2b304a3de55f58168563967d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a368a774e2b304a3de55f58168563967d">sigquit_handler</a> (int sig)</td></tr>
-<tr class="separator:a368a774e2b304a3de55f58168563967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af57b49bbe63afb81b5cbf55e9add1947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#af57b49bbe63afb81b5cbf55e9add1947">lock_signal</a> (sigset_t *mask)</td></tr>
-<tr class="separator:af57b49bbe63afb81b5cbf55e9add1947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54d7cd6d673e2bcc401f961e18ed3270"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sighandlers_8h.html#a54d7cd6d673e2bcc401f961e18ed3270">unlock_signal</a> (sigset_t *mask)</td></tr>
-<tr class="separator:a54d7cd6d673e2bcc401f961e18ed3270"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga897310bf5d40244e5da806fae0dee397"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga897310bf5d40244e5da806fae0dee397">sigaction_wrapper</a> (int signum, handler_t *handler)</td></tr>
+<tr class="memdesc:ga897310bf5d40244e5da806fae0dee397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction associe à un signaux une fonction de traitement.  <a href="group___sighandler.html#ga897310bf5d40244e5da806fae0dee397">More...</a><br /></td></tr>
+<tr class="separator:ga897310bf5d40244e5da806fae0dee397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ec144a9a628442e52b80210bc8364ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga7ec144a9a628442e52b80210bc8364ad">sigchld_handler</a> (int sig)</td></tr>
+<tr class="memdesc:ga7ec144a9a628442e52b80210bc8364ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction est un handler qui permet de traiter le signal SIG_CHILD Il permet d'attendre le fils (mais ne bloque pas) et met à jour la liste de job.  <a href="group___sighandler.html#ga7ec144a9a628442e52b80210bc8364ad">More...</a><br /></td></tr>
+<tr class="separator:ga7ec144a9a628442e52b80210bc8364ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga258e3b580e688a0cf46e4258525aeaf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga258e3b580e688a0cf46e4258525aeaf1">sigint_handler</a> (int sig)</td></tr>
+<tr class="memdesc:ga258e3b580e688a0cf46e4258525aeaf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction est un handler qui permet de traiter le signal SIG_INT Il permet d'envoyer le signal intteruption au proccessus courant (fg)  <a href="group___sighandler.html#ga258e3b580e688a0cf46e4258525aeaf1">More...</a><br /></td></tr>
+<tr class="separator:ga258e3b580e688a0cf46e4258525aeaf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga809b7c47b9e4abc05325a4b3d33f59a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga809b7c47b9e4abc05325a4b3d33f59a5">sigtstp_handler</a> (int sig)</td></tr>
+<tr class="memdesc:ga809b7c47b9e4abc05325a4b3d33f59a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction est un handler qui permet de traiter le signal SIG_STP Il permet d'envoyer le signal stop au proccessus courant (fg)  <a href="group___sighandler.html#ga809b7c47b9e4abc05325a4b3d33f59a5">More...</a><br /></td></tr>
+<tr class="separator:ga809b7c47b9e4abc05325a4b3d33f59a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga368a774e2b304a3de55f58168563967d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga368a774e2b304a3de55f58168563967d">sigquit_handler</a> (int sig)</td></tr>
+<tr class="separator:ga368a774e2b304a3de55f58168563967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf57b49bbe63afb81b5cbf55e9add1947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#gaf57b49bbe63afb81b5cbf55e9add1947">lock_signal</a> (sigset_t *mask)</td></tr>
+<tr class="memdesc:gaf57b49bbe63afb81b5cbf55e9add1947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction permet de blocker les signaux SIG_CHILD, SIG_INT, SIG_STP.  <a href="group___sighandler.html#gaf57b49bbe63afb81b5cbf55e9add1947">More...</a><br /></td></tr>
+<tr class="separator:gaf57b49bbe63afb81b5cbf55e9add1947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54d7cd6d673e2bcc401f961e18ed3270"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sighandler.html#ga54d7cd6d673e2bcc401f961e18ed3270">unlock_signal</a> (sigset_t *mask)</td></tr>
+<tr class="memdesc:ga54d7cd6d673e2bcc401f961e18ed3270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cette fonction permet de debloquer les signaux qui sont dans le mask.  <a href="group___sighandler.html#ga54d7cd6d673e2bcc401f961e18ed3270">More...</a><br /></td></tr>
+<tr class="separator:ga54d7cd6d673e2bcc401f961e18ed3270"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="acefb2ae1d743b3e28bdcd190cd1060f5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef void handler_t(int)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="af57b49bbe63afb81b5cbf55e9add1947"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void lock_signal </td>
-          <td>(</td>
-          <td class="paramtype">sigset_t *&#160;</td>
-          <td class="paramname"><em>mask</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a897310bf5d40244e5da806fae0dee397"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int sigaction_wrapper </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>signum</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="sighandlers_8h.html#acefb2ae1d743b3e28bdcd190cd1060f5">handler_t</a> *&#160;</td>
-          <td class="paramname"><em>handler</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a7ec144a9a628442e52b80210bc8364ad"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void sigchld_handler </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sig</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a258e3b580e688a0cf46e4258525aeaf1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void sigint_handler </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sig</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a368a774e2b304a3de55f58168563967d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void sigquit_handler </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sig</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a809b7c47b9e4abc05325a4b3d33f59a5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void sigtstp_handler </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>sig</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a54d7cd6d673e2bcc401f961e18ed3270"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void unlock_signal </td>
-          <td>(</td>
-          <td class="paramtype">sigset_t *&#160;</td>
-          <td class="paramname"><em>mask</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>gestion des signaux </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

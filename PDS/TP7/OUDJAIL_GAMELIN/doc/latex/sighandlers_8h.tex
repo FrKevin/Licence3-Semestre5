@@ -1,83 +1,35 @@
 \hypertarget{sighandlers_8h}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.h File Reference}
 \label{sighandlers_8h}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+h@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+h}}
+
+
+gestion des signaux  
+
+
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef void \hyperlink{sighandlers_8h_acefb2ae1d743b3e28bdcd190cd1060f5}{handler\+\_\+t}(int)
+\hypertarget{group___sighandler_gacefb2ae1d743b3e28bdcd190cd1060f5}{}typedef void {\bfseries handler\+\_\+t}(int)\label{group___sighandler_gacefb2ae1d743b3e28bdcd190cd1060f5}
+
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{sighandlers_8h_a897310bf5d40244e5da806fae0dee397}{sigaction\+\_\+wrapper} (int signum, \hyperlink{sighandlers_8h_acefb2ae1d743b3e28bdcd190cd1060f5}{handler\+\_\+t} $\ast$handler)
+int \hyperlink{group___sighandler_ga897310bf5d40244e5da806fae0dee397}{sigaction\+\_\+wrapper} (int signum, handler\+\_\+t $\ast$handler)
+\begin{DoxyCompactList}\small\item\em Cette fonction associe à un signaux une fonction de traitement. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga7ec144a9a628442e52b80210bc8364ad}{sigchld\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+C\+H\+I\+L\+D Il permet d\textquotesingle{}attendre le fils (mais ne bloque pas) et met à jour la liste de job. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga258e3b580e688a0cf46e4258525aeaf1}{sigint\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+I\+N\+T Il permet d\textquotesingle{}envoyer le signal intteruption au proccessus courant (fg) \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga809b7c47b9e4abc05325a4b3d33f59a5}{sigtstp\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+S\+T\+P Il permet d\textquotesingle{}envoyer le signal stop au proccessus courant (fg) \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga368a774e2b304a3de55f58168563967d}{sigquit\+\_\+handler} (int sig)
 \item 
-void \hyperlink{sighandlers_8h_a7ec144a9a628442e52b80210bc8364ad}{sigchld\+\_\+handler} (int sig)
-\item 
-void \hyperlink{sighandlers_8h_a258e3b580e688a0cf46e4258525aeaf1}{sigint\+\_\+handler} (int sig)
-\item 
-void \hyperlink{sighandlers_8h_a809b7c47b9e4abc05325a4b3d33f59a5}{sigtstp\+\_\+handler} (int sig)
-\item 
-void \hyperlink{sighandlers_8h_a368a774e2b304a3de55f58168563967d}{sigquit\+\_\+handler} (int sig)
-\item 
-void \hyperlink{sighandlers_8h_af57b49bbe63afb81b5cbf55e9add1947}{lock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
-\item 
-void \hyperlink{sighandlers_8h_a54d7cd6d673e2bcc401f961e18ed3270}{unlock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
-\end{DoxyCompactItemize}
+void \hyperlink{group___sighandler_gaf57b49bbe63afb81b5cbf55e9add1947}{lock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\begin{DoxyCompactList}\small\item\em Cette fonction permet de blocker les signaux S\+I\+G\+\_\+\+C\+H\+I\+L\+D, S\+I\+G\+\_\+\+I\+N\+T, S\+I\+G\+\_\+\+S\+T\+P. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga54d7cd6d673e2bcc401f961e18ed3270}{unlock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\begin{DoxyCompactList}\small\item\em Cette fonction permet de debloquer les signaux qui sont dans le mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\subsection{Typedef Documentation}
-\hypertarget{sighandlers_8h_acefb2ae1d743b3e28bdcd190cd1060f5}{}\index{sighandlers.\+h@{sighandlers.\+h}!handler\+\_\+t@{handler\+\_\+t}}
-\index{handler\+\_\+t@{handler\+\_\+t}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{handler\+\_\+t}]{\setlength{\rightskip}{0pt plus 5cm}typedef void handler\+\_\+t(int)}\label{sighandlers_8h_acefb2ae1d743b3e28bdcd190cd1060f5}
+\subsection{Detailed Description}
+gestion des signaux 
 
-
-\subsection{Function Documentation}
-\hypertarget{sighandlers_8h_af57b49bbe63afb81b5cbf55e9add1947}{}\index{sighandlers.\+h@{sighandlers.\+h}!lock\+\_\+signal@{lock\+\_\+signal}}
-\index{lock\+\_\+signal@{lock\+\_\+signal}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{lock\+\_\+signal(sigset\+\_\+t $\ast$mask)}]{\setlength{\rightskip}{0pt plus 5cm}void lock\+\_\+signal (
-\begin{DoxyParamCaption}
-\item[{sigset\+\_\+t $\ast$}]{mask}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_af57b49bbe63afb81b5cbf55e9add1947}
-\hypertarget{sighandlers_8h_a897310bf5d40244e5da806fae0dee397}{}\index{sighandlers.\+h@{sighandlers.\+h}!sigaction\+\_\+wrapper@{sigaction\+\_\+wrapper}}
-\index{sigaction\+\_\+wrapper@{sigaction\+\_\+wrapper}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{sigaction\+\_\+wrapper(int signum, handler\+\_\+t $\ast$handler)}]{\setlength{\rightskip}{0pt plus 5cm}int sigaction\+\_\+wrapper (
-\begin{DoxyParamCaption}
-\item[{int}]{signum, }
-\item[{{\bf handler\+\_\+t} $\ast$}]{handler}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a897310bf5d40244e5da806fae0dee397}
-\hypertarget{sighandlers_8h_a7ec144a9a628442e52b80210bc8364ad}{}\index{sighandlers.\+h@{sighandlers.\+h}!sigchld\+\_\+handler@{sigchld\+\_\+handler}}
-\index{sigchld\+\_\+handler@{sigchld\+\_\+handler}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{sigchld\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigchld\+\_\+handler (
-\begin{DoxyParamCaption}
-\item[{int}]{sig}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a7ec144a9a628442e52b80210bc8364ad}
-\hypertarget{sighandlers_8h_a258e3b580e688a0cf46e4258525aeaf1}{}\index{sighandlers.\+h@{sighandlers.\+h}!sigint\+\_\+handler@{sigint\+\_\+handler}}
-\index{sigint\+\_\+handler@{sigint\+\_\+handler}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{sigint\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigint\+\_\+handler (
-\begin{DoxyParamCaption}
-\item[{int}]{sig}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a258e3b580e688a0cf46e4258525aeaf1}
-\hypertarget{sighandlers_8h_a368a774e2b304a3de55f58168563967d}{}\index{sighandlers.\+h@{sighandlers.\+h}!sigquit\+\_\+handler@{sigquit\+\_\+handler}}
-\index{sigquit\+\_\+handler@{sigquit\+\_\+handler}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{sigquit\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigquit\+\_\+handler (
-\begin{DoxyParamCaption}
-\item[{int}]{sig}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a368a774e2b304a3de55f58168563967d}
-\hypertarget{sighandlers_8h_a809b7c47b9e4abc05325a4b3d33f59a5}{}\index{sighandlers.\+h@{sighandlers.\+h}!sigtstp\+\_\+handler@{sigtstp\+\_\+handler}}
-\index{sigtstp\+\_\+handler@{sigtstp\+\_\+handler}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{sigtstp\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigtstp\+\_\+handler (
-\begin{DoxyParamCaption}
-\item[{int}]{sig}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a809b7c47b9e4abc05325a4b3d33f59a5}
-\hypertarget{sighandlers_8h_a54d7cd6d673e2bcc401f961e18ed3270}{}\index{sighandlers.\+h@{sighandlers.\+h}!unlock\+\_\+signal@{unlock\+\_\+signal}}
-\index{unlock\+\_\+signal@{unlock\+\_\+signal}!sighandlers.\+h@{sighandlers.\+h}}
-\subsubsection[{unlock\+\_\+signal(sigset\+\_\+t $\ast$mask)}]{\setlength{\rightskip}{0pt plus 5cm}void unlock\+\_\+signal (
-\begin{DoxyParamCaption}
-\item[{sigset\+\_\+t $\ast$}]{mask}
-\end{DoxyParamCaption}
-)}\label{sighandlers_8h_a54d7cd6d673e2bcc401f961e18ed3270}

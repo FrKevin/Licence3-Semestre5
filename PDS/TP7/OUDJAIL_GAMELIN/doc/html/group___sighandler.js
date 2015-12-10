@@ -1,6 +1,5 @@
-var sighandlers_8h =
+var group___sighandler =
 [
-    [ "handler_t", "group___sighandler.html#gacefb2ae1d743b3e28bdcd190cd1060f5", null ],
     [ "lock_signal", "group___sighandler.html#gaf57b49bbe63afb81b5cbf55e9add1947", null ],
     [ "sigaction_wrapper", "group___sighandler.html#ga897310bf5d40244e5da806fae0dee397", null ],
     [ "sigchld_handler", "group___sighandler.html#ga7ec144a9a628442e52b80210bc8364ad", null ],

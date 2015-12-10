@@ -1,0 +1,40 @@
+\hypertarget{group___pipe}{}\section{section, process communication}
+\label{group___pipe}\index{section, process communication@{section, process communication}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___pipe_gaf5fad6ad80a22f618955410794963779}{do\+\_\+pipe} (char $\ast$cmds\mbox{[}\hyperlink{common_8h_a2f84e574694e0455fc2cb444686509a5}{M\+A\+X\+C\+M\+D\+S}\mbox{]}\mbox{[}\hyperlink{common_8h_a41101847771d39a4f0a7f9395061c629}{M\+A\+X\+A\+R\+G\+S}\mbox{]}, int nbcmd, int bg)
+\begin{DoxyCompactList}\small\item\em do\+\_\+pipe est une methode qui permet de faire communiquer un ensemble de processus en redirigeant leurs sortit standart dans des tubes faisant le liens entre eux \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This section talk about method to commicate between process 
+
+\subsection{Function Documentation}
+\hypertarget{group___pipe_gaf5fad6ad80a22f618955410794963779}{}\index{section, process communication@{section, process communication}!do\+\_\+pipe@{do\+\_\+pipe}}
+\index{do\+\_\+pipe@{do\+\_\+pipe}!section, process communication@{section, process communication}}
+\subsubsection[{do\+\_\+pipe(char $\ast$cmds[M\+A\+X\+C\+M\+D\+S][M\+A\+X\+A\+R\+G\+S], int nbcmd, int bg)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+pipe (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmds\mbox{[}\+M\+A\+X\+C\+M\+D\+S\mbox{]}\mbox{[}\+M\+A\+X\+A\+R\+G\+S\mbox{]}, }
+\item[{int}]{nbcmd, }
+\item[{int}]{bg}
+\end{DoxyParamCaption}
+)}\label{group___pipe_gaf5fad6ad80a22f618955410794963779}
+
+
+do\+\_\+pipe est une methode qui permet de faire communiquer un ensemble de processus en redirigeant leurs sortit standart dans des tubes faisant le liens entre eux 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmds} & \+: Liste de commandes avec leurs arguments \\
+\hline
+{\em nbcmd} & \+: Un entier representant le nombre de commande \\
+\hline
+{\em bg} & \+: Un arguments permettant de savoir si les commande sont en bg ou fg\\
+\hline
+\end{DoxyParams}
+Les processus lancé sont gerer en parti par la boucle d\textquotesingle{}attente, et le sighandler avec S\+I\+G\+\_\+\+C\+H\+I\+L\+D
+
+\begin{DoxyWarning}{Warning}
+Cette fonctionnalité presente plusieurs bug, nottament dans l\textquotesingle{}attente des processus qui peut boucler (Ce bug a une frequence aleatoire) 
+\end{DoxyWarning}
