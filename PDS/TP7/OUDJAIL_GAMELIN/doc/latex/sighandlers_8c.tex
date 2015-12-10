@@ -1,0 +1,73 @@
+\hypertarget{sighandlers_8c}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.c File Reference}
+\label{sighandlers_8c}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+c@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$sys/types.\+h$>$}\\*
+{\ttfamily \#include $<$signal.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}jobs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sighandlers.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{sighandlers_8c_a897310bf5d40244e5da806fae0dee397}{sigaction\+\_\+wrapper} (int signum, \hyperlink{sighandlers_8h_acefb2ae1d743b3e28bdcd190cd1060f5}{handler\+\_\+t} $\ast$handler)
+\item 
+void \hyperlink{sighandlers_8c_a7ec144a9a628442e52b80210bc8364ad}{sigchld\+\_\+handler} (int sig)
+\item 
+void \hyperlink{sighandlers_8c_a258e3b580e688a0cf46e4258525aeaf1}{sigint\+\_\+handler} (int sig)
+\item 
+void \hyperlink{sighandlers_8c_a809b7c47b9e4abc05325a4b3d33f59a5}{sigtstp\+\_\+handler} (int sig)
+\item 
+void \hyperlink{sighandlers_8c_af57b49bbe63afb81b5cbf55e9add1947}{lock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\item 
+void \hyperlink{sighandlers_8c_a54d7cd6d673e2bcc401f961e18ed3270}{unlock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{sighandlers_8c_af57b49bbe63afb81b5cbf55e9add1947}{}\index{sighandlers.\+c@{sighandlers.\+c}!lock\+\_\+signal@{lock\+\_\+signal}}
+\index{lock\+\_\+signal@{lock\+\_\+signal}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{lock\+\_\+signal(sigset\+\_\+t $\ast$mask)}]{\setlength{\rightskip}{0pt plus 5cm}void lock\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{sigset\+\_\+t $\ast$}]{mask}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_af57b49bbe63afb81b5cbf55e9add1947}
+\hypertarget{sighandlers_8c_a897310bf5d40244e5da806fae0dee397}{}\index{sighandlers.\+c@{sighandlers.\+c}!sigaction\+\_\+wrapper@{sigaction\+\_\+wrapper}}
+\index{sigaction\+\_\+wrapper@{sigaction\+\_\+wrapper}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{sigaction\+\_\+wrapper(int signum, handler\+\_\+t $\ast$handler)}]{\setlength{\rightskip}{0pt plus 5cm}int sigaction\+\_\+wrapper (
+\begin{DoxyParamCaption}
+\item[{int}]{signum, }
+\item[{{\bf handler\+\_\+t} $\ast$}]{handler}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_a897310bf5d40244e5da806fae0dee397}
+\hypertarget{sighandlers_8c_a7ec144a9a628442e52b80210bc8364ad}{}\index{sighandlers.\+c@{sighandlers.\+c}!sigchld\+\_\+handler@{sigchld\+\_\+handler}}
+\index{sigchld\+\_\+handler@{sigchld\+\_\+handler}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{sigchld\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigchld\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_a7ec144a9a628442e52b80210bc8364ad}
+\hypertarget{sighandlers_8c_a258e3b580e688a0cf46e4258525aeaf1}{}\index{sighandlers.\+c@{sighandlers.\+c}!sigint\+\_\+handler@{sigint\+\_\+handler}}
+\index{sigint\+\_\+handler@{sigint\+\_\+handler}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{sigint\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigint\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_a258e3b580e688a0cf46e4258525aeaf1}
+\hypertarget{sighandlers_8c_a809b7c47b9e4abc05325a4b3d33f59a5}{}\index{sighandlers.\+c@{sighandlers.\+c}!sigtstp\+\_\+handler@{sigtstp\+\_\+handler}}
+\index{sigtstp\+\_\+handler@{sigtstp\+\_\+handler}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{sigtstp\+\_\+handler(int sig)}]{\setlength{\rightskip}{0pt plus 5cm}void sigtstp\+\_\+handler (
+\begin{DoxyParamCaption}
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_a809b7c47b9e4abc05325a4b3d33f59a5}
+\hypertarget{sighandlers_8c_a54d7cd6d673e2bcc401f961e18ed3270}{}\index{sighandlers.\+c@{sighandlers.\+c}!unlock\+\_\+signal@{unlock\+\_\+signal}}
+\index{unlock\+\_\+signal@{unlock\+\_\+signal}!sighandlers.\+c@{sighandlers.\+c}}
+\subsubsection[{unlock\+\_\+signal(sigset\+\_\+t $\ast$mask)}]{\setlength{\rightskip}{0pt plus 5cm}void unlock\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{sigset\+\_\+t $\ast$}]{mask}
+\end{DoxyParamCaption}
+)}\label{sighandlers_8c_a54d7cd6d673e2bcc401f961e18ed3270}

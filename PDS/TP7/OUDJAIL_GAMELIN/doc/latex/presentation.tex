@@ -1,0 +1,9 @@
+La bibliothèque permet de manipuler des graphes orientés ou non. Les graphes sont toujours valués, et le type des valeurs des arcs/arêtes est double (flottant double précision). Attention, la valeur nulle pour un arc/arête est interdite.
+
+L\textquotesingle{}intérêt de cette bibliothèque est de pouvoir charger un fichier texte ou générer aléatoirement des graphes, et de pouvoir consulter avec des fonctions d\textquotesingle{}interface des informations comme les voisins, successeurs, ...
+
+En interne, les données sont stockées pour améliorer l\textquotesingle{}efficacité des opérations. La méthode est simple \+: les données sont stockés sous différents formats (liste de voisins, liste de successeurs, matrice d\textquotesingle{}incidence, ...) afin d\textquotesingle{}avoir des opérations de consultation en coût constant.
+
+Les sommets des graphes sont des chaînes de caractères.
+
+Les sommets sont manipulés par leur numéro, qui est compris entre 0 et le nombre de sommets moins un. 

@@ -1,58 +1,108 @@
-/* mshell - a job manager */
-
+/*!
+  \file jobs.h
+  \brief definition d'un job
+*/
 #ifndef _JOBS_H_
 #define _JOBS_H_
 
 #include <sys/types.h>
 #include "common.h"
 
+/*!
+  \enum jstate
+  \brief les etats possibles d'un job
+*/
 enum jstate { UNDEF, BG, FG, ST };
 
-struct job_t {                  /* The job struct */
-    pid_t jb_pid;               /* job PID */
-    int jb_jid;                 /* job ID [1, 2, ...] */
-    int jb_state;               /* UNDEF, BG, FG, or ST */
-    char jb_cmdline[MAXLINE];   /* command line */
+/*!
+  \struct job_t
+  \brief la structure d'un job
+*/
+struct job_t {
+    pid_t jb_pid;               /*! \brief le PID du job */
+    int jb_jid;                 /*! \brief l'ID du job */
+    int jb_state;               /*! \brief l'etat du job: UNDEF, BG, FG, or ST */
+    char jb_cmdline[MAXLINE];   /*! \brief la commande */
 };
 
-
-/*** Helper routines that manipulate the job list ***/
-
-/* clearjob - Clear the entries in a job struct */
+/*!
+  \fn void jobs_clearjob(struct job_t *job)
+  \brief Supprime un job
+  \param struct job_t *job.
+*/
 extern void jobs_clearjob(struct job_t *job);
 
-/* initjobs - Initialize the job list */
+/*!
+  \fn void jobs_initjobs()
+  \brief Initialise la liste de jobs
+*/
 extern void jobs_initjobs();
 
-/* maxjid - Returns largest allocated job ID */
+/*!
+  \fn int jobs_maxjid()
+  \brief retourne l'id maximal des jobs alloués
+*/
 extern int jobs_maxjid();
 
-/* addjob - Add a job to the job list */
+/*!
+  \fn int jobs_addjob(pid_t pid, int state, char *cmdline)
+  \brief Ajoute un job dans la liste des jobs
+  \return 1 => OK  et  0 => erreur
+*/
 extern int jobs_addjob(pid_t pid, int state, char *cmdline);
 
-/* deletejob - Delete a job whose PID=pid from the job list */
+/*!
+  \fn int jobs_deletejob(pid_t pid)
+  \brief Détruis un job avec son PID dans la liste des jobs
+  \return 1 => OK  et  0 => erreur
+*/
 extern int jobs_deletejob(pid_t pid);
 
-/* fgpid - Return PID of current foreground job, 0 if no such job */
+/*!
+  \fn pid_t jobs_fgpid()
+  \brief Retourne le job lancer en arrière plan
+  \return 0 => si aucun job trouver
+*/
 extern pid_t jobs_fgpid();
 
-/* getjobpid  - Find a job (by PID) on the job list */
+/*!
+  \fn struct job_t *jobs_getjobpid(pid_t pid)
+  \brief Trouve un job avec un pid dans la liste des jobs
+  \return 0 => si aucun job trouver
+*/
 extern struct job_t *jobs_getjobpid(pid_t pid);
 
-/* getjobjid  - Find a job (by JID) on the job list */
+/*!
+  \fn struct job_t *jobs_getjobjid(int jid)
+  \brief Trouve un job avec un jid dans la liste des jobs
+  return 0 => si aucun job trouver
+*/
 extern struct job_t *jobs_getjobjid(int jid);
 
-
-/* Send a sinal for job width pid or jid*/
+/*!
+  \fn send_signal_to_job(pid_t pid, int sig)
+  \brief Envoie un signal sur un job
+*/
 extern void send_signal_to_job(pid_t pid, int sig);
 
-/* pid2jid - Map process ID to job ID */
+/*!
+  \fn int jobs_pid2jid(pid_t pid)
+  \brief recupere le jid d'un job en focntion de sont pid
+  \return 0 si non trouver
+*/
 extern int jobs_pid2jid(pid_t pid);
 
-/*getstoppedjob - Return a stopped job if any  */
+/*!
+  \fn struct job_t *jobs_getstoppedjob()
+  \brief retourne un job dans l'état stop
+  \return NULL if any
+*/
 extern struct job_t *jobs_getstoppedjob();
 
-/* listjobs - Print the job list */
+/*!
+  \fn void jobs_listjobs()
+  \brief affiche la liste des jobs
+*/
 extern void jobs_listjobs();
 
 #endif
