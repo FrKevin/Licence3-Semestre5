@@ -1,0 +1,67 @@
+\hypertarget{mshell_8c}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/mshell.c File Reference}
+\label{mshell_8c}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/mshell.\+c@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/mshell.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$signal.\+h$>$}\\*
+{\ttfamily \#include $<$sys/types.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}cmd.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}sighandlers.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}jobs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}pipe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}common.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{mshell_8c_ae8605e2b78cd4a81b6c6b5c30cb7366a}{usage} (void)
+\item 
+int \hyperlink{mshell_8c_a1c9d7ad2ce5e9b4416bf0bd9c5d5a185}{parseline} (char $\ast$cmdline, char $\ast$token\mbox{[}\hyperlink{common_8h_a2f84e574694e0455fc2cb444686509a5}{M\+A\+X\+C\+M\+D\+S}\mbox{]}\mbox{[}\hyperlink{common_8h_a41101847771d39a4f0a7f9395061c629}{M\+A\+X\+A\+R\+G\+S}\mbox{]}, int $\ast$nbcmd)
+\item 
+int \hyperlink{mshell_8c_adc663c5e0a2747a5a2797796c8e953eb}{builtin\+\_\+cmd} (char $\ast$$\ast$argv)
+\item 
+void \hyperlink{mshell_8c_a96b59c995e4cc9767e3a0026fb8fee30}{eval} (char $\ast$cmdline)
+\item 
+int \hyperlink{mshell_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{mshell_8c_adc663c5e0a2747a5a2797796c8e953eb}{}\index{mshell.\+c@{mshell.\+c}!builtin\+\_\+cmd@{builtin\+\_\+cmd}}
+\index{builtin\+\_\+cmd@{builtin\+\_\+cmd}!mshell.\+c@{mshell.\+c}}
+\subsubsection[{builtin\+\_\+cmd(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}int builtin\+\_\+cmd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{mshell_8c_adc663c5e0a2747a5a2797796c8e953eb}
+\hypertarget{mshell_8c_a96b59c995e4cc9767e3a0026fb8fee30}{}\index{mshell.\+c@{mshell.\+c}!eval@{eval}}
+\index{eval@{eval}!mshell.\+c@{mshell.\+c}}
+\subsubsection[{eval(char $\ast$cmdline)}]{\setlength{\rightskip}{0pt plus 5cm}void eval (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmdline}
+\end{DoxyParamCaption}
+)}\label{mshell_8c_a96b59c995e4cc9767e3a0026fb8fee30}
+\hypertarget{mshell_8c_a3c04138a5bfe5d72780bb7e82a18e627}{}\index{mshell.\+c@{mshell.\+c}!main@{main}}
+\index{main@{main}!mshell.\+c@{mshell.\+c}}
+\subsubsection[{main(int argc, char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{mshell_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\hypertarget{mshell_8c_a1c9d7ad2ce5e9b4416bf0bd9c5d5a185}{}\index{mshell.\+c@{mshell.\+c}!parseline@{parseline}}
+\index{parseline@{parseline}!mshell.\+c@{mshell.\+c}}
+\subsubsection[{parseline(char $\ast$cmdline, char $\ast$token[M\+A\+X\+C\+M\+D\+S][M\+A\+X\+A\+R\+G\+S], int $\ast$nbcmd)}]{\setlength{\rightskip}{0pt plus 5cm}int parseline (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmdline, }
+\item[{char $\ast$}]{token\mbox{[}\+M\+A\+X\+C\+M\+D\+S\mbox{]}\mbox{[}\+M\+A\+X\+A\+R\+G\+S\mbox{]}, }
+\item[{int $\ast$}]{nbcmd}
+\end{DoxyParamCaption}
+)}\label{mshell_8c_a1c9d7ad2ce5e9b4416bf0bd9c5d5a185}
+\hypertarget{mshell_8c_ae8605e2b78cd4a81b6c6b5c30cb7366a}{}\index{mshell.\+c@{mshell.\+c}!usage@{usage}}
+\index{usage@{usage}!mshell.\+c@{mshell.\+c}}
+\subsubsection[{usage(void)}]{\setlength{\rightskip}{0pt plus 5cm}void usage (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\label{mshell_8c_ae8605e2b78cd4a81b6c6b5c30cb7366a}

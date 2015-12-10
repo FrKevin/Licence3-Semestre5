@@ -1,9 +1,9 @@
 var NAVTREE =
 [
   [ "mshell", "index.html", [
-    [ "Project PDS: mshell", "index.html", [
+    [ "Projet PDS: mshell", "index.html", [
       [ "Introduction", "index.html#intro_sec", null ],
-      [ "How to use ?", "index.html#install_sec", null ]
+      [ "Commandes possibles ?", "index.html#install_sec", null ]
     ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],

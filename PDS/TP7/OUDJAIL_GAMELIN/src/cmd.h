@@ -1,17 +1,20 @@
-/*! \mainpage Project PDS: mshell
+/*! \mainpage Projet PDS: mshell
  *
  * \section intro_sec Introduction
  *
- * This project was made to the System Programming module taught the semester 5 at FIL in Lille 1. It is a minimalist command-line interpreter working in an environment Linux. It uses library normalized by POSIX.\n
- * It launches and manages several commands
- * We can explore a system of files.
- * Moreover, it supports the communication between different processes and manages a part of the signals.
+ *  Ce projet a était fait dans le cadre du module de Programmation Des Systèmes enseigné au semestre 5 en licence informatique à Lille 1.
+ *  C'est un interpréteur de commande minimaliste fonctionnant dans un environnement Linux.
+ *  Il utilise pour cela, des librairies normées par POSIX.
+ *  Il permet de lancer et de manager plusieurs commandes.
+ *  On peut aussi se balader dans un système de fichiers.
+ *  De plus, il supporte la communication entre différents processus et gère une partie des signaux.
  *
- * \section install_sec How to use ?
- *  Create the application: make \n
- *  Remove obj folder and remove application: make clean\n
- *  Run application: ./mshell\n
- *  Option to execution : -v (verbose) \n
+ * \section install_sec Commandes possibles ?
+ *  Construire l'application: make \n
+ *  Supprimer le dossier obj: make clean\n
+ *  Supprimer le dossier obj et 'application: make realclean\n
+ *  Lancer l'application: ./mshell\n
+ *  Option d'execution : ./mshell -v (verbose) \n
  *
  *  \authors Kevin Gamelin & Veïs Oudjail
  *  \date 2015
@@ -19,66 +22,66 @@
 
 /*!
   \file cmd.h
-  \brief define all commands
+  \brief Définies toutes les commandes possibles
 */
 #ifndef _CMD_H_
 #define _CMD_H_
 
 /*!
   \fn void waitfg(pid_t pid)
-  \brief Wait a foreground job
+  \brief attends un job au premier plan
 */
 extern void waitfg(pid_t pid);
 
 /*!
   \fn void do_exit()
-  \brief Exit shell
+  \brief quitte le shell
 */
 extern void do_exit();
 
 /*!
   \fn void do_jobs()
-  \brief Print the job list
+  \brief affiche la liste des jobs
 */
 extern void do_jobs();
 
 /*!
   \fn void do_help()
-  \brief Print the help page
+  \brief affiche la section d'aide
 */
 extern void do_help();
 
 /*!
   \fn void do_bg(char **argv)
-  \brief Execute the builtin bg command
+  \brief execute la commande bg
   \param argv
 */
 extern void do_bg(char **argv);
 
 /*!
   \fn void do_fg(char **argv)
-  \brief Execute the builtin fg command
+  \brief execute la commande fg
   \param argv
 */
 extern void do_fg(char **argv);
 
 /*!
   \fn void do_kill(char **argv)
-  \brief Execute the builtin kill command
+  \brief execute la commande kill
   \param argv
 */
 extern void do_kill(char **argv);
 
 /*!
   \fn void do_stop(char **argv)
-  \brief Execute the builtin stop command
+  \brief execute la commande stop
   \param argv
 */
 extern void do_stop(char **argv);
 
 /*!
   \fn void do_cd(char **argv)
-  \brief Execute the builtin cd command
+  \brief execute la commande cd
   \param argv
 */
 extern void do_cd(char **argv);

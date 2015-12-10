@@ -1,0 +1,211 @@
+\hypertarget{jobs_8c}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/jobs.c File Reference}
+\label{jobs_8c}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/jobs.\+c@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/jobs.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$sys/types.\+h$>$}\\*
+{\ttfamily \#include $<$signal.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}jobs.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{jobs_8c_abe340a6b1ce6ec59c9cbf50fdeaacb1d}{M\+A\+X\+J\+O\+B\+S}~16              /$\ast$ max jobs at any point in time $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{jobs_8c_ac69855e20d8ce55ec69bca742e460c7f}{jobs\+\_\+clearjob} (struct \hyperlink{structjob__t}{job\+\_\+t} $\ast$job)
+\begin{DoxyCompactList}\small\item\em Clear the entries in a job struct. \end{DoxyCompactList}\item 
+void \hyperlink{jobs_8c_aed8090f7e3c895734c15c7050f9f8588}{jobs\+\_\+initjobs} ()
+\begin{DoxyCompactList}\small\item\em Initialize the job list. \end{DoxyCompactList}\item 
+int \hyperlink{jobs_8c_a21c0bf707724f93e170c21e52b2a3cab}{jobs\+\_\+maxjid} ()
+\begin{DoxyCompactList}\small\item\em Returns largest allocated job I\+D. \end{DoxyCompactList}\item 
+int \hyperlink{jobs_8c_a09796fb93bd0de39b7c39dee00a0a85b}{jobs\+\_\+addjob} (pid\+\_\+t pid, int state, char $\ast$cmdline)
+\begin{DoxyCompactList}\small\item\em Add a job to the job list. \end{DoxyCompactList}\item 
+int \hyperlink{jobs_8c_a44078c0e559d566dcbf7d60f76e96c5f}{jobs\+\_\+deletejob} (pid\+\_\+t pid)
+\begin{DoxyCompactList}\small\item\em Delete a job whose P\+I\+D=pid from the job list. \end{DoxyCompactList}\item 
+pid\+\_\+t \hyperlink{jobs_8c_a02cc8fbd6b64aae9ce422b3f229d5f8d}{jobs\+\_\+fgpid} ()
+\begin{DoxyCompactList}\small\item\em Return P\+I\+D of current foreground job, 0 if no such job. \end{DoxyCompactList}\item 
+struct \hyperlink{structjob__t}{job\+\_\+t} $\ast$ \hyperlink{jobs_8c_a6b6da169b18379ed6024a5c1b7db4fcb}{jobs\+\_\+getjobpid} (pid\+\_\+t pid)
+\begin{DoxyCompactList}\small\item\em Find a job (by P\+I\+D) on the job list. \end{DoxyCompactList}\item 
+struct \hyperlink{structjob__t}{job\+\_\+t} $\ast$ \hyperlink{jobs_8c_a0efe5a7a1f8910af08fb05912a2029ea}{jobs\+\_\+getjobjid} (int jid)
+\begin{DoxyCompactList}\small\item\em Find a job (by J\+I\+D) on the job list. \end{DoxyCompactList}\item 
+void \hyperlink{jobs_8c_ac9d7319ff9bbde5503b4448f05b29eff}{send\+\_\+signal\+\_\+to\+\_\+job} (pid\+\_\+t pid, int sig)
+\begin{DoxyCompactList}\small\item\em Send a sinal for job width pid or jid. \end{DoxyCompactList}\item 
+int \hyperlink{jobs_8c_ad951d0573e6600ff0d1c83813059681d}{jobs\+\_\+pid2jid} (pid\+\_\+t pid)
+\begin{DoxyCompactList}\small\item\em Map process I\+D to job I\+D. \end{DoxyCompactList}\item 
+struct \hyperlink{structjob__t}{job\+\_\+t} $\ast$ \hyperlink{jobs_8c_a73e20e47805b1af05616f314d46b27c6}{jobs\+\_\+getstoppedjob} ()
+\begin{DoxyCompactList}\small\item\em Return a stopped job. \end{DoxyCompactList}\item 
+void \hyperlink{jobs_8c_a1d6940d5da8683af28933cfe401ca5c7}{jobs\+\_\+listjobs} ()
+\begin{DoxyCompactList}\small\item\em Print the job list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{jobs_8c_a9ba591aa9c5f5e2356f413184d877324}{nextjid} = 1
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{jobs_8c_abe340a6b1ce6ec59c9cbf50fdeaacb1d}{}\index{jobs.\+c@{jobs.\+c}!M\+A\+X\+J\+O\+B\+S@{M\+A\+X\+J\+O\+B\+S}}
+\index{M\+A\+X\+J\+O\+B\+S@{M\+A\+X\+J\+O\+B\+S}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{M\+A\+X\+J\+O\+B\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+X\+J\+O\+B\+S~16              /$\ast$ max jobs at any point in time $\ast$/}\label{jobs_8c_abe340a6b1ce6ec59c9cbf50fdeaacb1d}
+
+
+\subsection{Function Documentation}
+\hypertarget{jobs_8c_a09796fb93bd0de39b7c39dee00a0a85b}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+addjob@{jobs\+\_\+addjob}}
+\index{jobs\+\_\+addjob@{jobs\+\_\+addjob}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+addjob(pid\+\_\+t pid, int state, char $\ast$cmdline)}]{\setlength{\rightskip}{0pt plus 5cm}int jobs\+\_\+addjob (
+\begin{DoxyParamCaption}
+\item[{pid\+\_\+t}]{pid, }
+\item[{int}]{state, }
+\item[{char $\ast$}]{cmdline}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a09796fb93bd0de39b7c39dee00a0a85b}
+
+
+Add a job to the job list. 
+
+\begin{DoxyReturn}{Returns}
+1 if success and 0 if failure 
+\end{DoxyReturn}
+\hypertarget{jobs_8c_ac69855e20d8ce55ec69bca742e460c7f}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+clearjob@{jobs\+\_\+clearjob}}
+\index{jobs\+\_\+clearjob@{jobs\+\_\+clearjob}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+clearjob(struct job\+\_\+t $\ast$job)}]{\setlength{\rightskip}{0pt plus 5cm}void jobs\+\_\+clearjob (
+\begin{DoxyParamCaption}
+\item[{struct {\bf job\+\_\+t} $\ast$}]{job}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_ac69855e20d8ce55ec69bca742e460c7f}
+
+
+Clear the entries in a job struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em struct} & \hyperlink{structjob__t}{job\+\_\+t} $\ast$job. \\
+\hline
+\end{DoxyParams}
+\hypertarget{jobs_8c_a44078c0e559d566dcbf7d60f76e96c5f}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+deletejob@{jobs\+\_\+deletejob}}
+\index{jobs\+\_\+deletejob@{jobs\+\_\+deletejob}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+deletejob(pid\+\_\+t pid)}]{\setlength{\rightskip}{0pt plus 5cm}int jobs\+\_\+deletejob (
+\begin{DoxyParamCaption}
+\item[{pid\+\_\+t}]{pid}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a44078c0e559d566dcbf7d60f76e96c5f}
+
+
+Delete a job whose P\+I\+D=pid from the job list. 
+
+\begin{DoxyReturn}{Returns}
+1 if success and 0 if failure 
+\end{DoxyReturn}
+\hypertarget{jobs_8c_a02cc8fbd6b64aae9ce422b3f229d5f8d}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+fgpid@{jobs\+\_\+fgpid}}
+\index{jobs\+\_\+fgpid@{jobs\+\_\+fgpid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+fgpid()}]{\setlength{\rightskip}{0pt plus 5cm}pid\+\_\+t jobs\+\_\+fgpid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a02cc8fbd6b64aae9ce422b3f229d5f8d}
+
+
+Return P\+I\+D of current foreground job, 0 if no such job. 
+
+\hypertarget{jobs_8c_a0efe5a7a1f8910af08fb05912a2029ea}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+getjobjid@{jobs\+\_\+getjobjid}}
+\index{jobs\+\_\+getjobjid@{jobs\+\_\+getjobjid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+getjobjid(int jid)}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf job\+\_\+t} $\ast$ jobs\+\_\+getjobjid (
+\begin{DoxyParamCaption}
+\item[{int}]{jid}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a0efe5a7a1f8910af08fb05912a2029ea}
+
+
+Find a job (by J\+I\+D) on the job list. 
+
+\hypertarget{jobs_8c_a6b6da169b18379ed6024a5c1b7db4fcb}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+getjobpid@{jobs\+\_\+getjobpid}}
+\index{jobs\+\_\+getjobpid@{jobs\+\_\+getjobpid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+getjobpid(pid\+\_\+t pid)}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf job\+\_\+t} $\ast$ jobs\+\_\+getjobpid (
+\begin{DoxyParamCaption}
+\item[{pid\+\_\+t}]{pid}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a6b6da169b18379ed6024a5c1b7db4fcb}
+
+
+Find a job (by P\+I\+D) on the job list. 
+
+\hypertarget{jobs_8c_a73e20e47805b1af05616f314d46b27c6}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+getstoppedjob@{jobs\+\_\+getstoppedjob}}
+\index{jobs\+\_\+getstoppedjob@{jobs\+\_\+getstoppedjob}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+getstoppedjob()}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf job\+\_\+t} $\ast$ jobs\+\_\+getstoppedjob (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a73e20e47805b1af05616f314d46b27c6}
+
+
+Return a stopped job. 
+
+\begin{DoxyReturn}{Returns}
+N\+U\+L\+L if any 
+\end{DoxyReturn}
+\hypertarget{jobs_8c_aed8090f7e3c895734c15c7050f9f8588}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+initjobs@{jobs\+\_\+initjobs}}
+\index{jobs\+\_\+initjobs@{jobs\+\_\+initjobs}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+initjobs()}]{\setlength{\rightskip}{0pt plus 5cm}void jobs\+\_\+initjobs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_aed8090f7e3c895734c15c7050f9f8588}
+
+
+Initialize the job list. 
+
+\hypertarget{jobs_8c_a1d6940d5da8683af28933cfe401ca5c7}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+listjobs@{jobs\+\_\+listjobs}}
+\index{jobs\+\_\+listjobs@{jobs\+\_\+listjobs}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+listjobs()}]{\setlength{\rightskip}{0pt plus 5cm}void jobs\+\_\+listjobs (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a1d6940d5da8683af28933cfe401ca5c7}
+
+
+Print the job list. 
+
+\hypertarget{jobs_8c_a21c0bf707724f93e170c21e52b2a3cab}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+maxjid@{jobs\+\_\+maxjid}}
+\index{jobs\+\_\+maxjid@{jobs\+\_\+maxjid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+maxjid()}]{\setlength{\rightskip}{0pt plus 5cm}int jobs\+\_\+maxjid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_a21c0bf707724f93e170c21e52b2a3cab}
+
+
+Returns largest allocated job I\+D. 
+
+\hypertarget{jobs_8c_ad951d0573e6600ff0d1c83813059681d}{}\index{jobs.\+c@{jobs.\+c}!jobs\+\_\+pid2jid@{jobs\+\_\+pid2jid}}
+\index{jobs\+\_\+pid2jid@{jobs\+\_\+pid2jid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{jobs\+\_\+pid2jid(pid\+\_\+t pid)}]{\setlength{\rightskip}{0pt plus 5cm}int jobs\+\_\+pid2jid (
+\begin{DoxyParamCaption}
+\item[{pid\+\_\+t}]{pid}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_ad951d0573e6600ff0d1c83813059681d}
+
+
+Map process I\+D to job I\+D. 
+
+\begin{DoxyReturn}{Returns}
+0 if failure 
+\end{DoxyReturn}
+\hypertarget{jobs_8c_ac9d7319ff9bbde5503b4448f05b29eff}{}\index{jobs.\+c@{jobs.\+c}!send\+\_\+signal\+\_\+to\+\_\+job@{send\+\_\+signal\+\_\+to\+\_\+job}}
+\index{send\+\_\+signal\+\_\+to\+\_\+job@{send\+\_\+signal\+\_\+to\+\_\+job}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{send\+\_\+signal\+\_\+to\+\_\+job(pid\+\_\+t pid, int sig)}]{\setlength{\rightskip}{0pt plus 5cm}send\+\_\+signal\+\_\+to\+\_\+job (
+\begin{DoxyParamCaption}
+\item[{pid\+\_\+t}]{pid, }
+\item[{int}]{sig}
+\end{DoxyParamCaption}
+)}\label{jobs_8c_ac9d7319ff9bbde5503b4448f05b29eff}
+
+
+Send a sinal for job width pid or jid. 
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{jobs_8c_a9ba591aa9c5f5e2356f413184d877324}{}\index{jobs.\+c@{jobs.\+c}!nextjid@{nextjid}}
+\index{nextjid@{nextjid}!jobs.\+c@{jobs.\+c}}
+\subsubsection[{nextjid}]{\setlength{\rightskip}{0pt plus 5cm}int nextjid = 1}\label{jobs_8c_a9ba591aa9c5f5e2356f413184d877324}
