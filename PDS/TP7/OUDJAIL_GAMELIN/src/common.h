@@ -25,100 +25,100 @@
 #define MAXCMDS    10
 
 /*!
-  \def ANSI_couleur_BLACK
+  \def ANSI_COLOR_BLACK
   \brief couleur: noir
 */
-#define ANSI_couleur_BLACK        "\033[30m"
+#define ANSI_COLOR_BLACK        "\033[30m"
 
 /*!
-  \def ANSI_couleur_RED
+  \def ANSI_COLOR_RED
   \brief couleur: rouge
 */
-#define ANSI_couleur_RED          "\033[31m"
+#define ANSI_COLOR_RED          "\033[31m"
 
 /*!
-  \def ANSI_couleur_GREEN
+  \def ANSI_COLOR_GREEN
   \brief couleur: vert
 */
-#define ANSI_couleur_GREEN        "\033[32m"
+#define ANSI_COLOR_GREEN        "\033[32m"
 
 /*!
-  \def ANSI_couleur_YELLOW
+  \def ANSI_COLOR_YELLOW
   \brief couleur: jaune
 */
-#define ANSI_couleur_YELLOW       "\033[33m"
+#define ANSI_COLOR_YELLOW       "\033[33m"
 
 /*!
-  \def ANSI_couleur_BLUE
+  \def ANSI_COLOR_BLUE
   \brief couleur: bleu
 */
-#define ANSI_couleur_BLUE         "\033[34m"
+#define ANSI_COLOR_BLUE         "\033[34m"
 
 /*!
-  \def ANSI_couleur_MAGENTA
+  \def ANSI_COLOR_MAGENTA
   \brief couleur: magentas
 */
-#define ANSI_couleur_MAGENTA      "\033[35m"
+#define ANSI_COLOR_MAGENTA      "\033[35m"
 
 /*!
-  \def ANSI_couleur_CYAN
+  \def ANSI_COLOR_CYAN
   \brief couleur: cyan
 */
-#define ANSI_couleur_CYAN         "\033[36m"
+#define ANSI_COLOR_CYAN         "\033[36m"
 
 /*!
-  \def ANSI_couleur_WHITE
+  \def ANSI_COLOR_WHITE
   \brief couleur: blanc
 */
-#define ANSI_couleur_WHITE        "\033[37m"
+#define ANSI_COLOR_WHITE        "\033[37m"
 
 /*!
-  \def ANSI_couleur_BOLDBLACK
+  \def ANSI_COLOR_BOLDBLACK
   \brief text en gras et text en noir
 */
-#define ANSI_couleur_BOLDBLACK    "\033[1m\033[30m"
+#define ANSI_COLOR_BOLDBLACK    "\033[1m\033[30m"
 
 /*!
-  \def ANSI_couleur_BOLDRED
+  \def ANSI_COLOR_BOLDRED
   \brief  text en gras et text en rouge
 */
-#define ANSI_couleur_BOLDRED      "\033[1m\033[31m"
+#define ANSI_COLOR_BOLDRED      "\033[1m\033[31m"
 
 /*!
-  \def ANSI_couleur_BOLDGREEN
+  \def ANSI_COLOR_BOLDGREEN
   \brief  text en gras et text en vert
 */
-#define ANSI_couleur_BOLDGREEN    "\033[1m\033[32m"
+#define ANSI_COLOR_BOLDGREEN    "\033[1m\033[32m"
 
 /*!
-  \def ANSI_couleur_BOLDYELLOW
+  \def ANSI_COLOR_BOLDYELLOW
   \brief text en gras et text en jaune
 */
-#define ANSI_couleur_BOLDYELLOW   "\033[1m\033[33m"
+#define ANSI_COLOR_BOLDYELLOW   "\033[1m\033[33m"
 
 /*!
-  \def ANSI_couleur_BOLDBLUE
+  \def ANSI_COLOR_BOLDBLUE
   \brief  text en gras et text en bleu
 */
-#define ANSI_couleur_BOLDBLUE     "\033[1m\033[34m"
+#define ANSI_COLOR_BOLDBLUE     "\033[1m\033[34m"
 
 /*!
-  \def ANSI_couleur_BOLDMAGENTA
+  \def ANSI_COLOR_BOLDMAGENTA
   \brief  text en gras et text en magenta
 */
-#define ANSI_couleur_BOLDMAGENTA  "\033[1m\033[35m"
+#define ANSI_COLOR_BOLDMAGENTA  "\033[1m\033[35m"
 
 /*!
-  \def ANSI_couleur_BOLDCYAN
+  \def ANSI_COLOR_BOLDCYAN
   \brief  text en gras et text en cyan
 */
-#define ANSI_couleur_BOLDCYAN     "\033[1m\033[36m"
+#define ANSI_COLOR_BOLDCYAN     "\033[1m\033[36m"
 
 /*!
-  \def ANSI_couleur_BOLDWHITE
+  \def ANSI_COLOR_BOLDWHITE
   \brief text en gras et text en blanc
 */
-#define ANSI_couleur_BOLDWHITE    "\033[1m\033[37m"
+#define ANSI_COLOR_BOLDWHITE    "\033[1m\033[37m"
 
 /*!
   \def BOLD
