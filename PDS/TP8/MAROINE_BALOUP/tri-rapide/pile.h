@@ -2,6 +2,7 @@
 #define _PILE_H_
 
 #include <stdint.h>
+#include <pthread.h>
 
 typedef int32_t pos_t;          /* type des positions dans le tableau */
 
@@ -19,6 +20,7 @@ typedef struct bloc_s {
 }   bloc_t;
 
 typedef struct pile_s {
+	pthread_mutex_t mutex;
     unsigned int dessus;
     bloc_t contenu[TAILLE_PILE];
 }   pile;
