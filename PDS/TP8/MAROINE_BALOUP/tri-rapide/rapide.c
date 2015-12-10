@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <unistd.h>
 
 #include "pile.h"
@@ -11,6 +12,11 @@
 #include "main.h"
 
 unsigned long seuil_bloc_long = 1;
+
+typedef struct pthread_arg_s {
+  pthread_mutex_t mutex;
+  pile p;
+} pthread_arg_t;
 
 base_t *tableau;
 
@@ -104,6 +110,8 @@ void rapide_seq(bloc_t bloc_init) {
 
 void rapide(pos_t taille, unsigned int nb_threads) {
     bloc_t bloc;
+    pthread_t* threads;
+    pthread_arg_t thread_arg;
 
     bloc.debut = 0;
     bloc.fin   = taille - 1;
@@ -115,7 +123,8 @@ void rapide(pos_t taille, unsigned int nb_threads) {
 
     assert(nb_threads > 1);
 
-    fprintf(stderr, "À implémenter !\n");
+    threads = malloc(sizeof(pthread_t)*nb_threads);
+
 
     assert(0);
 }
