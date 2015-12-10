@@ -112,20 +112,20 @@ void rapide_seq(bloc_t bloc_init) {
 
 
 typedef struct pthread_arg_s {
-  pthread_mutex_t pile_mutex, pile_compteur;
-  pile p;
-  unsigned int compteur;
+    pthread_mutex_t pile_mutex, pile_compteur;
+    pile p;
+    unsigned int compteur;
 } pthread_arg_t;
 
 
 
 
 void * rapide_thread(void * args) {
-	
-	
-	
+
+
+
 	/* TODO exécuté  */
-	
+
 	return NULL;
 }
 
@@ -138,6 +138,9 @@ void * rapide_thread(void * args) {
 
 void rapide(pos_t taille, unsigned int nb_threads) {
     bloc_t bloc;
+
+    int i;
+
     pthread_t* threads;
     pthread_arg_t thread_arg;
 
@@ -150,12 +153,16 @@ void rapide(pos_t taille, unsigned int nb_threads) {
     }
 
     assert(nb_threads > 1);
-	
-	threads = malloc(sizeof(pthread_t) * nb_threads);
-	
-	
-	
-	
+
+  	threads = malloc(sizeof(pthread_t) * nb_threads);
+
+    for(i=0; i<nb_threads; i++) {
+        pthread_create((threads+i), NULL, rapide_thread, &thread_arg);
+    }
+
+    for(i=0; i<nb_threads; i++) {
+        pthread_join(*(threads+i), NULL);
+    }
 
     assert(0);
 }
