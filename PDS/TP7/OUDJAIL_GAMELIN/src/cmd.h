@@ -4,7 +4,7 @@
  *
  * This project was made to the System Programming module taught the semester 5 at FIL in Lille 1. It is a minimalist command-line interpreter working in an environment Linux. It uses library normalized by POSIX.\n
  * It launches and manages several commands
- * We can explore a system of files.
+ * We can explore a files system.
  * Moreover, it supports the communication between different processes and manages a part of the signals.
  *
  * \section install_sec How to use ?
