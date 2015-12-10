@@ -1,0 +1,49 @@
+\hypertarget{common_8c}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/common.c File Reference}
+\label{common_8c}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/common.\+c@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/common.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}common.\+h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{common_8c_a0167ce1984bbdf219e7c7476d6a01171}{unix\+\_\+error} (char $\ast$msg)
+\begin{DoxyCompactList}\small\item\em print unix errno and the message \end{DoxyCompactList}\item 
+void \hyperlink{common_8c_ae4601032b432dfb013431694c66fd895}{send\+\_\+verbose\+\_\+message} (const char $\ast$message)
+\begin{DoxyCompactList}\small\item\em if verbose = true, print additional output \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{common_8c_ae4601032b432dfb013431694c66fd895}{}\index{common.\+c@{common.\+c}!send\+\_\+verbose\+\_\+message@{send\+\_\+verbose\+\_\+message}}
+\index{send\+\_\+verbose\+\_\+message@{send\+\_\+verbose\+\_\+message}!common.\+c@{common.\+c}}
+\subsubsection[{send\+\_\+verbose\+\_\+message(const char $\ast$message)}]{\setlength{\rightskip}{0pt plus 5cm}send\+\_\+verbose\+\_\+message (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{message}
+\end{DoxyParamCaption}
+)}\label{common_8c_ae4601032b432dfb013431694c66fd895}
+
+
+if verbose = true, print additional output 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{common_8c_a0167ce1984bbdf219e7c7476d6a01171}{}\index{common.\+c@{common.\+c}!unix\+\_\+error@{unix\+\_\+error}}
+\index{unix\+\_\+error@{unix\+\_\+error}!common.\+c@{common.\+c}}
+\subsubsection[{unix\+\_\+error(char $\ast$msg)}]{\setlength{\rightskip}{0pt plus 5cm}unix\+\_\+error (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{msg}
+\end{DoxyParamCaption}
+)}\label{common_8c_a0167ce1984bbdf219e7c7476d6a01171}
+
+
+print unix errno and the message 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & \\
+\hline
+\end{DoxyParams}

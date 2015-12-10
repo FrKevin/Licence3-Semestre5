@@ -1,0 +1,120 @@
+\hypertarget{cmd_8h}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/cmd.h File Reference}
+\label{cmd_8h}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/cmd.\+h@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/cmd.\+h}}
+
+
+Définies toutes les commandes possibles.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{cmd_8h_a6d41e68c6d9855500b96b1f467d8fcd5}{}void \hyperlink{cmd_8h_a6d41e68c6d9855500b96b1f467d8fcd5}{waitfg} (pid\+\_\+t pid)\label{cmd_8h_a6d41e68c6d9855500b96b1f467d8fcd5}
+
+\begin{DoxyCompactList}\small\item\em attends un job au premier plan \end{DoxyCompactList}\item 
+\hypertarget{cmd_8h_a463731ba182e97401aa91f8258c3ce3b}{}void \hyperlink{cmd_8h_a463731ba182e97401aa91f8258c3ce3b}{do\+\_\+exit} ()\label{cmd_8h_a463731ba182e97401aa91f8258c3ce3b}
+
+\begin{DoxyCompactList}\small\item\em quitte le shell \end{DoxyCompactList}\item 
+\hypertarget{cmd_8h_ad839e67b11eeece6a0bbb8964e54110d}{}void \hyperlink{cmd_8h_ad839e67b11eeece6a0bbb8964e54110d}{do\+\_\+jobs} ()\label{cmd_8h_ad839e67b11eeece6a0bbb8964e54110d}
+
+\begin{DoxyCompactList}\small\item\em affiche la liste des jobs \end{DoxyCompactList}\item 
+\hypertarget{cmd_8h_a82ccff470e09e8da8a6c92961643c943}{}void \hyperlink{cmd_8h_a82ccff470e09e8da8a6c92961643c943}{do\+\_\+help} ()\label{cmd_8h_a82ccff470e09e8da8a6c92961643c943}
+
+\begin{DoxyCompactList}\small\item\em affiche la section d\textquotesingle{}aide \end{DoxyCompactList}\item 
+void \hyperlink{cmd_8h_a5227a9c8f5b785dd27022b08aa96def4}{do\+\_\+bg} (char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em execute la commande bg \end{DoxyCompactList}\item 
+void \hyperlink{cmd_8h_ad800d8985af259150fe0426abf06c52b}{do\+\_\+fg} (char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em execute la commande fg \end{DoxyCompactList}\item 
+void \hyperlink{cmd_8h_a96fcd8d94bc25ded28d0801af2d4b73b}{do\+\_\+kill} (char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em execute la commande kill \end{DoxyCompactList}\item 
+void \hyperlink{cmd_8h_a4fd74fc0e0aacf24ba3d1d1325e709f8}{do\+\_\+stop} (char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em execute la commande stop \end{DoxyCompactList}\item 
+void \hyperlink{cmd_8h_a2ad3c4bf90154b27778fe722cdb9f20f}{do\+\_\+cd} (char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em execute la commande cd \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Définies toutes les commandes possibles. 
+
+
+
+\subsection{Function Documentation}
+\hypertarget{cmd_8h_a5227a9c8f5b785dd27022b08aa96def4}{}\index{cmd.\+h@{cmd.\+h}!do\+\_\+bg@{do\+\_\+bg}}
+\index{do\+\_\+bg@{do\+\_\+bg}!cmd.\+h@{cmd.\+h}}
+\subsubsection[{do\+\_\+bg(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+bg (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{cmd_8h_a5227a9c8f5b785dd27022b08aa96def4}
+
+
+execute la commande bg 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{cmd_8h_a2ad3c4bf90154b27778fe722cdb9f20f}{}\index{cmd.\+h@{cmd.\+h}!do\+\_\+cd@{do\+\_\+cd}}
+\index{do\+\_\+cd@{do\+\_\+cd}!cmd.\+h@{cmd.\+h}}
+\subsubsection[{do\+\_\+cd(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+cd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{cmd_8h_a2ad3c4bf90154b27778fe722cdb9f20f}
+
+
+execute la commande cd 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{cmd_8h_ad800d8985af259150fe0426abf06c52b}{}\index{cmd.\+h@{cmd.\+h}!do\+\_\+fg@{do\+\_\+fg}}
+\index{do\+\_\+fg@{do\+\_\+fg}!cmd.\+h@{cmd.\+h}}
+\subsubsection[{do\+\_\+fg(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+fg (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{cmd_8h_ad800d8985af259150fe0426abf06c52b}
+
+
+execute la commande fg 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{cmd_8h_a96fcd8d94bc25ded28d0801af2d4b73b}{}\index{cmd.\+h@{cmd.\+h}!do\+\_\+kill@{do\+\_\+kill}}
+\index{do\+\_\+kill@{do\+\_\+kill}!cmd.\+h@{cmd.\+h}}
+\subsubsection[{do\+\_\+kill(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+kill (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{cmd_8h_a96fcd8d94bc25ded28d0801af2d4b73b}
+
+
+execute la commande kill 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{cmd_8h_a4fd74fc0e0aacf24ba3d1d1325e709f8}{}\index{cmd.\+h@{cmd.\+h}!do\+\_\+stop@{do\+\_\+stop}}
+\index{do\+\_\+stop@{do\+\_\+stop}!cmd.\+h@{cmd.\+h}}
+\subsubsection[{do\+\_\+stop(char $\ast$$\ast$argv)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+stop (
+\begin{DoxyParamCaption}
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}\label{cmd_8h_a4fd74fc0e0aacf24ba3d1d1325e709f8}
+
+
+execute la commande stop 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argv} & \\
+\hline
+\end{DoxyParams}

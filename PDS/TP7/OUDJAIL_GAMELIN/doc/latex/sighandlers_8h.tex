@@ -1,0 +1,35 @@
+\hypertarget{sighandlers_8h}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.h File Reference}
+\label{sighandlers_8h}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+h@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/sighandlers.\+h}}
+
+
+gestion des signaux  
+
+
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group___sighandler_gacefb2ae1d743b3e28bdcd190cd1060f5}{}typedef void {\bfseries handler\+\_\+t}(int)\label{group___sighandler_gacefb2ae1d743b3e28bdcd190cd1060f5}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group___sighandler_ga897310bf5d40244e5da806fae0dee397}{sigaction\+\_\+wrapper} (int signum, handler\+\_\+t $\ast$handler)
+\begin{DoxyCompactList}\small\item\em Cette fonction associe à un signaux une fonction de traitement. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga7ec144a9a628442e52b80210bc8364ad}{sigchld\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+C\+H\+I\+L\+D Il permet d\textquotesingle{}attendre le fils (mais ne bloque pas) et met à jour la liste de job. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga258e3b580e688a0cf46e4258525aeaf1}{sigint\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+I\+N\+T Il permet d\textquotesingle{}envoyer le signal intteruption au proccessus courant (fg) \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga809b7c47b9e4abc05325a4b3d33f59a5}{sigtstp\+\_\+handler} (int sig)
+\begin{DoxyCompactList}\small\item\em Cette fonction est un handler qui permet de traiter le signal S\+I\+G\+\_\+\+S\+T\+P Il permet d\textquotesingle{}envoyer le signal stop au proccessus courant (fg) \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga368a774e2b304a3de55f58168563967d}{sigquit\+\_\+handler} (int sig)
+\item 
+void \hyperlink{group___sighandler_gaf57b49bbe63afb81b5cbf55e9add1947}{lock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\begin{DoxyCompactList}\small\item\em Cette fonction permet de blocker les signaux S\+I\+G\+\_\+\+C\+H\+I\+L\+D, S\+I\+G\+\_\+\+I\+N\+T, S\+I\+G\+\_\+\+S\+T\+P. \end{DoxyCompactList}\item 
+void \hyperlink{group___sighandler_ga54d7cd6d673e2bcc401f961e18ed3270}{unlock\+\_\+signal} (sigset\+\_\+t $\ast$mask)
+\begin{DoxyCompactList}\small\item\em Cette fonction permet de debloquer les signaux qui sont dans le mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+gestion des signaux 
+

@@ -124,8 +124,6 @@ void lock_signal(sigset_t *mask) {
 		perror("sigaddset error");
 	if (sigaddset(mask, SIGINT))
 		perror("sigaddset error");
-	if (sigaddset(mask, SIGTSTP))
-		perror("sigaddset error");
 
 	if (sigprocmask(SIG_BLOCK, mask, NULL) < 0)
 		perror("sigprocmask error");

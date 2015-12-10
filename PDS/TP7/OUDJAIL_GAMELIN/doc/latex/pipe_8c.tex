@@ -1,0 +1,42 @@
+\hypertarget{pipe_8c}{}\section{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/pipe.c File Reference}
+\label{pipe_8c}\index{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/pipe.\+c@{C\+:/\+Users/kevin/\+Documents/\+Lille-\/1/\+Licence3-\/\+Semestre5/\+P\+D\+S/\+T\+P7/\+O\+U\+D\+J\+A\+I\+L\+\_\+\+G\+A\+M\+E\+L\+I\+N/src/pipe.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$limits.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include $<$assert.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}pipe.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}jobs.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cmd.\+h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{pipe_8c_a369266c24eacffb87046522897a570d5}{\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{pipe_8c_af5fad6ad80a22f618955410794963779}{do\+\_\+pipe} (char $\ast$cmds\mbox{[}\hyperlink{common_8h_a2f84e574694e0455fc2cb444686509a5}{M\+A\+X\+C\+M\+D\+S}\mbox{]}\mbox{[}\hyperlink{common_8h_a41101847771d39a4f0a7f9395061c629}{M\+A\+X\+A\+R\+G\+S}\mbox{]}, int nbcmd, int bg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{pipe_8c_a369266c24eacffb87046522897a570d5}{}\index{pipe.\+c@{pipe.\+c}!\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E@{\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E}}
+\index{\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E@{\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{\+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+G\+N\+U\+\_\+\+S\+O\+U\+R\+C\+E}\label{pipe_8c_a369266c24eacffb87046522897a570d5}
+
+
+\subsection{Function Documentation}
+\hypertarget{pipe_8c_af5fad6ad80a22f618955410794963779}{}\index{pipe.\+c@{pipe.\+c}!do\+\_\+pipe@{do\+\_\+pipe}}
+\index{do\+\_\+pipe@{do\+\_\+pipe}!pipe.\+c@{pipe.\+c}}
+\subsubsection[{do\+\_\+pipe(char $\ast$cmds[M\+A\+X\+C\+M\+D\+S][M\+A\+X\+A\+R\+G\+S], int nbcmd, int bg)}]{\setlength{\rightskip}{0pt plus 5cm}void do\+\_\+pipe (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmds\mbox{[}\+M\+A\+X\+C\+M\+D\+S\mbox{]}\mbox{[}\+M\+A\+X\+A\+R\+G\+S\mbox{]}, }
+\item[{int}]{nbcmd, }
+\item[{int}]{bg}
+\end{DoxyParamCaption}
+)}\label{pipe_8c_af5fad6ad80a22f618955410794963779}
