@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['print_5fpath',['print_path',['../common_8h.html#adf4b78f90db981fcbaffae5a5373d724',1,'common.h']]]
+  ['norm',['NORM',['../common_8h.html#ae1fc77c1a1666773a25dc88a72da4b2b',1,'common.h']]]
 ];

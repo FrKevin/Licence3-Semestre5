@@ -180,7 +180,6 @@ void do_jobs() {
 
 /*
  * basic cd command
- * petit bug pour les fichiers ayants des espaces
  */
 void do_cd(char **argv){
   char buff[PATH_MAX+1];

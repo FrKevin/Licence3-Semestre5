@@ -1,0 +1,19 @@
+Il n\textquotesingle{}y a rien à installer. Nous vous fournissons deux fichiers \href{graphe.h}{\tt graphe.\+h} et \href{graphe.c}{\tt graphe.\+c}
+
+Vous utiliserez la compilation séparée. Télécharger le fichier d\textquotesingle{}exemple \href{testAnalyseur.c}{\tt test\+Analyseur.\+c} et lancer la commande 
+\begin{DoxyCode}
+$ gcc -Wall -g -std=c99 testAnalyseur.c graphe.c -o testAnalyseur
+\end{DoxyCode}
+
+
+Votre programme se lance avec 
+\begin{DoxyCode}
+$ ./testAnalyseur <fichier\_graphe>
+\end{DoxyCode}
+ où fichier\+\_\+graphe est un fichier contenant un graphe au format décrit dans la section suivante.
+
+Pour tester la commande précédente, télécharger le fichier \href{ex-no.grp}{\tt ex-\/no.\+grp} et lancez 
+\begin{DoxyCode}
+$ ./testAnalyseur ex-no.grp
+\end{DoxyCode}
+ qui devrait vous afficher le contenu des graphe dans une version détaillée 

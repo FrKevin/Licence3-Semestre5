@@ -1,5 +1,6 @@
 /*!
   \file common.h
+  \brief define and debug function
 */
 
 #ifndef _COMMON_H_
@@ -142,16 +143,16 @@ int verbose;
 char* print_path;
 
 /*!
-  \fn unix_error (char *msg)
+  \fn unix_error(char *msg)
   \brief  print unix errno and the message
-  \param message.
+  \param msg
 */
 extern void unix_error(char *msg);
 
 /*!
   \fn send_verbose_message (const char* message)
   \brief if verbose = true, print additional output
-  \param message.
+  \param message
 */
 extern void send_verbose_message(const char* message);
 

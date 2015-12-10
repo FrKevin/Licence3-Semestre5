@@ -1,0 +1,26 @@
+Vous pouvez mettre des commentaires d\textquotesingle{}une ligne grâce au caractère \# suivi du commentaire. Le \# peut apparaître n\textquotesingle{}importe où dans la ligne.
+
+Le fichier doit avoir la syntaxe suivante \+:
+
+
+\begin{DoxyCode}
+type = <oriente OU non-oriente>;
+
+sommets = <liste de sommets séparés par des espaces> ;
+
+arcs = <liste d\textcolor{stringliteral}{'arcs séparés par des espaces, un arc étant représenté par Origine Destination Valeur\_de\_l'}
+      arc> ;
+\end{DoxyCode}
+
+
+Les arcs ont par défaut le type double (flottant double précision).
+
+Exemple d\textquotesingle{}un graphe non orienté \+: 
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+
+
+Exemple d\textquotesingle{}un graphe orienté \+: 
+\begin{DoxyCodeInclude}
+\end{DoxyCodeInclude}
+ 
