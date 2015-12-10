@@ -111,9 +111,9 @@ void rapide_seq(bloc_t bloc_init) {
 
 
 typedef struct pthread_arg_s {
-  pile p;
-  pthread_mutex_t compteur_mutex;
-  int compteur;
+	pile p;
+	pthread_mutex_t compteur_mutex;
+	int compteur;
 } pthread_arg_t;
 /*
  * Getteurs et setteurs protégés pour pthread_arg_t
@@ -136,6 +136,8 @@ void addArgCompteur(pthread_arg_t* args, int increment) {
 void * rapide_thread(void * args_v) {
 	pthread_arg_t* args;
 	
+	args = (pthread_arg_t*) args_v;
+	
 	do {
         /*bloc = depile(&p);
         nb_blocs = rapide_decoupebloc(bloc, blocs);
@@ -156,6 +158,9 @@ void * rapide_thread(void * args_v) {
 
 void rapide(pos_t taille, unsigned int nb_threads) {
     bloc_t bloc;
+
+    int i;
+
     pthread_t* threads;
     pthread_arg_t thread_arg;
 	
@@ -167,13 +172,15 @@ void rapide(pos_t taille, unsigned int nb_threads) {
         return;
     }
 
-    assert(nb_threads > 1);
-	
-	threads = malloc(sizeof(pthread_t) * nb_threads);
-	
-	
-	
-	
+  	threads = malloc(sizeof(pthread_t) * nb_threads);
+
+    for(i=0; i<nb_threads; i++) {
+        pthread_create((threads+i), NULL, rapide_thread, &thread_arg);
+    }
+
+    for(i=0; i<nb_threads; i++) {
+        pthread_join(*(threads+i), NULL);
+    }
 
     assert(0);
 }
