@@ -14,4 +14,4 @@ tric.c et tric.h rendu synchronisé (protégé par des mutex)
 
 TP non terminé, mais on a commencé à coder.
 
-Voir `rapide.c` et `tric.[ch]`
+Voir la fin de `rapide.c` et `tric.[ch]`
