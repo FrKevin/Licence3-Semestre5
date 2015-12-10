@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <unistd.h>
 
 #include "pile.h"
@@ -11,6 +12,7 @@
 #include "main.h"
 
 unsigned long seuil_bloc_long = 1;
+
 
 base_t *tableau;
 
@@ -109,6 +111,11 @@ void rapide_seq(bloc_t bloc_init) {
 
 
 
+typedef struct pthread_arg_s {
+  pthread_mutex_t pile_mutex, pile_compteur;
+  pile p;
+  unsigned int compteur;
+} pthread_arg_t;
 
 
 
@@ -131,7 +138,8 @@ void * rapide_thread(void * args) {
 
 void rapide(pos_t taille, unsigned int nb_threads) {
     bloc_t bloc;
-    pthread_t *threads;
+    pthread_t* threads;
+    pthread_arg_t thread_arg;
 
     bloc.debut = 0;
     bloc.fin   = taille - 1;
