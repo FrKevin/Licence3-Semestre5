@@ -38,3 +38,5 @@ realclean: clean
 mdu: mdu.c
 	${CC} ${CFLAGS} -o mdu mdu.c
 
+test: mdu
+	./test.sh

@@ -15,11 +15,7 @@
 #include <string.h>
 #include <errno.h>
 
-
-
 typedef enum { false, true } bool;
-
-
 
 /* paramètres du programme */
 static bool opt_follow_links = false;
@@ -27,12 +23,10 @@ static bool opt_apparent_size = false;
 static char** opt_path_v;
 static int opt_path_c;
 
-
 /* --------------------
  * structure de données pour la mise en mémoire des path déjà analysés
  * --------------------
  */
- 
  
 /* structure choisie : la liste chainée */
 struct PathListElementStruct {
@@ -103,33 +97,9 @@ void PathList_clear(PathList* this) {
 
 PathList element_history;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* déclaration des fonctions */
-int valid_folder(const char* path);
-long du(const char* pathname);
+bool valid_folder(const char* path);
+long du(const char* pathname, bool first);
 void analyseArgs(int argc, char** argv);
 long getRightSize(struct stat st);
 
@@ -142,7 +112,7 @@ int main(int argc, char** argv) {
 	PathList_init(&element_history);
 	
 	for(i=0; i<opt_path_c; i++) {
-		printf("%ld\t%s\n", du(opt_path_v[i]), opt_path_v[i]);
+		printf("%ld\t%s\n", du(opt_path_v[i], true), opt_path_v[i]);
 	}
 	
 	PathList_clear(&element_history);
@@ -150,19 +120,15 @@ int main(int argc, char** argv) {
 	return EXIT_SUCCESS;
 }
 
-
-
 /*
  *Analyse du dossier
  */
- int valid_folder(const char* path) {
+ bool valid_folder(const char* path) {
  	if(strcmp(path, ".") == 0 || strcmp(path, "..") == 0) {
- 		return 0;
+ 		return false;
  	}
- 	return 1;
+ 	return true;
  }
- 
- 
  
 /*
  * Retourne la bonne valeur selon les arguments
@@ -173,8 +139,6 @@ long getRightSize(struct stat st) {
 	else
 		return st.st_blocks;
 }
-
-
 
 /*
  * Analyse des arguments
@@ -200,7 +164,7 @@ void analyseArgs(int argc, char** argv) {
 		}
 	
 	if(optind >= argc) {
-		printf("Pas assez d'argument\n");
+		fprintf(stderr, "Pas assez d'argument\n");
 		exit(EXIT_FAILURE);
 	}
 	/* lis les derniers arguments, qui sont des chemins d'accès */
@@ -213,41 +177,44 @@ void analyseArgs(int argc, char** argv) {
 /*
  * Fonction DU
  */
-long du(const char* pathname) {
-	long size = 0;
-	int path_length;
+long du(const char* pathname, bool first) {
+	long size;
+	int stat_return;
 	struct stat st;
 	struct dirent* subdir;
 	char subdir_pathname[PATH_MAX];
-	char fullpathname[PATH_MAX];
 	DIR* dir;
+	char fullpathname[PATH_MAX];
 	
-	/* on vérifie si on ne l'a pas déjà analysé*/
+	size = 0;
+	
 	realpath(pathname, fullpathname);
-	/* Attention : realpath résoud les liens symbolique,
-	 * donc on en met pas dans l'historique la cible du lien symbolique,
-	 * sinon la commande -L sera ignoré
-	 */
 	
 	if (PathList_containsPath(&element_history, fullpathname) == true) {
 		return 0;
 	}
 	
-	assert(lstat(pathname, &st) == 0);
+	
+	if (opt_follow_links) {
+		stat_return = stat(pathname, &st);
+	}
+	else {
+		stat_return = lstat(pathname, &st);
+	}
+	
+	if(stat_return != 0) {
+		fprintf(stderr, "Erreur d'accès au fichier '%s' : %s\n", pathname, strerror(errno));
+		return 0;
+	}
 
 	/* Fichier régulier ? */
 	if(S_ISREG(st.st_mode)) {
 		PathList_addPath(&element_history, fullpathname);
 		size = getRightSize(st);
 	}
-	/* Lien symbolique ? */
+	/* Lien symbolique ? on ne prends pas sa cible */
 	else if (S_ISLNK(st.st_mode)) {
 		size = getRightSize(st);
-		path_length = readlink(pathname, subdir_pathname, PATH_MAX);
-		if (path_length != -1) {
-			subdir_pathname[path_length] = '\0'; /* readlink ne met pas de \0 */
-			size += du(subdir_pathname);
-		}
 	}
 	/* Dossier ? */
 	else if(S_ISDIR(st.st_mode)) {
@@ -255,16 +222,18 @@ long du(const char* pathname) {
 		size = getRightSize(st);
 		dir = opendir(pathname);
 		if(dir == NULL)
-			printf("Impossible de lire le répertoire '%s'\n", pathname);
+		fprintf(stderr, "Erreur d'accès au fichier '%s' : %s\n", pathname, strerror(errno));
 		else {
 			while((subdir = readdir(dir)) != NULL) {
-				if(valid_folder(subdir->d_name)) {
+				if(valid_folder(subdir->d_name) == true) {
 					snprintf(subdir_pathname, PATH_MAX, "%s/%s", pathname, subdir->d_name);
-					size += du(subdir_pathname);
+					size += du(subdir_pathname, false);
 				}
 			}
 		}
 		closedir(dir);
+		if (!first)
+			printf("%ld\t%s\n", size, pathname);
 	}
 	return size;
 }
