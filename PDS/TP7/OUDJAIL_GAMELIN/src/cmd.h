@@ -2,12 +2,16 @@
  *
  * \section intro_sec Introduction
  *
- * This is a mshell project for "Licence3-Semestre5"
+ * This project was made to the System Programming module taught the semester 5 at FIL in Lille 1. It is a minimalist command-line interpreter working in an environment Linux. It uses library normalized by POSIX.\n
+ * It launches and manages several commands
+ * We can explore a system of files.
+ * Moreover, it supports the communication between different processes and manages a part of the signals.
  *
  * \section install_sec How to use ?
  *  Create the application: make \n
- *  remove obj folder and remove application: make clean\n
- *  run application: ./mshell\n
+ *  Remove obj folder and remove application: make clean\n
+ *  Run application: ./mshell\n
+ *  Option to execution : -v (verbose) \n
  *
  *  \authors Kevin Gamelin & Veïs Oudjail
  *  \date 2015
