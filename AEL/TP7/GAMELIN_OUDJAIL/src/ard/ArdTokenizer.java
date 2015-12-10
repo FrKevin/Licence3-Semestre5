@@ -2,11 +2,21 @@ package ard;
 
 import java.io.IOException;
 
+import condenses_lex.Eod;
 import condenses_lex.TokenType;
 import condenses_lex.Tokenizer;
 import condenses_lex.Yytoken;
 
-public abstract class ArdTokenizer {
+
+/**
+ * Classe de Base pour Analyseur Récursif Descendant
+ * Les symboles à analyser sont des Token fourni à l'instanciation.
+ * Cette classe doit être étendue pour implémenter des méthodes d'analyse adaptées à la grammaire
+ * 
+ * @author Gamelin Kevin, Oudjail Veis
+ *
+ */
+public abstract class ArdTokenizer implements Ard{
 	public static final TokenType END_MARKER = TokenType.EOD;
 	Tokenizer input;
 
@@ -33,6 +43,9 @@ public abstract class ArdTokenizer {
 	private void shift(){
 		try {
 			current = input.yylex();
+			if (current == null) {
+				current = new Eod("\n");
+			}
 		} catch (IOException e) {
 			throw new RuntimeException("Erreur de lecture de l'entrée", e);
 		}

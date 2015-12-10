@@ -12,7 +12,7 @@ import java.io.Reader;
  * @author Bruno.Bogaert (at) univ-lille1.fr
  *
  */
-public class ArdExemple extends Ard {
+public class ArdExemple extends ArdAbstract {
 
 	public ArdExemple(Reader in) {
 		super(in);
@@ -93,5 +93,12 @@ public class ArdExemple extends Ard {
 	  S();	
 	}
 	
-
+	@Override
+	public String toString() {
+		return "* Implémentation d'un analyseur récursif descendant pour la grammaire\n"
+			 + "* S -> AB  | Da\n"
+			 + "* A -> aAb | epsilon\n" 
+			 + "* B -> bB  | epsilon\n" 
+			 + "* D -> dD  | e\n";
+	}
 }

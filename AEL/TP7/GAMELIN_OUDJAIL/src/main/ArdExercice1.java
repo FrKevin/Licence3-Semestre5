@@ -2,13 +2,26 @@ package main;
 
 import java.io.Reader;
 
-import ard.Ard;
+import ard.ArdAbstract;
 import ard.ErrorType;
 import ard.ParserException;
 import ard.SyntaxException;
 
-public class ArdExercice1 extends Ard{
+/**
+ * Implémentation d'un analyseur récursif descendant pour la grammaire
+ * S -> ERS | epsilon 
+ * E -> L   | (S) 
+ * R -> C   | epsilon 
+ * L -> a|b|c 
+ * C -> 0|1|...|9
+ * 
+ * @author Gamelin Kevin, Oudjail Veis
+ *
+ */
+public class ArdExercice1 extends ArdAbstract{
 
+
+	
 	protected ArdExercice1(Reader in) {
 		super(in);
 	}
@@ -59,8 +72,9 @@ public class ArdExercice1 extends Ard{
 
 	private String L() throws SyntaxException, ParserException{
 		if(current >= 'a' && current <= 'c'){
+			String result = "" + current;
 			eat(current);
-			return "" + current;
+			return result;
 		}
 		else{
 			throw new SyntaxException(ErrorType.NO_RULE,current);
@@ -89,8 +103,9 @@ public class ArdExercice1 extends Ard{
 	private int C() throws SyntaxException, ParserException{
 		if(current >= '0' && current <= '9'){
 			// C -> 0 .. 9
+			int result = Integer.parseInt("" +current);
 			eat(current);
-			return Integer.parseInt("" +current);
+			return result;
 			
 		}
 		else{
@@ -100,7 +115,16 @@ public class ArdExercice1 extends Ard{
 
 	@Override
 	protected void axiom() throws SyntaxException, ParserException {
-		S();
+		System.out.println(S());
 	}
-
+	
+	@Override
+	public String toString() {
+		return "* Implémentation d'un analyseur récursif descendant pour la grammaire\n"
+			 + "* S -> ERS | epsilon\n"
+			 + "* E -> L   | (S)\n" 
+			 + "* R -> C   | epsilon\n" 
+			 + "* L -> a|b|c\n"
+			 + "* C -> 0|1|...|9\n";
+	}
 }

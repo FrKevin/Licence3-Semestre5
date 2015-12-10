@@ -20,7 +20,7 @@ import condenses_lex.Tokenizer;
 
 LETTRE=[abc]+
 ENTIER=[0-9]+
-OUVRANTE=\( /* -> [)] */
+OUVRANTE=\( /* -> [(] */
 FERMANTE=\)
 EOD=[\n\t\r ]
 
@@ -35,10 +35,10 @@ EOD=[\n\t\r ]
 		{return new Entier(Integer.parseInt(yytext()));}
 	      
 	{OUVRANTE}
-		{return new Ouvrante(yytext());}
+		{return new Ouvrante(true);}
 	
 	{FERMANTE}
-	    {return new Fermante(yytext());} 
+	    {return new Fermante(true);} 
 	    
 	{EOD}
 		{return new Eod(yytext());}
