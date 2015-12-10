@@ -18,8 +18,9 @@ import condenses_lex.Tokenizer;
 %line
 %column
 
-LETTRE=[abc]+
-ENTIER=[0-9]+
+ENTIER=[0-9]
+LETTRE=[abc]
+LETTRE_ENTIER=\\[0-9]
 OUVRANTE=\( /* -> [(] */
 FERMANTE=\)
 EOD=[\n\t\r ]
@@ -30,6 +31,9 @@ EOD=[\n\t\r ]
 		
 	{LETTRE}
 		{return new Lettre(yytext());}
+		
+	{LETTRE_ENTIER}
+		{return new Lettre(yytext().charAt(1) + "");}
 		
 	{ENTIER}
 		{return new Entier(Integer.parseInt(yytext()));}

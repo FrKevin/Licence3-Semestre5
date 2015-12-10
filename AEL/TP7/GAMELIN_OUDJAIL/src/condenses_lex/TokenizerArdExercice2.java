@@ -43,9 +43,9 @@ public class TokenizerArdExercice2 implements Tokenizer {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\5\1\5\1\6\1\6\1\5\22\0\1\5\7\0\1\3"+
-    "\1\4\6\0\12\2\47\0\3\1\41\0\1\6\u1fa2\0\1\6\1\6"+
-    "\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\11\0\1\6\1\6\1\7\1\7\1\6\22\0\1\6\7\0\1\4"+
+    "\1\5\6\0\12\1\42\0\1\3\4\0\3\2\41\0\1\7\u1fa2\0"+
+    "\1\7\1\7\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -58,10 +58,11 @@ public class TokenizerArdExercice2 implements Tokenizer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\1\5\1\6";
+    "\1\0\1\1\1\2\1\3\1\1\1\4\1\5\1\6"+
+    "\1\7";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[7];
+    int [] result = new int[9];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -86,10 +87,11 @@ public class TokenizerArdExercice2 implements Tokenizer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\7\0\16\0\25\0\7\0\7\0\7";
+    "\0\0\0\10\0\10\0\10\0\20\0\10\0\10\0\10"+
+    "\0\10";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[7];
+    int [] result = new int[9];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -112,11 +114,11 @@ public class TokenizerArdExercice2 implements Tokenizer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\5\1\6\1\7\11\0\1\3"+
-    "\7\0\1\4\4\0";
+    "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\12\0"+
+    "\1\11\6\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[28];
+    int [] result = new int[24];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -154,10 +156,10 @@ public class TokenizerArdExercice2 implements Tokenizer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\2\1\3\11";
+    "\1\0\3\11\1\1\4\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[7];
+    int [] result = new int[9];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -253,7 +255,7 @@ public class TokenizerArdExercice2 implements Tokenizer {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 74) {
+    while (i < 78) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -606,27 +608,31 @@ public class TokenizerArdExercice2 implements Tokenizer {
           case 1: 
             { return new Unknown(yytext());
             }
-          case 7: break;
-          case 2: 
-            { return new Lettre(yytext());
-            }
           case 8: break;
-          case 3: 
+          case 2: 
             { return new Entier(Integer.parseInt(yytext()));
             }
           case 9: break;
+          case 3: 
+            { return new Lettre(yytext());
+            }
+          case 10: break;
           case 4: 
             { return new Ouvrante(true);
             }
-          case 10: break;
+          case 11: break;
           case 5: 
             { return new Fermante(true);
             }
-          case 11: break;
+          case 12: break;
           case 6: 
             { return new Eod(yytext());
             }
-          case 12: break;
+          case 13: break;
+          case 7: 
+            { return new Lettre(yytext().charAt(1) + "");
+            }
+          case 14: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

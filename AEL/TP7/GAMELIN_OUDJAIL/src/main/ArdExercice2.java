@@ -41,7 +41,7 @@ public class ArdExercice2 extends ArdTokenizer{
 			return "";                                                                                                                    
 		default:                                                                                                                          
 			String myName = Thread.currentThread().getStackTrace()[1].getMethodName();                                                    
-			throw new ParserException("No rule for variable "+ myName + " token " + current+ "	.");                                      
+			throw new SyntaxException("variable "+ myName + ", token " + current+ " : no rule");                                      
 		}                                                                                                                                 
 	}                                                                                                                                     
                                                                                                                                           
@@ -50,20 +50,18 @@ public class ArdExercice2 extends ArdTokenizer{
 		switch (current.getType()) {                                                                                                                
 		case LETTRE:
 			// E -> Lettre
-			//System.out.println("E() : switch(LETTRE)");
 			result = ((Lettre) current).getValue();
 			eat(TokenType.LETTRE);
 			return result;                                                                                                                   
 		case OUVRANTE:                                                                                                                         
 			// E -> OuvranteSFermante
-			//System.out.println("E() : switch(OUVRANTE)");
 			eat(TokenType.OUVRANTE);                                                                                                                     
 			result = S();                                                                                                          
 			eat(TokenType.FERMANTE);                                                                                                                     
 			return result;                                                                                                                
 		default:                                                                                                                          
 			String myName = Thread.currentThread().getStackTrace()[1].getMethodName();                                                    
-			throw new ParserException("No rule for variable "+ myName + " token " + current + "	.");  		
+			throw new SyntaxException("variable "+ myName + ", token " + current+ " : no rule");                                      
 		}                                                                                                                                 
 	}                                                                                                                                     
                                                                                                                                                                                                                                                                       
@@ -75,17 +73,15 @@ public class ArdExercice2 extends ArdTokenizer{
 		case FERMANTE:                                                                                                                         
 		case EOD:                                                                                                                  
 			// R -> epsilon 
-			//System.out.println("R() : switch(ALL)");
 			return 1;  
 		case ENTIER:
 			// R -> Entier 
-			//System.out.println("R() : switch(ENTIER)");
 			int result = ((Entier) current).getValue();
 			eat(TokenType.ENTIER);
 			return result;               
 		default:                                                                                                                                                                                                                                         
 			String myName = Thread.currentThread().getStackTrace()[1].getMethodName();                                                    
-			throw new ParserException("No rule for variable "+ myName + " token " + current+ "	.");                                                                           
+			throw new SyntaxException("variable "+ myName + ", token " + current+ " : no rule");                                      
 		}                                                                                                                                 
 	}                                                                                                                                     
 	                                                                                                                                                                                                                                                                       

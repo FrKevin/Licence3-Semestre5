@@ -4,6 +4,7 @@ package condenses_lex;
  */
 public class Lettre extends BaseToken{
     private final String value;
+    
     public String getValue(){
         return value;
     }
