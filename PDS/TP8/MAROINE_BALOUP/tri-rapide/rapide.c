@@ -102,8 +102,36 @@ void rapide_seq(bloc_t bloc_init) {
     } while (!pile_vide(&p));
 }
 
+
+
+
+
+
+
+
+
+
+
+
+void * rapide_thread(void * args) {
+	
+	
+	
+	/* TODO exécuté  */
+	
+	return NULL;
+}
+
+
+
+
+
+
+
+
 void rapide(pos_t taille, unsigned int nb_threads) {
     bloc_t bloc;
+    pthread_t *threads;
 
     bloc.debut = 0;
     bloc.fin   = taille - 1;
@@ -114,8 +142,12 @@ void rapide(pos_t taille, unsigned int nb_threads) {
     }
 
     assert(nb_threads > 1);
-
-    fprintf(stderr, "À implémenter !\n");
+	
+	threads = malloc(sizeof(pthread_t) * nb_threads);
+	
+	
+	
+	
 
     assert(0);
 }
