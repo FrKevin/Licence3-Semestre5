@@ -17,7 +17,6 @@ import condenses_lex.Tokenizer;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>E:/Dev/GitRepositery/Licence3-Semestre5/AEL/TP7/GAMELIN_OUDJAIL/src/main/analyseur.lex</tt>
  */
-@SuppressWarnings("unused")
 public class TokenizerArdExercice2 implements Tokenizer {
 
   /** This character denotes the end of file */

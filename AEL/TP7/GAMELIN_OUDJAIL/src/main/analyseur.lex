@@ -18,9 +18,9 @@ import condenses_lex.Tokenizer;
 %line
 %column
 
-ENTIER=[0-9]
+ENTIER=[0-9]+
 LETTRE=[abc]
-LETTRE_ENTIER=\\[0-9]
+LETTRE_ENTIER=\\[0-9]+
 OUVRANTE=\( /* -> [(] */
 FERMANTE=\)
 EOD=[\n\t\r ]
