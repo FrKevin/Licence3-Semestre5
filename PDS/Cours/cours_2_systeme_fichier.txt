@@ -1,0 +1,78 @@
+#Cours 2 : Le systeme de fichier
+
+##Raisons d'être d'un SF (Système de Fichiers) :
+- persistance des données
+- structuration & organisation
+- communication entre logiciels
+
+
+Ce que fait un SF : 
+    - GERER :
+        gestion des périphériques (dd, ram, réseau)
+        organisation des données sur le support
+
+- ABSTRAIRE :
+Les fichiers normaux sont vus comme des listes d'octets, et les répertoires comme des listes d'entrées.
+
+- SECURISER :
+le contrôle d'accés aux répertoires, fichiers...
+
+
+Organisation du SF :
+    Pour représenter le contenu du SF, on utilise le numéro d'inoeud (i-node, index node) associé à un inoeud (présentant un répertoire ou un fichier)
+    et un "Nom" pour le chemin, une liste d'octets (itype char en langage C) qui en comporte 2 qui sont particuliers :
+        l'octet nul '\0' => le marqueur de fin ;ep
+  l'octet '/' qui désigne à la fois la racine du SF et le séparateur de répertoire.
+
+Cette organisation est arborescente :
+    / (racine)
+    |-bin
+    |-usr
+    |-home
+
+Dans n'importe quel répertoire, on va retrouver deux entrées particulières :
+    le point "." qui désigne le répertoire où on se trouve
+    le double point ".." qui désigne le répertoire père
+
+Notion de chemin absolu (adressage complet depuis la racine du SF) et de chemin relatif (depuis le répertoire courant) :
+    /usr/bin/
+    /home/toto/documents
+
+    ../../titi/documents
+
+Convention pour les fichiers cachés sous UNIX : leurs noms commencent par un "."
+
+
+##LES INOEUDS :
+    Caractérisation d'un fichier  : numéro d'inoeud et numéro de périphérique (pour désigner le dd de stockage du fichier).
+    Ce couple est un identificateur unique pour un fichier sur le système.
+    Nombre de blocs (chaque bloc contient un nombre donné d’octets ; tous les blocs d’un même disque sont de la même taille) : correspond au nombre de "morceaux" du fichier.
+    Nombre de liens : nombre de noms qui pointent vers le même numéro d'inoeud.
+
+Un répertoire  sans fils compte deux liens (au minimum) : celui depuis le répertoire parent et le "." qu'il contient.
+Un répertoire avec un fils comporte 3 liens (au minimum) : les même que ceux déjà énoncés et le ".." du (ou des) répertoire(s) fils.
+
+Usage de la commande stat pour accéder aux informations contenues dans l'inoeud (voir man).
+
+##GESTION DES DROITS  :
+ un inoeud a un propriétaire et un groupe, tous deux désignés par un numéro (respectivement UID et GID). Regarder /etc/group pour la liste des groupes sur le système.
+Il a aussi des droits d'accès : ils son+t définis pour le propriétaire, le groupe et tous les autres (tout ce qui pourrait accéder à l'inoeud : personne ou logiciel)
+en lecture (r : Read), écriture (w : Write) et exécution (x : eXecution).
+Les droits sont également représentés par 3 chiffres en octal : un chiffre octal par "droit d'accès" .
+Codage des droits : aucun accés (0), lecture (4), écriture (2) et exécution (1). En additionnant les valeurs des droits souhaités, on obtient le chiffre représentant la somme des droits.
+Ex : 777 : tout est permis !!!
+  755 : accés lecture éxécution mais pas écriture pour tout le monde sauf le propriétaire.
+        644 : Droit etant le plus appliqué dans un systeme de fichiers UNIX (utilisateur: lecture, ecriture, groupe utilisateur : lecture, autre : lecture)
+
+##TYPES DE FICHIERS
+    - fichiers normaux
+    - répertoires
+    - liens symboliques
+    - fifo, tubes
+    - périphériques
+    - socket (réseau)
+
+On trouve dans le répertoire  /dev les fichiers correspondants aux périphériques (device) (ex : fichier /dev/sdXY pour représenter une clé usb).
+
+Un lien symbolique a un numéro d'inoeud propre, il est distinct de sa cible.
+Deux chemins différents peuvent être liés physiquement (correspondre au même inœud du système de fichier).

@@ -1,0 +1,33 @@
+Programmation des Systèmes
+
+Bibliographie :  Krakowiak, Tanenbaum
+
+Role d'un système :
+
+    GERER => les ressources (matériel)
+
+    ABSTRAIRE => API, pilotes
+   => uniformiser les matériels
+
+    SECURISER => vérifier la validité des ordres donnés au matériel (liés au specs du matériel)
+     => contrôle d'accés
+     => isolation des logiciels
+
+MODES du processeur :
+    on distingue 2 modes pour le processeur : le mode UTILISATEUR et le mode NOYAU.
+Le mode noyau gère l'OS à proprement parler, alors que le mode utilisateur gère tout ce qui est logiciel (applications, bibliothèques, etc.).
+Les bibliothèques utilisent des appels systèmes pour communiquer avec l'OS.
+Visions pratiques :
+    - selon l'UTILISATEUR : lancer des logiciels, être embété.
+    - selon l'ADMIN : sécurité, sécurité, sécurité !
+    - selon le FABRIQUANT DE MATERIEL :  compatibilité
+    - selon le DEVELOPPEUR : interface POSIX
+
+POSIX : normalisation des fonctions qu'un OS doit fournir.
+
+Appel système :    - selon l'UTILISATEUR : lancer des logiciels, être embété.
+    - selon l'ADMIN : sécurité, sécurité, sécurité !
+
+interruption pour changer le mode du processeur (utilisateur ou noyau) => prend du temps.
+
+Propagande UNIX : "Tout est fichier." >>> dans POSIX, le système de fichier est au centre de tout.
