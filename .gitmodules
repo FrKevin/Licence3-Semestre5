@@ -1,6 +1,3 @@
-[submodule "PDS/Cours/amphi"]
-	path = PDS/Cours/amphi
-	url = http://www.fil.univ-lille1.fr/~hym/d/pds.git
 [submodule "COO/projets/Scheduler"]
 	path = COO/projets/Scheduler
 	url = https://github.com/FrKevin/Scheduler.git

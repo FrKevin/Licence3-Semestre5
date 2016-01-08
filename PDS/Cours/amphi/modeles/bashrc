@@ -1,0 +1,66 @@
+# Vous pouvez ajouter les parties de cette configuration qui vous
+# intéressent à votre fichier ~/.bashrc (ou créer ce fichier s’il
+# n’existe pas)
+
+
+## Créer des fichiers core lors des SegFault et cas similaires
+#  Les fichiers core permettent de retrouver la ligne où a eu lieu
+#  la faute avec gdb
+#  Consultez l’entrée ulimit dans la page de manuel de bash pour en
+#  savoir plus sur les arguments possibles
+ulimit -c unlimited
+
+
+## Coloration des pages de manuel
+export LESS=R
+export LESS_TERMCAP_mb="$(tput bold; tput setaf 2)"
+export LESS_TERMCAP_md="$(tput bold; tput setaf 1)"
+export LESS_TERMCAP_me="$(tput sgr0)"
+export LESS_TERMCAP_se="$(tput sgr0)"
+export LESS_TERMCAP_so="$(tput bold; tput setaf 3; tput setab 4)"
+export LESS_TERMCAP_ue="$(tput sgr0)"
+export LESS_TERMCAP_us="$(tput bold; tput setaf 4)"
+
+
+## Invite indiquant la valeur de retour de la dernière commande
+#  Changez les couleurs suivant votre terminal (et vos goûts…)
+couleur_success="$(tput setaf 10)"
+couleur_failure="$(tput setaf 9)"
+couleur_normale="$(tput sgr0)"
+couleur_fade="$(tput setaf 15)"
+
+function _prompt_() {
+    local err="$?"
+
+    if [ "$err" -ne 0 ] ;
+    then
+        if [ "$err" -gt 128 -a "$err" -le 192 ]
+        then # Échec ou Signal
+            echo "$couleur_fade[$couleur_failure$err$couleur_normale/$couleur_failure$(kill -l "$err"|tr '[:upper:]' '[:lower:]')$couleur_fade]$couleur_normale"
+        else # Échec
+            echo "${couleur_fade}[$couleur_failure$err$couleur_fade]$couleur_normale"
+        fi
+    else # Tout va bien
+        echo "$couleur_fade[${couleur_success}0$couleur_fade]$couleur_normale"
+    fi
+}
+
+PROMPT_COMMAND="_prompt_"
+
+
+## Git
+#  Si vous utilisez le gestionnaire de versions git, permet d’afficher
+#  des informations sur l’état de votre dépôt (fichiers nouveaux,
+#  fichiers modifiés, branche actuelle, etc.)
+#
+#  Cette configuration peut se combiner avec l’invite proposée
+#  ci-dessus, simplement en ajoutant une ligne
+#     __git_ps1 "\u@\h:\w" "\\\$ "
+#  à la fin de la fonction _prompt_ et en gardant
+#     PROMPT_COMMAND="_prompt_"
+#
+export GIT_PS1_SHOWCOLORHINTS=yes
+export GIT_PS1_SHOWUPSTREAM=verbose
+source /usr/lib/git-core/git-sh-prompt
+
+PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
