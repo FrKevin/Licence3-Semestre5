@@ -53,12 +53,12 @@ Question 10 :
 Question 11 :
   Exp : ([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*
 	Exemple : toto, _toto.xml, :toto
-	contre-Exemple : 01.xml
+	Contre-Exemple : 01.xml
 
 Question 12 :
 	Exp : &(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*);
 	Exemple : &tata;
-	Contre-Exemple &
+	Contre-Exemple : &
 
 Question 13 :
 	Exp : "([^"<&]|(&(([a-zA-Z]|:|_)+([a-zA-Z0-9]|:|_|-|\.)*);))*"
